@@ -1,4 +1,5 @@
 import "@/styles/globals.css";
+import NavigationWrapper from "@/components/NavigationWrapper";
 
 export const metadata = {
   title: "XION 26 — NeuroBotix",
@@ -12,7 +13,8 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="bg-[#030303] text-white antialiased">
+      <body className="bg-[#030303] text-white antialiased overflow-x-hidden">
+        <NavigationWrapper />
         {children}
       </body>
     </html>
