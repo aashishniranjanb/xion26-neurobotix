@@ -20,11 +20,11 @@ const navItems = [
 
 export default function NavbarMobile() {
     return (
-        <div className="fixed top-3 left-1/2 -translate-x-1/2 z-50 backdrop-blur-lg bg-[#0A0A0A]/90 border border-yellow-500/10 rounded-full px-3 py-1.5 shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
-            <div className="flex items-center gap-3">
-                {/* XION Logo — Left inside pill */}
+        <div className="fixed bottom-4 left-3 right-3 z-50 backdrop-blur-xl bg-[#0A0A0A]/92 border border-yellow-500/12 rounded-2xl px-4 py-3 shadow-[0_-4px_30px_rgba(0,0,0,0.6)]">
+            <div className="flex items-center justify-between">
+                {/* XION Logo — Left */}
                 <Link href="/" className="flex-shrink-0">
-                    <div className="relative w-[26px] h-[26px]">
+                    <div className="relative w-[30px] h-[30px]">
                         <Image
                             src="/xion-logo.png"
                             alt="XION"
@@ -36,27 +36,27 @@ export default function NavbarMobile() {
                 </Link>
 
                 {/* Separator */}
-                <div className="w-[1px] h-4 bg-yellow-500/20" />
+                <div className="w-[1px] h-5 bg-yellow-500/15" />
 
-                {/* Nav Icons — Center */}
-                <div className="flex gap-5">
+                {/* Nav Icons — Center, spread evenly */}
+                <div className="flex gap-6 xs:gap-7 sm:gap-8">
                     {navItems.map(({ name, link, icon: Icon }) => (
                         <Link
                             key={name}
                             href={link}
-                            className="flex items-center text-zinc-400 hover:text-yellow-400 active:text-yellow-300 transition-colors duration-200"
+                            className="flex flex-col items-center justify-center text-zinc-400 hover:text-yellow-400 active:text-yellow-300 transition-colors duration-200 min-w-[28px] min-h-[28px]"
                         >
-                            <Icon size={18} stroke={1.5} />
+                            <Icon size={22} stroke={1.5} />
                         </Link>
                     ))}
                 </div>
 
                 {/* Separator */}
-                <div className="w-[1px] h-4 bg-yellow-500/20" />
+                <div className="w-[1px] h-5 bg-yellow-500/15" />
 
-                {/* SRM Logo — Right inside pill */}
+                {/* SRM Logo — Right */}
                 <div className="flex-shrink-0">
-                    <div className="relative w-[24px] h-[24px] rounded-full overflow-hidden ring-1 ring-yellow-500/20">
+                    <div className="relative w-[28px] h-[28px] rounded-full overflow-hidden ring-1 ring-yellow-500/20">
                         <Image
                             src="/srm-logo.png"
                             alt="SRM"
