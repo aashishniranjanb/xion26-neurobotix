@@ -1,9 +1,5 @@
-import HeroSection from "@/components/HeroSection";
+import { redirect } from "next/navigation";
 
-export default function Home() {
-  return (
-    <main className="min-h-screen bg-black-core animate-viscosity overflow-hidden">
-      <HeroSection />
-    </main>
-  );
+export default function Page() {
+  redirect("/intro");
 }

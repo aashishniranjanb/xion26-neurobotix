@@ -23,7 +23,7 @@ export default function NavbarDesktop() {
         >
             <div className="flex items-center justify-between">
                 {/* XION Logo — Left */}
-                <Link href="/" className="flex-shrink-0 group">
+                <Link href="/home" className="flex-shrink-0 group">
                     <div
                         className={`relative transition-all duration-500 ${scrolled ? "w-[50px] h-[50px]" : "w-[62px] h-[62px]"
                             }`}
@@ -44,7 +44,7 @@ export default function NavbarDesktop() {
                     {["Home", "Events", "Sponsors", "About", "Contact"].map((item) => (
                         <Link
                             key={item}
-                            href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                            href={item === "Home" ? "/home" : `/${item.toLowerCase()}`}
                             className="relative group transition-colors py-2"
                         >
                             <span className="group-hover:text-yellow-400 transition-colors duration-200">
