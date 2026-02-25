@@ -1,60 +1,388 @@
-export default function SponsorsPage() {
-    const tiers = [
-        {
-            tier: "Neural Core",
-            tagline: "Primary Intelligence Partners",
-            benefits: ["Logo on main stage", "Exclusive branding", "VIP access", "Social media feature"],
-        },
-        {
-            tier: "Synapse",
-            tagline: "Strategic Signal Amplifiers",
-            benefits: ["Logo on event materials", "Booth space", "Social mention", "Certificate"],
-        },
-        {
-            tier: "Signal",
-            tagline: "Supporting Network Nodes",
-            benefits: ["Logo on website", "Shout-out at event", "Certificate of appreciation"],
-        },
-    ];
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion } from "motion/react";
+import Link from "next/link";
+import HoverTiltCard from "@/components/ui/HoverTiltCard";
+import MagneticButton from "@/components/ui/MagneticButton";
+
+/* ─── Animated Counter ─── */
+function Counter({ value, suffix = "+" }: { value: number; suffix?: string }) {
+    const [count, setCount] = useState(0);
+    const ref = useRef<HTMLDivElement>(null);
+    const started = useRef(false);
+
+    useEffect(() => {
+        const el = ref.current;
+        if (!el) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting && !started.current) {
+                    started.current = true;
+                    let start = 0;
+                    const duration = 1200;
+                    const increment = value / (duration / 16);
+
+                    const timer = setInterval(() => {
+                        start += increment;
+                        if (start >= value) {
+                            setCount(value);
+                            clearInterval(timer);
+                        } else {
+                            setCount(Math.floor(start));
+                        }
+                    }, 16);
+                }
+            },
+            { threshold: 0.5 }
+        );
+
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, [value]);
 
     return (
-        <main className="min-h-screen bg-black-core animate-viscosity overflow-hidden">
-            <div className="max-w-7xl mx-auto px-5 sm:px-6 md:px-12 pt-24 sm:pt-28 md:pt-32 pb-16 sm:pb-20 md:pb-28">
-                <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-7xl font-black gold-gradient-text uppercase tracking-tight sm:tracking-[0.1em]">
-                    Powering Intelligence
-                </h1>
-                <p className="mt-4 sm:mt-6 text-zinc-400 max-w-xl text-sm sm:text-base md:text-lg">
-                    Our strategic partners in cyber-organic research.
-                </p>
+        <div ref={ref} className="text-3xl xs:text-4xl sm:text-5xl font-black gold-gradient-text">
+            {count}{suffix}
+        </div>
+    );
+}
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mt-10 sm:mt-14 md:mt-16">
-                    {tiers.map((t) => (
-                        <div
-                            key={t.tier}
-                            className="border border-yellow-500/10 bg-gradient-to-b from-[#111111]/60 to-[#020202]/80 rounded-xl p-5 sm:p-6 md:p-8 hover:border-yellow-500/30 transition-all duration-300"
+export default function SponsorPage() {
+    const pulseRef = useRef<HTMLDivElement>(null);
+    const nodesRef = useRef<HTMLDivElement>(null);
+    const linesRef = useRef<SVGSVGElement>(null);
+
+    /* ─── Cursor-Reactive Depth Layering ─── */
+    useEffect(() => {
+        const handleMove = (e: MouseEvent) => {
+            if (window.innerWidth < 768) return;
+
+            const x = (e.clientX / window.innerWidth - 0.5) * 30;
+            const y = (e.clientY / window.innerHeight - 0.5) * 30;
+
+            if (pulseRef.current)
+                pulseRef.current.style.transform = `translate(calc(-50% + ${x * 0.4}px), calc(-50% + ${y * 0.4}px))`;
+            if (linesRef.current)
+                linesRef.current.style.transform = `translate(${x * 0.7}px, ${y * 0.7}px)`;
+            if (nodesRef.current)
+                nodesRef.current.style.transform = `translate(${x}px, ${y}px)`;
+        };
+
+        window.addEventListener("mousemove", handleMove);
+        return () => window.removeEventListener("mousemove", handleMove);
+    }, []);
+
+    return (
+        <section className="relative min-h-screen bg-[#020202] text-yellow-500 overflow-hidden">
+            {/* ═══════ Neural Background ═══════ */}
+            <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#020202] to-black opacity-90" />
+
+                {/* Deep: Pulse */}
+                <div
+                    ref={pulseRef}
+                    className="neural-layer absolute w-[500px] h-[500px] md:w-[700px] md:h-[700px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
+                    style={{
+                        background: "radial-gradient(circle, rgba(255,215,0,0.5) 0%, rgba(255,215,0,0.12) 40%, transparent 70%)",
+                        filter: "blur(80px)",
+                        animation: "neuralPulse 10s ease-in-out infinite",
+                    }}
+                />
+
+                {/* Mid: Lines */}
+                <svg
+                    ref={linesRef}
+                    className="neural-layer absolute inset-0 w-full h-full"
+                    viewBox="0 0 1000 600"
+                    preserveAspectRatio="none"
+                >
+                    <line x1="200" y1="150" x2="500" y2="300" stroke="rgba(255,215,0,0.12)" strokeWidth="1" style={{ animation: "neuralLineFlow 8s ease-in-out infinite" }} />
+                    <line x1="500" y1="300" x2="800" y2="120" stroke="rgba(255,215,0,0.12)" strokeWidth="1" style={{ animation: "neuralLineFlow 8s ease-in-out 2s infinite" }} />
+                    <line x1="500" y1="300" x2="700" y2="500" stroke="rgba(255,215,0,0.12)" strokeWidth="1" style={{ animation: "neuralLineFlow 8s ease-in-out 4s infinite" }} />
+                    <line x1="200" y1="150" x2="700" y2="500" stroke="rgba(255,215,0,0.08)" strokeWidth="0.5" style={{ animation: "neuralLineFlow 8s ease-in-out 1s infinite" }} />
+                </svg>
+
+                {/* Front: Nodes */}
+                <div
+                    ref={nodesRef}
+                    className="neural-layer absolute inset-0"
+                    style={{
+                        backgroundImage: "radial-gradient(circle at 20% 30%, rgba(255,215,0,0.25) 2px, transparent 2px), radial-gradient(circle at 70% 60%, rgba(255,215,0,0.25) 2px, transparent 2px), radial-gradient(circle at 40% 80%, rgba(255,215,0,0.2) 1.5px, transparent 1.5px), radial-gradient(circle at 85% 20%, rgba(255,215,0,0.2) 1.5px, transparent 1.5px)",
+                        backgroundRepeat: "no-repeat",
+                        animation: "nodeFlicker 6s ease-in-out infinite",
+                    }}
+                />
+            </div>
+
+            {/* ═══════ Page Content ═══════ */}
+            <div className="relative max-w-7xl mx-auto px-4 xs:px-5 sm:px-6 md:px-12 pt-28 xs:pt-32 sm:pt-28 md:pt-32 pb-16 sm:pb-20 md:pb-28">
+
+                {/* ═══════ ACT 1: HERO ═══════ */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="mb-16 xs:mb-20 sm:mb-24"
+                >
+                    <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-wide uppercase leading-tight">
+                        Strategic <span className="gold-gradient-text">Alliance</span>
+                    </h1>
+
+                    <p className="mt-4 xs:mt-5 sm:mt-6 text-yellow-700 max-w-2xl text-xs xs:text-sm sm:text-base md:text-lg leading-relaxed">
+                        Partner with NeuroBotix 2026 — a national-level robotics and intelligent
+                        systems platform hosted at SRMIST Vadapalani Campus, Chennai.
+                    </p>
+
+                    <div className="mt-3 text-yellow-700/50 text-[10px] xs:text-xs space-y-0.5">
+                        <p>📅 24th March 2026</p>
+                        <p>📍 SRMIST Vadapalani Campus, Chennai</p>
+                        <p>🏆 National-Level Engineering Techfest</p>
+                    </div>
+
+                    <div className="mt-6 xs:mt-8 flex gap-3 xs:gap-4 sm:gap-6 flex-wrap">
+                        <MagneticButton
+                            as="a"
+                            href="/XION_26_BROCHURE.pdf"
+                            target="_blank"
+                            className="px-5 xs:px-6 sm:px-8 py-2.5 xs:py-3 sm:py-4 bg-gradient-to-r from-yellow-500 to-yellow-700 text-black font-bold text-[10px] xs:text-xs sm:text-sm uppercase tracking-wider rounded-md hover:scale-105 shadow-[0_0_20px_rgba(255,215,0,0.3)] transition-all"
                         >
-                            <h3 className="text-xl sm:text-2xl font-black text-yellow-400 uppercase tracking-wide">
-                                {t.tier}
-                            </h3>
-                            <p className="mt-1 text-zinc-500 text-xs sm:text-sm italic">{t.tagline}</p>
-                            <ul className="mt-4 sm:mt-6 space-y-2 sm:space-y-3">
-                                {t.benefits.map((b) => (
-                                    <li key={b} className="flex items-start gap-2 text-zinc-300 text-sm sm:text-base">
-                                        <span className="text-yellow-500 mt-0.5">▸</span>
-                                        {b}
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
+                            Download Brochure
+                        </MagneticButton>
+
+                        <MagneticButton
+                            as="a"
+                            href="/contact"
+                            className="px-5 xs:px-6 sm:px-8 py-2.5 xs:py-3 sm:py-4 border border-yellow-500/40 text-yellow-500 font-medium text-[10px] xs:text-xs sm:text-sm uppercase tracking-wider rounded-md hover:bg-yellow-500/10 transition-all"
+                        >
+                            Initiate Discussion
+                        </MagneticButton>
+                    </div>
+                </motion.div>
+
+                {/* ═══════ ACT 2: METRICS ═══════ */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 xs:gap-4 sm:gap-6 md:gap-8 mb-16 xs:mb-20 sm:mb-28 md:mb-32">
+                    {[
+                        { value: 2000, label: "Participants" },
+                        { value: 100, label: "Colleges" },
+                        { value: 25, label: "States Reach" },
+                        { value: 15, label: "Years Legacy" },
+                    ].map((m, i) => (
+                        <motion.div
+                            key={i}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: i * 0.1, duration: 0.5 }}
+                        >
+                            <div className="border border-yellow-500/20 p-4 xs:p-5 sm:p-6 md:p-8 rounded-xl bg-[#0A0A0A]/60 backdrop-blur-md text-center">
+                                <Counter value={m.value} />
+                                <p className="text-yellow-700 mt-1 xs:mt-2 text-[10px] xs:text-xs sm:text-sm uppercase tracking-widest">
+                                    {m.label}
+                                </p>
+                            </div>
+                        </motion.div>
                     ))}
                 </div>
 
-                <div className="mt-12 sm:mt-16 text-center">
-                    <button className="px-6 py-3 sm:px-10 sm:py-4 bg-gold-primary text-black font-black uppercase tracking-[0.15em] sm:tracking-[0.2em] text-xs sm:text-sm hover:bg-gold-secondary transition-all hover:translate-y-[-2px] active:translate-y-[0px] shadow-[0_0_20px_rgba(255,215,0,0.3)]">
-                        Become a Sponsor
-                    </button>
+                {/* ═══════ ACT 3: INDUSTRY ALIGNMENT ═══════ */}
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="mb-16 xs:mb-20 sm:mb-28 md:mb-32 overflow-hidden"
+                >
+                    <p className="text-center text-yellow-700/40 text-[10px] xs:text-xs uppercase tracking-[0.3em] mb-4 xs:mb-6">
+                        Industries We Align With
+                    </p>
+                    <div className="flex gap-4 xs:gap-6 sm:gap-8 md:gap-12 justify-center flex-wrap text-yellow-700/30 text-[10px] xs:text-xs sm:text-sm uppercase tracking-widest">
+                        {["Robotics", "AI & ML", "Embedded Systems", "Industrial Automation", "Drone Tech", "IoT"].map((ind) => (
+                            <span key={ind} className="hover:text-yellow-500/60 transition-colors duration-300">{ind}</span>
+                        ))}
+                    </div>
+                </motion.div>
+
+                {/* ═══════ ACT 4: WHY PARTNER ═══════ */}
+                <div className="mb-16 xs:mb-20 sm:mb-28 md:mb-32">
+                    <h2 className="text-xl xs:text-2xl sm:text-3xl font-black text-center mb-8 xs:mb-10 sm:mb-14 md:mb-16 uppercase tracking-wider">
+                        Why Partner With XION 26
+                    </h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 xs:gap-5 sm:gap-6 md:gap-8">
+                        {[
+                            { title: "Brand Visibility", desc: "Campus-wide brand placement across digital platforms, on-ground event assets, and all promotional materials." },
+                            { title: "Talent Pipeline Access", desc: "Direct engagement with robotics, AI, and embedded systems innovators — India's next-gen engineering talent." },
+                            { title: "Product Demonstration", desc: "On-site technology showcase to engineering students, faculty, and industry guests attending the event." },
+                            { title: "Digital Amplification", desc: "Event promotion through social media campaigns, post-event highlight reels, and digital coverage across platforms." },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ delay: i * 0.1, duration: 0.5 }}
+                            >
+                                <HoverTiltCard>
+                                    <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-5 sm:p-6 md:p-8 bg-[#0A0A0A]/60 backdrop-blur-md hover:border-yellow-400/40 transition-all duration-300">
+                                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
+                                        <h3 className="text-sm xs:text-base sm:text-lg md:text-xl font-semibold mb-2 xs:mb-3 sm:mb-4 text-yellow-400">{item.title}</h3>
+                                        <p className="text-yellow-700 text-[10px] xs:text-xs sm:text-sm leading-relaxed">{item.desc}</p>
+                                    </div>
+                                </HoverTiltCard>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
+
+                {/* ═══════ ACT 5: SPONSORSHIP TIERS ═══════ */}
+                <div className="mb-16 xs:mb-20 sm:mb-28 md:mb-32">
+                    <h2 className="text-xl xs:text-2xl sm:text-3xl font-black text-center mb-8 xs:mb-10 sm:mb-14 md:mb-16 uppercase tracking-wider">
+                        Sponsorship Tiers
+                    </h2>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 xs:gap-5 sm:gap-6 md:gap-8">
+                        {/* Title Partner */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0 }}
+                        >
+                            <HoverTiltCard>
+                                <div className="gold-sweep relative border border-yellow-500 rounded-xl p-5 xs:p-6 sm:p-8 md:p-10 bg-[#0A0A0A]/80 backdrop-blur-md shadow-[0_0_40px_rgba(255,215,0,0.08)] hover:shadow-[0_0_50px_rgba(255,215,0,0.15)] transition-all duration-500">
+                                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-700 rounded-t-xl" />
+                                    <span className="inline-block px-2.5 py-0.5 text-[9px] xs:text-[10px] bg-yellow-500/15 border border-yellow-500/25 rounded-full text-yellow-400 tracking-widest uppercase mb-3 xs:mb-4">
+                                        1 Exclusive Slot
+                                    </span>
+                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-4 xs:mb-6">Title Partner</h3>
+                                    <ul className="space-y-2 xs:space-y-3 text-yellow-700 text-[10px] xs:text-xs sm:text-sm">
+                                        <li>• Logo on main event backdrop</li>
+                                        <li>• On-stage acknowledgment</li>
+                                        <li>• Social media feature series</li>
+                                        <li>• Campus banner presence</li>
+                                        <li>• Dedicated brand mention in media</li>
+                                    </ul>
+                                </div>
+                            </HoverTiltCard>
+                        </motion.div>
+
+                        {/* Event Partner */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.15 }}
+                        >
+                            <HoverTiltCard>
+                                <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-5 xs:p-6 sm:p-8 md:p-10 bg-[#0A0A0A]/60 backdrop-blur-md hover:border-yellow-400/40 transition-all duration-300">
+                                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
+                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-4 xs:mb-6">Event Partner</h3>
+                                    <ul className="space-y-2 xs:space-y-3 text-yellow-700 text-[10px] xs:text-xs sm:text-sm">
+                                        <li>• Branding for specific competition</li>
+                                        <li>• Logo on certificates</li>
+                                        <li>• Booth space access</li>
+                                        <li>• Digital promotion mentions</li>
+                                    </ul>
+                                </div>
+                            </HoverTiltCard>
+                        </motion.div>
+
+                        {/* Support Partner */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.3 }}
+                        >
+                            <HoverTiltCard>
+                                <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-5 xs:p-6 sm:p-8 md:p-10 bg-[#0A0A0A]/60 backdrop-blur-md hover:border-yellow-400/40 transition-all duration-300">
+                                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
+                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-4 xs:mb-6">Support Partner</h3>
+                                    <ul className="space-y-2 xs:space-y-3 text-yellow-700 text-[10px] xs:text-xs sm:text-sm">
+                                        <li>• Website logo placement</li>
+                                        <li>• Digital channel mentions</li>
+                                        <li>• Sponsor reel inclusion</li>
+                                    </ul>
+                                </div>
+                            </HoverTiltCard>
+                        </motion.div>
+                    </div>
+                </div>
+
+                {/* ═══════ ACT 6: INSTITUTION CREDIBILITY ═══════ */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16 xs:mb-20 sm:mb-28 md:mb-32 border border-yellow-500/10 rounded-xl p-5 xs:p-6 sm:p-8 md:p-10 bg-[#0A0A0A]/40"
+                >
+                    <p className="text-yellow-700/40 text-[9px] xs:text-[10px] uppercase tracking-[0.3em] mb-3 xs:mb-4">
+                        Hosted By
+                    </p>
+                    <h2 className="text-base xs:text-lg sm:text-xl md:text-2xl font-semibold mb-3 xs:mb-4">
+                        SRM Institute of Science and Technology
+                    </h2>
+                    <p className="text-yellow-700 max-w-3xl mx-auto text-[10px] xs:text-xs sm:text-sm leading-relaxed">
+                        NAAC A++ Accredited · Established 2011 · Vadapalani Campus, Chennai.
+                        A premier engineering institution fostering innovation in robotics, AI,
+                        and emerging technologies.
+                    </p>
+                    <p className="mt-3 xs:mt-4 text-yellow-700/30 text-[9px] xs:text-[10px] tracking-wider">
+                        Collaborated with research labs and emerging tech startups.
+                    </p>
+                </motion.div>
+
+                {/* ═══════ ACT 7: CONVERSION CTA ═══════ */}
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7 }}
+                    className="text-center border border-yellow-500/30 rounded-xl p-6 xs:p-8 sm:p-10 md:p-14 bg-[#0A0A0A]/70 backdrop-blur-md"
+                >
+                    <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl font-black mb-4 xs:mb-5 sm:mb-6 uppercase tracking-wider">
+                        Become a Strategic Partner
+                    </h2>
+
+                    <p className="text-yellow-700 mb-2 xs:mb-3 text-xs xs:text-sm sm:text-base">
+                        Join us in shaping the next generation of intelligent systems.
+                    </p>
+                    <p className="text-yellow-700/50 mb-6 xs:mb-8 text-[10px] xs:text-xs">
+                        Limited strategic slots available · Strategic partnerships ensure premium exposure.
+                    </p>
+
+                    <div className="flex justify-center gap-3 xs:gap-4 sm:gap-6 flex-wrap">
+                        <MagneticButton
+                            as="a"
+                            href="/XION_26_BROCHURE.pdf"
+                            target="_blank"
+                            className="px-5 xs:px-6 sm:px-8 md:px-10 py-2.5 xs:py-3 sm:py-4 bg-gradient-to-r from-yellow-500 to-yellow-700 text-black font-black uppercase tracking-[0.15em] text-[10px] xs:text-xs sm:text-sm rounded-md hover:scale-105 shadow-[0_0_25px_rgba(255,215,0,0.3)] hover:shadow-[0_0_35px_rgba(255,215,0,0.5)] transition-all"
+                        >
+                            Download Brochure
+                        </MagneticButton>
+
+                        <MagneticButton
+                            as="a"
+                            href="/contact"
+                            className="px-5 xs:px-6 sm:px-8 md:px-10 py-2.5 xs:py-3 sm:py-4 border border-yellow-500/40 text-yellow-500 font-medium uppercase tracking-wider text-[10px] xs:text-xs sm:text-sm rounded-md hover:bg-yellow-500/10 transition-all"
+                        >
+                            Schedule Discussion
+                        </MagneticButton>
+                    </div>
+
+                    <p className="mt-6 xs:mt-8 text-yellow-700/40 text-[9px] xs:text-[10px]">
+                        Dedicated sponsor response within 24 hours.
+                    </p>
+                </motion.div>
+
+                {/* ═══════ FOOTER CREDIBILITY LINE ═══════ */}
+                <p className="text-center text-yellow-700/30 text-[8px] xs:text-[9px] sm:text-[10px] mt-10 xs:mt-12 sm:mt-16 tracking-wider">
+                    Engage directly with India&apos;s emerging robotics innovators · XION 26 — SRMIST Vadapalani Campus
+                </p>
             </div>
-        </main>
+        </section>
     );
 }

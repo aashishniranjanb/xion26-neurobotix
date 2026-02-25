@@ -168,3 +168,47 @@ body::before {
 .gold-sweep:hover::before {
   left: 150%;
 }
+
+/* AI Neural Background */
+@keyframes neuralPulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.08;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.14;
+  }
+}
+
+@keyframes nodeFlicker {
+
+  0%,
+  100% {
+    opacity: 0.04;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes neuralLineFlow {
+
+  0%,
+  100% {
+    stroke-opacity: 0.05;
+  }
+
+  50% {
+    stroke-opacity: 0.18;
+  }
+}
+
+.neural-layer {
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
