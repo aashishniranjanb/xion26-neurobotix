@@ -36,15 +36,15 @@ export default function NavbarMobile() {
                 </Link>
 
                 {/* Nav Icons — Center spread */}
-                <div className="flex items-center justify-center gap-4 xs:gap-5 sm:gap-6 flex-1">
+                <div className="flex items-center justify-center gap-1.5 xs:gap-3 sm:gap-6 flex-1 px-1">
                     {navItems.map(({ name, link, icon: Icon }) => (
                         <Link
                             key={name}
                             href={link}
-                            className="flex flex-col items-center justify-center text-zinc-300 hover:text-yellow-400 active:text-yellow-300 active:scale-110 transition-all duration-150"
+                            className="flex flex-col items-center justify-center text-zinc-300 hover:text-yellow-400 active:text-yellow-300 active:scale-110 transition-all duration-150 py-1.5 min-w-[44px] min-h-[44px]"
                         >
-                            <Icon size={24} stroke={1.8} />
-                            <span className="text-[8px] xs:text-[9px] uppercase tracking-wider mt-0.5 font-medium opacity-70">
+                            <Icon size={20} className="xs:size-[22px] sm:size-[24px]" stroke={1.8} />
+                            <span className="text-[7px] xs:text-[8px] sm:text-[9px] uppercase tracking-wider mt-1 font-medium opacity-70">
                                 {name}
                             </span>
                         </Link>
