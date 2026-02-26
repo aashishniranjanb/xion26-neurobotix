@@ -35,10 +35,10 @@ export default function ContactSection() {
                     <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-5xl font-black tracking-wider sm:tracking-widest uppercase leading-tight">
                         Authorized Communication
                     </h2>
-                    <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-700 tracking-wide text-[11px] xs:text-xs sm:text-sm md:text-base max-w-md sm:max-w-none mx-auto">
+                    <p className="mt-2 xs:mt-3 sm:mt-4 text-zinc-400 tracking-wide text-[11px] xs:text-xs sm:text-sm md:text-base max-w-md sm:max-w-none mx-auto font-medium">
                         Official contact channels for XION 26 – NeuroBotix
                     </p>
-                    <p className="text-yellow-700/60 text-[10px] xs:text-xs mt-1 tracking-wider">
+                    <p className="text-yellow-500/50 text-[10px] xs:text-xs mt-1 tracking-wider uppercase font-bold">
                         SRM Vadapalani Campus
                     </p>
                 </motion.div>
@@ -67,23 +67,23 @@ export default function ContactSection() {
                                 </span>
 
                                 <div className="space-y-1 xs:space-y-1.5 sm:space-y-2 text-[11px] xs:text-xs sm:text-sm">
-                                    <p>
+                                    <p className="text-yellow-500/80">
                                         Name:{" "}
-                                        <span className="text-yellow-300">[To Be Updated]</span>
+                                        <span className="text-yellow-200 font-medium">Aashish Niranjan</span>
                                     </p>
-                                    <p>
+                                    <p className="text-yellow-500/80">
                                         Phone:{" "}
-                                        <span className="text-yellow-300">+91 XXXXXXXXXX</span>
+                                        <span className="text-yellow-200 font-medium">+91 6282 585 080</span>
                                     </p>
-                                    <p>
+                                    <p className="text-yellow-500/80">
                                         Email:{" "}
-                                        <span className="text-yellow-300 break-all">
-                                            xion@srm.edu
+                                        <span className="text-yellow-200 font-medium break-all">
+                                            roboticsclub.vdp@srmist.edu.in
                                         </span>
                                     </p>
                                 </div>
 
-                                <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-700 text-[10px] xs:text-xs leading-relaxed">
+                                <p className="mt-2 xs:mt-3 sm:mt-4 text-zinc-500 text-[10px] xs:text-xs leading-relaxed font-medium">
                                     For all event, sponsorship, and participation inquiries.
                                 </p>
 
@@ -91,7 +91,7 @@ export default function ContactSection() {
                                 <div className="flex gap-2 xs:gap-2.5 sm:gap-3 mt-3 xs:mt-4 sm:mt-6 flex-wrap">
                                     <MagneticButton
                                         as="a"
-                                        href="tel:+91XXXXXXXXXX"
+                                        href="tel:+916282585080"
                                         className="min-h-[44px] flex items-center px-3 xs:px-4 py-2 text-[11px] xs:text-xs border border-yellow-500/30 rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500"
                                     >
                                         📞 Call Now
@@ -99,7 +99,7 @@ export default function ContactSection() {
 
                                     <MagneticButton
                                         as="a"
-                                        href="https://wa.me/91XXXXXXXXXX"
+                                        href="https://wa.me/916282585080"
                                         target="_blank"
                                         className="min-h-[44px] flex items-center px-3 xs:px-4 py-2 text-[11px] xs:text-xs border border-yellow-500/30 rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500"
                                     >
@@ -108,7 +108,7 @@ export default function ContactSection() {
 
                                     <MagneticButton
                                         as="a"
-                                        href="mailto:xion@srm.edu"
+                                        href="mailto:roboticsclub.vdp@srmist.edu.in"
                                         className="min-h-[44px] flex items-center px-3 xs:px-4 py-2 text-[11px] xs:text-xs border border-yellow-500/30 rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500"
                                     >
                                         📧 Email
@@ -148,7 +148,7 @@ export default function ContactSection() {
                                     Chennai – 600026
                                 </p>
 
-                                <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-700 text-[10px] xs:text-xs">
+                                <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-500/30 text-[10px] xs:text-xs font-bold tracking-widest uppercase">
                                     NAAC A++ Accredited · Established 2011
                                 </p>
 
@@ -180,7 +180,7 @@ export default function ContactSection() {
                                     Official Channels
                                 </h3>
 
-                                <p className="text-yellow-700 text-[10px] xs:text-xs sm:text-sm mb-2 xs:mb-3 sm:mb-4">
+                                <p className="text-zinc-400 text-[10px] xs:text-xs sm:text-sm mb-2 xs:mb-3 sm:mb-4">
                                     Verified student-led organizing committee under SRMIST
                                     Vadapalani.
                                 </p>
@@ -189,27 +189,29 @@ export default function ContactSection() {
                                     <Link
                                         href="https://share.google/KfXH1G6Qb4mdEJZoy"
                                         target="_blank"
-                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm hover:text-yellow-300 active:text-yellow-200 transition underline underline-offset-4 decoration-yellow-500/30"
+                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition underline underline-offset-4 decoration-yellow-500/30 font-medium"
                                     >
                                         🔗 View Official Campus Reference
                                     </Link>
 
                                     <Link
-                                        href="#"
-                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm hover:text-yellow-300 active:text-yellow-200 transition"
+                                        href="https://www.instagram.com/roboticsclub.srmvdp/?hl=en"
+                                        target="_blank"
+                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition font-medium"
                                     >
-                                        📸 Instagram (To Be Updated)
+                                        📸 Instagram (@roboticsclub.srmvdp)
                                     </Link>
 
                                     <Link
-                                        href="#"
-                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm hover:text-yellow-300 active:text-yellow-200 transition"
+                                        href="https://in.linkedin.com/in/ece-srmist-vadapalani-4a782a26a"
+                                        target="_blank"
+                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition font-medium"
                                     >
-                                        💼 LinkedIn Page (To Be Updated)
+                                        💼 LinkedIn Profile (Official)
                                     </Link>
                                 </div>
 
-                                <p className="mt-3 xs:mt-4 sm:mt-6 text-yellow-700 text-[10px] xs:text-xs">
+                                <p className="mt-3 xs:mt-4 sm:mt-6 text-zinc-500 text-[10px] xs:text-xs font-medium">
                                     Response time: within 24 hours.
                                 </p>
                             </div>
@@ -228,7 +230,7 @@ export default function ContactSection() {
                     <h3 className="text-lg xs:text-xl sm:text-2xl font-semibold mb-2 xs:mb-3">
                         Transmit Message
                     </h3>
-                    <p className="text-yellow-700 text-[10px] xs:text-xs mb-4 xs:mb-5 sm:mb-6">
+                    <p className="text-zinc-500 text-[10px] xs:text-xs mb-4 xs:mb-5 sm:mb-6 uppercase tracking-widest font-bold">
                         Response time: within 24 hours
                     </p>
 
@@ -243,7 +245,7 @@ export default function ContactSection() {
                 </motion.div>
 
                 {/* ─── INSTITUTIONAL FOOTER LINE ─── */}
-                <p className="text-center text-yellow-700/50 text-[9px] xs:text-[10px] sm:text-xs mt-8 xs:mt-10 sm:mt-14 md:mt-16 tracking-wider max-w-sm sm:max-w-none mx-auto">
+                <p className="text-center text-zinc-600 text-[9px] xs:text-[10px] sm:text-xs mt-8 xs:mt-10 sm:mt-14 md:mt-16 tracking-widest uppercase font-medium max-w-sm sm:max-w-none mx-auto opacity-50">
                     XION 26 is organized under SRMIST Vadapalani Campus · All rights
                     reserved
                 </p>

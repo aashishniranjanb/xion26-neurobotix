@@ -9,7 +9,7 @@ export const Engine = ({ children, className }: { children?: React.ReactNode, cl
     const animationFrameId = useRef<number>(undefined);
     const noise3D = createNoise3D();
     const mouseRef = useRef({ x: -1000, y: -1000 });
-    const count = 600;
+    const count = 750; // Increased density for better mesh
     const pData = new Float32Array(count * 9);
     let tick = 0;
 
@@ -25,6 +25,32 @@ export const Engine = ({ children, className }: { children?: React.ReactNode, cl
     const update = (ctx: CanvasRenderingContext2D, w: number, h: number) => {
         tick++;
         ctx.clearRect(0, 0, w, h);
+
+        // --- DRAW MESH LINES ---
+        ctx.save();
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < pData.length; i += 9) {
+            const x1 = pData[i], y1 = pData[i + 1], life1 = pData[i + 4], ttl1 = pData[i + 5];
+            const opacity1 = fade(life1, ttl1);
+            if (opacity1 < 0.1) continue;
+
+            // Only check every 4th neighbor to save perf
+            for (let j = i + 36; j < pData.length; j += 36) {
+                const x2 = pData[j], y2 = pData[j + 1], life2 = pData[j + 4], ttl2 = pData[j + 5];
+                const dx = x1 - x2, dy = y1 - y2;
+                const distSq = dx * dx + dy * dy;
+
+                if (distSq < 10000) { // 100px range
+                    const opacity2 = fade(life2, ttl2);
+                    const meshOpacity = (1 - Math.sqrt(distSq) / 100) * Math.min(opacity1, opacity2) * 0.15;
+                    ctx.strokeStyle = `rgba(212, 175, 55, ${meshOpacity})`;
+                    ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+                }
+            }
+        }
+        ctx.restore();
+
+        // --- DRAW PARTICLES ---
         for (let i = 0; i < pData.length; i += 9) {
             let x = pData[i], y = pData[i + 1], vx = pData[i + 2], vy = pData[i + 3], life = pData[i + 4], ttl = pData[i + 5], spd = pData[i + 6], rad = pData[i + 7], hue = pData[i + 8];
             const n = noise3D(x * 0.001, y * 0.001, tick * 0.0005) * 3 * Math.PI * 2;
