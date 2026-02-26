@@ -11,7 +11,7 @@ import {
 } from "@tabler/icons-react";
 
 const navItems = [
-    { name: "Home", link: "/home", icon: IconHome },
+    { name: "Home", link: "/", icon: IconHome },
     { name: "Events", link: "/events", icon: IconCalendarEvent },
     { name: "Sponsors", link: "/sponsors", icon: IconUsers },
     { name: "About", link: "/about", icon: IconInfoCircle },
@@ -23,7 +23,7 @@ export default function NavbarMobile() {
         <div className="fixed top-3 left-2 right-2 z-50 backdrop-blur-xl bg-[#080808]/95 border border-yellow-500/15 rounded-2xl px-3 py-2.5 shadow-[0_4px_25px_rgba(0,0,0,0.7)]">
             <div className="flex items-center justify-between gap-2">
                 {/* XION Logo — Left */}
-                <Link href="/home" className="flex-shrink-0">
+                <Link href="/" className="flex-shrink-0">
                     <div className="relative w-[34px] h-[34px]">
                         <Image
                             src="/xion-logo.png"
