@@ -35,10 +35,10 @@ export default function ContactSection() {
                     <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-5xl font-black tracking-wider sm:tracking-widest uppercase leading-tight">
                         Authorized Communication
                     </h2>
-                    <p className="mt-2 xs:mt-3 sm:mt-4 text-zinc-400 tracking-wide text-[11px] xs:text-xs sm:text-sm md:text-base max-w-md sm:max-w-none mx-auto font-medium">
+                    <p className="mt-2 xs:mt-3 sm:mt-4 text-zinc-400 tracking-wide text-xs xs:text-sm md:text-base max-w-md sm:max-w-none mx-auto font-medium">
                         Official contact channels for XION 26 – NeuroBotix
                     </p>
-                    <p className="text-yellow-500/50 text-[10px] xs:text-xs mt-1 tracking-wider uppercase font-bold">
+                    <p className="text-yellow-500/50 text-[10px] xs:text-xs mt-1.5 tracking-wider uppercase font-bold">
                         SRM Vadapalani Campus
                     </p>
                 </motion.div>
@@ -58,7 +58,7 @@ export default function ContactSection() {
                             <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-5 sm:p-6 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300">
                                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
 
-                                <h3 className="text-base xs:text-lg sm:text-xl font-semibold mb-2 xs:mb-3 sm:mb-4">
+                                <h3 className="text-base xs:text-lg sm:text-xl font-bold mb-2 xs:mb-3 sm:mb-4">
                                     Student Organizer – XION 26
                                 </h3>
 
@@ -66,52 +66,52 @@ export default function ContactSection() {
                                     Primary Contact
                                 </span>
 
-                                <div className="space-y-1 xs:space-y-1.5 sm:space-y-2 text-[11px] xs:text-xs sm:text-sm">
+                                <div className="space-y-1.5 xs:space-y-2 text-[12px] xs:text-sm">
                                     <p className="text-yellow-500/80">
                                         Name:{" "}
-                                        <span className="text-yellow-200 font-medium">Aashish Niranjan</span>
+                                        <span className="text-yellow-200 font-semibold text-[13px] xs:text-base">Aashish Niranjan</span>
                                     </p>
                                     <p className="text-yellow-500/80">
                                         Phone:{" "}
-                                        <span className="text-yellow-200 font-medium">+91 6282 585 080</span>
+                                        <span className="text-yellow-200 font-semibold text-[13px] xs:text-base">+91 6282 585 080</span>
                                     </p>
                                     <p className="text-yellow-500/80">
                                         Email:{" "}
-                                        <span className="text-yellow-200 font-medium break-all">
+                                        <span className="text-yellow-200 font-semibold text-[11px] xs:text-xs sm:text-sm break-all">
                                             roboticsclub.vdp@srmist.edu.in
                                         </span>
                                     </p>
                                 </div>
 
-                                <p className="mt-2 xs:mt-3 sm:mt-4 text-zinc-500 text-[10px] xs:text-xs leading-relaxed font-medium">
+                                <p className="mt-3 xs:mt-4 text-zinc-500 text-[11px] xs:text-xs leading-relaxed font-semibold">
                                     For all event, sponsorship, and participation inquiries.
                                 </p>
 
                                 {/* Quick Action Buttons — 44px min touch */}
-                                <div className="flex gap-2 xs:gap-2.5 sm:gap-3 mt-3 xs:mt-4 sm:mt-6 flex-wrap">
+                                <div className="flex gap-2 xs:gap-3 mt-4 xs:mt-6 flex-wrap">
                                     <MagneticButton
                                         as="a"
                                         href="tel:+916282585080"
-                                        className="min-h-[44px] flex items-center px-3 xs:px-4 py-2 text-[11px] xs:text-xs border border-yellow-500/30 rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500"
+                                        className="min-h-[46px] flex-1 flex items-center justify-center px-4 py-2.5 text-[12px] xs:text-sm border border-yellow-500/30 rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500 font-bold"
                                     >
-                                        📞 Call Now
+                                        📞 Call
                                     </MagneticButton>
 
                                     <MagneticButton
                                         as="a"
                                         href="https://wa.me/916282585080"
                                         target="_blank"
-                                        className="min-h-[44px] flex items-center px-3 xs:px-4 py-2 text-[11px] xs:text-xs border border-yellow-500/30 rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500"
+                                        className="min-h-[46px] flex-1 flex items-center justify-center px-4 py-2.5 text-[12px] xs:text-sm border border-yellow-500/30 rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500 font-bold"
                                     >
-                                        💬 WhatsApp
+                                        💬 WA
                                     </MagneticButton>
 
                                     <MagneticButton
                                         as="a"
                                         href="mailto:roboticsclub.vdp@srmist.edu.in"
-                                        className="min-h-[44px] flex items-center px-3 xs:px-4 py-2 text-[11px] xs:text-xs border border-yellow-500/30 rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500"
+                                        className="min-h-[46px] w-full flex items-center justify-center px-4 py-2.5 text-[12px] xs:text-sm border border-yellow-500/30 rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500 font-bold"
                                     >
-                                        📧 Email
+                                        📧 Email Inquiry
                                     </MagneticButton>
                                 </div>
                             </div>
@@ -134,14 +134,14 @@ export default function ContactSection() {
                                     Event Venue
                                 </h3>
 
-                                <p className="text-[11px] xs:text-xs sm:text-sm text-yellow-300 leading-relaxed">
+                                <p className="text-[12px] xs:text-sm text-yellow-300 leading-relaxed font-medium">
                                     SRM Institute of Science and Technology (SRMIST)
                                     <br />
                                     Vadapalani Campus
                                     <br />
                                     C Block, No. 1, Jawaharlal Nehru Salai
                                     <br />
-                                    <span className="text-yellow-300/80">(100 Feet Road)</span>
+                                    <span className="text-yellow-300/80 font-normal">(100 Feet Road)</span>
                                     <br />
                                     Adjacent to SIMS Hospital
                                     <br />
@@ -180,24 +180,24 @@ export default function ContactSection() {
                                     Official Channels
                                 </h3>
 
-                                <p className="text-zinc-400 text-[10px] xs:text-xs sm:text-sm mb-2 xs:mb-3 sm:mb-4">
+                                <p className="text-zinc-400 text-[12px] xs:text-sm mb-3 xs:mb-4 leading-relaxed">
                                     Verified student-led organizing committee under SRMIST
                                     Vadapalani.
                                 </p>
 
-                                <div className="space-y-2 xs:space-y-2.5 sm:space-y-3">
+                                <div className="space-y-3 xs:space-y-4">
                                     <Link
                                         href="https://share.google/KfXH1G6Qb4mdEJZoy"
                                         target="_blank"
-                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition underline underline-offset-4 decoration-yellow-500/30 font-medium"
+                                        className="block min-h-[40px] flex items-center text-[12px] xs:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition underline underline-offset-4 decoration-yellow-500/30 font-semibold"
                                     >
-                                        🔗 View Official Campus Reference
+                                        🔗 Official Campus Reference
                                     </Link>
 
                                     <Link
                                         href="https://www.instagram.com/roboticsclub.srmvdp/?hl=en"
                                         target="_blank"
-                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition font-medium"
+                                        className="block min-h-[40px] flex items-center text-[12px] xs:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition font-semibold"
                                     >
                                         📸 Instagram (@roboticsclub.srmvdp)
                                     </Link>
@@ -205,7 +205,7 @@ export default function ContactSection() {
                                     <Link
                                         href="https://in.linkedin.com/in/ece-srmist-vadapalani-4a782a26a"
                                         target="_blank"
-                                        className="block min-h-[40px] flex items-center text-[11px] xs:text-xs sm:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition font-medium"
+                                        className="block min-h-[40px] flex items-center text-[12px] xs:text-sm text-yellow-400/90 hover:text-yellow-300 active:text-yellow-200 transition font-semibold"
                                     >
                                         💼 LinkedIn Profile (Official)
                                     </Link>
@@ -230,7 +230,7 @@ export default function ContactSection() {
                     <h3 className="text-lg xs:text-xl sm:text-2xl font-semibold mb-2 xs:mb-3">
                         Transmit Message
                     </h3>
-                    <p className="text-zinc-500 text-[10px] xs:text-xs mb-4 xs:mb-5 sm:mb-6 uppercase tracking-widest font-bold">
+                    <p className="text-zinc-500 text-[11px] xs:text-xs mb-5 xs:mb-6 uppercase tracking-[0.2em] font-black">
                         Response time: within 24 hours
                     </p>
 

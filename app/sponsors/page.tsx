@@ -148,7 +148,7 @@ export default function SponsorPage() {
                         Strategic <span className="gold-gradient-text">Alliance</span>
                     </h1>
 
-                    <p className="mt-3 xs:mt-4 sm:mt-5 md:mt-6 text-yellow-500/80 max-w-xs xs:max-w-sm sm:max-w-lg md:max-w-2xl text-[11px] xs:text-xs sm:text-sm md:text-lg leading-relaxed">
+                    <p className="mt-3 xs:mt-4 sm:mt-5 md:mt-6 text-yellow-500/80 max-w-xs xs:max-w-sm sm:max-w-lg md:max-w-2xl text-xs xs:text-sm md:text-lg leading-relaxed font-medium">
                         Partner with NeuroBotix 2026 — a national-level robotics and intelligent
                         systems platform hosted at SRMIST Vadapalani Campus, Chennai.
                     </p>
@@ -164,17 +164,17 @@ export default function SponsorPage() {
                             as="a"
                             href="/XION_26_BROCHURE.pdf"
                             target="_blank"
-                            className="min-h-[48px] flex items-center justify-center px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 bg-gradient-to-r from-yellow-500 to-yellow-700 text-black font-bold text-[11px] xs:text-xs sm:text-sm uppercase tracking-wider rounded-md hover:scale-105 active:scale-100 shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all"
+                            className="min-h-[46px] flex-1 xs:flex-none flex items-center justify-center px-5 py-3 bg-gradient-to-r from-yellow-500 to-yellow-700 text-black font-bold text-xs xs:text-sm uppercase tracking-wider rounded-lg hover:scale-105 active:scale-100 shadow-[0_0_15px_rgba(255,215,0,0.2)] transition-all"
                         >
-                            Download Brochure
+                            Brochure
                         </MagneticButton>
 
                         <MagneticButton
                             as="a"
                             href="/contact"
-                            className="min-h-[48px] flex items-center justify-center px-4 xs:px-5 sm:px-6 md:px-8 py-2.5 xs:py-3 border border-yellow-500/40 text-yellow-500 font-medium text-[11px] xs:text-xs sm:text-sm uppercase tracking-wider rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition-all"
+                            className="min-h-[46px] flex-1 xs:flex-none flex items-center justify-center px-5 py-3 border border-yellow-500/40 text-yellow-500 font-bold text-xs xs:text-sm uppercase tracking-wider rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition-all"
                         >
-                            Initiate Discussion
+                            Contact
                         </MagneticButton>
                     </div>
                 </motion.div>
@@ -194,9 +194,9 @@ export default function SponsorPage() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.08, duration: 0.4 }}
                         >
-                            <div className="border border-yellow-500/20 p-3 xs:p-4 sm:p-5 md:p-8 rounded-xl bg-[#0A0A0A]/60 sm:backdrop-blur-md text-center">
+                            <div className="border border-yellow-500/20 p-4 xs:p-6 sm:p-5 md:p-8 rounded-xl bg-[#0A0A0A]/60 sm:backdrop-blur-md text-center h-full flex flex-col justify-center">
                                 <Counter value={m.value} />
-                                <p className="text-yellow-500/90 mt-1 text-[9px] xs:text-[10px] sm:text-xs md:text-sm uppercase tracking-wider sm:tracking-widest font-semibold">
+                                <p className="text-yellow-500/90 mt-1.5 text-[10px] xs:text-xs md:text-sm uppercase tracking-widest font-bold">
                                     {m.label}
                                 </p>
                             </div>
@@ -243,10 +243,10 @@ export default function SponsorPage() {
                                 transition={{ delay: i * 0.08, duration: 0.4 }}
                             >
                                 <HoverTiltCard>
-                                    <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-3.5 xs:p-4 sm:p-5 md:p-8 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300 h-full">
+                                    <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-6 sm:p-5 md:p-8 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300 h-full">
                                         <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
-                                        <h3 className="text-sm xs:text-base sm:text-lg md:text-xl font-bold mb-1.5 xs:mb-2 sm:mb-3 md:mb-4 text-yellow-400">{item.title}</h3>
-                                        <p className="text-yellow-200/80 text-[10px] xs:text-xs sm:text-sm leading-relaxed">{item.desc}</p>
+                                        <h3 className="text-base xs:text-lg md:text-xl font-bold mb-2 xs:mb-3 md:mb-4 text-yellow-400">{item.title}</h3>
+                                        <p className="text-yellow-200/80 text-xs xs:text-sm md:text-base leading-relaxed font-medium">{item.desc}</p>
                                     </div>
                                 </HoverTiltCard>
                             </motion.div>
@@ -276,7 +276,7 @@ export default function SponsorPage() {
                                         1 Exclusive Slot
                                     </span>
                                     <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6">Title Partner</h3>
-                                    <ul className="space-y-1.5 xs:space-y-2 sm:space-y-3 text-yellow-200/90 text-[10px] xs:text-xs sm:text-sm font-medium">
+                                    <ul className="space-y-2 xs:space-y-3 text-yellow-200/90 text-xs xs:text-sm md:text-base font-semibold">
                                         <li>• Logo on main event backdrop</li>
                                         <li>• On-stage acknowledgment</li>
                                         <li>• Social media feature series</li>
@@ -298,7 +298,7 @@ export default function SponsorPage() {
                                 <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300 h-full">
                                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
                                     <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6">Event Partner</h3>
-                                    <ul className="space-y-1.5 xs:space-y-2 sm:space-y-3 text-yellow-200/90 text-[10px] xs:text-xs sm:text-sm font-medium">
+                                    <ul className="space-y-2 xs:space-y-3 text-yellow-200/90 text-xs xs:text-sm md:text-base font-semibold">
                                         <li>• Branding for specific competition</li>
                                         <li>• Logo on certificates</li>
                                         <li>• Booth space access</li>
@@ -319,7 +319,7 @@ export default function SponsorPage() {
                                 <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300 h-full">
                                     <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
                                     <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6">Support Partner</h3>
-                                    <ul className="space-y-1.5 xs:space-y-2 sm:space-y-3 text-yellow-200/90 text-[10px] xs:text-xs sm:text-sm font-medium">
+                                    <ul className="space-y-2 xs:space-y-3 text-yellow-200/90 text-xs xs:text-sm md:text-base font-semibold">
                                         <li>• Website logo placement</li>
                                         <li>• Digital channel mentions</li>
                                         <li>• Sponsor reel inclusion</li>
@@ -344,7 +344,7 @@ export default function SponsorPage() {
                     <h2 className="text-sm xs:text-base sm:text-lg md:text-2xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-snug">
                         SRM Institute of Science and Technology
                     </h2>
-                    <p className="text-yellow-200/80 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl mx-auto text-[10px] xs:text-xs sm:text-sm leading-relaxed font-medium">
+                    <p className="text-yellow-200/80 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl mx-auto text-xs xs:text-sm leading-relaxed font-semibold">
                         NAAC A++ Accredited · Established 2011 · Vadapalani Campus, Chennai.
                         A premier engineering institution fostering innovation in robotics, AI,
                         and emerging technologies.
@@ -369,7 +369,7 @@ export default function SponsorPage() {
                     <p className="text-yellow-200/90 mb-1.5 xs:mb-2 sm:mb-3 text-[11px] xs:text-xs sm:text-sm md:text-base max-w-xs sm:max-w-none mx-auto font-medium">
                         Join us in shaping the next generation of intelligent systems.
                     </p>
-                    <p className="text-yellow-500/30 mb-5 xs:mb-6 sm:mb-8 text-[10px] xs:text-xs max-w-sm sm:max-w-none mx-auto uppercase tracking-widest font-bold">
+                    <p className="text-yellow-500/30 mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs max-w-sm sm:max-w-none mx-auto uppercase tracking-widest font-black">
                         Limited strategic slots available.
                     </p>
 
