@@ -1,7 +1,7 @@
 "use client";
 
-import { memo, useMemo } from "react";
-import { motion } from "motion/react";
+import { memo, useMemo, useState, useEffect } from "react";
+import { motion, AnimatePresence } from "motion/react";
 
 /* ─────────────── TIMELINE DATA (2025 → 2011) ─────────────── */
 
@@ -279,10 +279,10 @@ const timelineData: TimelineYear[] = [
 /* ─────────────── SHARED ANIMATION CONFIGS ─────────────── */
 
 const fadeInUp = {
-    initial: { opacity: 0, y: 30 },
+    initial: { opacity: 0, y: 20 },
     whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-50px" },
-    transition: { duration: 0.6, ease: "easeOut" as const },
+    viewport: { once: true, margin: "-10%" },
+    transition: { duration: 0.5, ease: "easeOut" as const },
 };
 
 const fadeInHero = {
@@ -299,19 +299,189 @@ const fadeInHeroDelayed = {
 
 /* ─────────────── COMPONENTS (Memoized) ─────────────── */
 
+const ParticleBackground = memo(function ParticleBackground() {
+    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [mounted, setMounted] = useState(false);
+    const [counts, setCounts] = useState({ tiny: 70, mid: 20, hero: 12 });
+
+    useEffect(() => {
+        setMounted(true);
+
+        // Adaptive density based on screen size
+        const updateCounts = () => {
+            const width = window.innerWidth;
+            if (width >= 1024) {
+                setCounts({ tiny: 250, mid: 60, hero: 40 }); // Balanced high-end
+            } else if (width >= 768) {
+                setCounts({ tiny: 120, mid: 35, hero: 20 });
+            } else {
+                setCounts({ tiny: 70, mid: 20, hero: 12 }); // Optimized for mobile/low-end
+            }
+        };
+
+        updateCounts();
+        window.addEventListener('resize', updateCounts);
+
+        // Only track mouse for fine pointers (saves CPU on mobile/touch)
+        const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+        if (isFinePointer) {
+            const handleMouseMove = (e: MouseEvent) => {
+                setMousePosition({
+                    x: (e.clientX / window.innerWidth - 0.5) * 40,
+                    y: (e.clientY / window.innerHeight - 0.5) * 40,
+                });
+            };
+            window.addEventListener("mousemove", handleMouseMove);
+            return () => {
+                window.removeEventListener("mousemove", handleMouseMove);
+                window.removeEventListener('resize', updateCounts);
+            };
+        }
+
+        return () => window.removeEventListener('resize', updateCounts);
+    }, []);
+
+    // Optimized particle generation with adaptive counts
+    const bgParticles = useMemo(() => {
+        if (!mounted) return [];
+        return Array.from({ length: counts.tiny }).map((_, i) => ({
+            id: i,
+            size: Math.random() * 1.5 + 1,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            duration: Math.random() * 4 + 4,
+            delay: Math.random() * 5,
+        }));
+    }, [mounted, counts.tiny]);
+
+    const midOrbs = useMemo(() => {
+        if (!mounted) return [];
+        return Array.from({ length: counts.mid }).map((_, i) => ({
+            id: i,
+            size: Math.random() * 3 + 4,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            duration: Math.random() * 8 + 6,
+            delay: Math.random() * 8,
+        }));
+    }, [mounted, counts.mid]);
+
+    const heroOrbs = useMemo(() => {
+        if (!mounted) return [];
+        return Array.from({ length: counts.hero }).map((_, i) => ({
+            id: i,
+            size: Math.random() * 5 + 9,
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            duration: Math.random() * 12 + 15,
+            driftX: Math.random() * 100 - 50,
+        }));
+    }, [mounted, counts.hero]);
+
+    if (!mounted) return null;
+
+    return (
+        <div className="fixed inset-0 pointer-events-none -z-50 overflow-hidden bg-[#020202]">
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black opacity-95" />
+
+            {bgParticles.map((p) => (
+                <motion.div
+                    key={`bg-${p.id}`}
+                    className="absolute rounded-full bg-yellow-400 shadow-[0_0_6px_#ffd700]"
+                    style={{
+                        width: p.size,
+                        height: p.size,
+                        left: p.left,
+                        top: p.top,
+                        willChange: 'transform, opacity'
+                    }}
+                    animate={{
+                        y: [0, -700],
+                        opacity: [0, 0.7, 0],
+                        x: [0, Math.sin(p.id) * 25 + mousePosition.x * 0.4],
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        delay: p.delay,
+                        ease: "linear",
+                    }}
+                />
+            ))}
+
+            {midOrbs.map((p) => (
+                <motion.div
+                    key={`mid-${p.id}`}
+                    className="absolute rounded-full bg-yellow-500/70 blur-[0.5px] shadow-[0_0_12px_#ffb700]"
+                    style={{
+                        width: p.size,
+                        height: p.size,
+                        left: p.left,
+                        top: p.top,
+                        willChange: 'transform, opacity'
+                    }}
+                    animate={{
+                        y: [0, -600],
+                        x: [0, mousePosition.x * 1.5],
+                        opacity: [0, 0.6, 0],
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        delay: p.delay,
+                        ease: "easeInOut",
+                    }}
+                />
+            ))}
+
+            {heroOrbs.map((p) => (
+                <motion.div
+                    key={`hero-${p.id}`}
+                    className="absolute rounded-full mix-blend-screen"
+                    style={{
+                        width: p.size,
+                        height: p.size,
+                        left: p.left,
+                        top: p.top,
+                        background: "radial-gradient(circle at 30% 30%, #fff0a0 0%, #ffd700 40%, #ff8c00 85%, transparent 100%)",
+                        boxShadow: "0 0 15px rgba(255, 215, 0, 0.7), inset 0 0 8px rgba(255, 255, 255, 0.6)",
+                        filter: "blur(0.5px)",
+                        willChange: 'transform, opacity'
+                    }}
+                    animate={{
+                        y: [0, -800],
+                        x: [0, p.driftX + mousePosition.x * 3],
+                        scale: [1, 1.25, 1],
+                        opacity: [0, 0.8, 0],
+                    }}
+                    transition={{
+                        duration: p.duration,
+                        repeat: Infinity,
+                        delay: Math.random() * 5,
+                        ease: "linear",
+                    }}
+                />
+            ))}
+
+            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-500/[0.04] blur-[100px] rounded-full sm:w-[500px] sm:h-[500px]" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-500/[0.03] blur-[120px] rounded-full sm:w-[600px] sm:h-[600px]" />
+        </div>
+    );
+});
+
 const StatBlock = memo(function StatBlock({
     label,
     value,
 }: {
-    label: string;
-    value: string | number;
+    label: string,
+    value: string | number,
 }) {
     return (
-        <div className="group/stat bg-black-charcoal/40 rounded-lg p-2 xs:p-3 text-center border border-yellow-500/10 hover:border-yellow-500/40 hover:bg-yellow-500/[0.03] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_0_15px_rgba(255,215,0,0.1)]">
-            <p className="text-base xs:text-lg sm:text-xl font-black gold-gradient-text leading-tight uppercase">
+        <div className="group/stat bg-black/40 rounded-lg p-1.5 xs:p-2 text-center border border-yellow-500/10 hover:border-yellow-500/30 transition-all duration-300">
+            <p className="text-[14px] xs:text-base sm:text-lg font-black gold-gradient-text leading-tight uppercase group-hover/stat:scale-105 transition-transform duration-300">
                 {value}
             </p>
-            <p className="text-[8px] xs:text-[10px] text-zinc-500 uppercase tracking-[0.15em] mt-1 leading-tight font-medium">
+            <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 leading-tight font-bold group-hover/stat:text-zinc-300 transition-colors">
                 {label}
             </p>
         </div>
@@ -333,12 +503,12 @@ const EventCard = memo(function EventCard({
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
             viewport={{ once: true, margin: "-20px" }}
-            className={`flex w-full ${isLeft ? "justify-start" : "justify-end"}`}
+            className={`flex w-full ${isLeft ? "justify-start" : "justify-end"} md:px-1`}
         >
-            <div className="group/event bg-black-charcoal/60 border border-yellow-500/15 rounded-lg p-2.5 xs:p-3 w-full md:w-[48%] transition-all duration-300 hover:border-yellow-500/40 hover:bg-yellow-500/[0.02] hover:shadow-[0_0_10px_rgba(255,215,0,0.05)]">
+            <div className="group/event bg-black-charcoal/60 backdrop-blur-md border border-yellow-500/10 rounded-lg p-2 xs:p-2.5 w-[calc(100%-20px)] xs:w-[calc(100%-24px)] md:w-[48%] transition-all duration-400 hover:border-yellow-500/40 hover:bg-yellow-500/[0.06] hover:backdrop-blur-xl hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] will-change-transform">
                 <div className="flex items-center gap-2 xs:gap-3">
                     <span className="w-1 h-1 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(255,215,0,0.8)] flex-shrink-0" />
-                    <p className="text-[10px] xs:text-xs text-zinc-300 font-medium leading-tight">
+                    <p className="text-[11px] xs:text-sm sm:text-base text-zinc-300 font-bold leading-tight tracking-wide group-hover/event:text-white transition-colors duration-300">
                         {name}
                     </p>
                 </div>
@@ -350,67 +520,86 @@ const EventCard = memo(function EventCard({
 const YearCard = memo(function YearCard({
     data,
     index,
+    isExpanded,
+    onToggle,
 }: {
     data: TimelineYear;
     index: number;
+    isExpanded: boolean;
+    onToggle: () => void;
 }) {
-    const delay = Math.min(index * 0.08, 0.4);
-
     return (
         <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay }}
-            viewport={{ once: true, margin: "-60px" }}
-            className="group relative bg-[#0a0a0a] border border-yellow-500/20 rounded-2xl p-5 xs:p-6 sm:p-8 md:p-10 transition-all duration-500 hover:border-yellow-500/60 hover:-translate-y-2 hover:shadow-[0_10px_40px_-15px_rgba(255,215,0,0.15)] overflow-hidden will-change-transform"
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-15%" }}
+            onClick={onToggle}
+            className={`group relative bg-[#0a0a0a]/80 backdrop-blur-md border ${isExpanded ? "border-yellow-500/60 shadow-[0_0_25px_rgba(255,215,0,0.1)]" : "border-yellow-500/15"
+                } rounded-xl p-3 xs:p-4 transition-all duration-400 hover:border-yellow-500/50 hover:bg-[#0a0a0a]/90 hover:backdrop-blur-xl hover:shadow-[0_0_35px_rgba(255,215,0,0.15)] cursor-pointer overflow-hidden`}
         >
-            {/* Metallic Layered Background Effect */}
-            <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/[0.03] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-            <div className="absolute -inset-[1px] bg-gradient-to-r from-transparent via-yellow-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/[0.02] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
             <div className="relative z-10">
-                {/* YEAR (Very bold gold gradient) */}
-                <h3 className="text-5xl xs:text-6xl sm:text-7xl font-black gold-gradient-text leading-none tracking-tighter">
-                    {data.year}
-                </h3>
+                {/* COLLAPSED HEADER (Always visible) */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-6">
+                    <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 rounded-full border border-yellow-500/20 flex items-center justify-center bg-yellow-500/[0.05] group-hover:bg-yellow-500/10 transition-colors">
+                            <span className="text-xl xs:text-2xl font-black gold-gradient-text">
+                                {data.year.toString().slice(-2)}
+                            </span>
+                        </div>
+                        <div>
+                            <h3 className="text-sm xs:text-base font-bold text-zinc-100">
+                                {data.edition}
+                            </h3>
+                            <p className="text-[10px] xs:text-[11px] italic text-yellow-500/70 font-medium truncate max-w-[200px] xs:max-w-none">
+                                &ldquo;{data.theme}&rdquo;
+                            </p>
+                        </div>
+                    </div>
 
-                {/* Event Name and Year Held */}
-                <p className="mt-2 text-sm xs:text-base sm:text-lg font-bold text-zinc-100 tracking-wide">
-                    {data.edition}
-                </p>
-
-                {/* Theme (Quotes and Italic) */}
-                <p className="mt-1 text-xs xs:text-sm sm:text-base italic text-yellow-500/90 font-medium leading-relaxed">
-                    &ldquo;{data.theme}&rdquo;
-                </p>
-
-                {/* Focused Explanation Paragraph */}
-                <p className="mt-4 text-[13px] xs:text-sm sm:text-base text-zinc-400 leading-relaxed font-normal max-w-2xl border-l border-yellow-500/20 pl-4 py-1">
-                    {data.explanation}
-                </p>
-
-                {/* Stats Grid - Metallic Boxes */}
-                <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 xs:gap-3 mt-8">
-                    <StatBlock label="Participants" value={data.participants} />
-                    <StatBlock label="Events" value={data.events} />
-                    <StatBlock label="Colleges" value={data.colleges} />
-                    <StatBlock label="Prize Money" value={data.prize} />
-                </div>
-
-                {/* Zig-Zag List of Events conducted that year */}
-                <div className="mt-10 relative">
-                    {/* Vertical gold gradient line in center */}
-                    <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-yellow-500/50 via-yellow-500/10 to-transparent -translate-x-1/2 hidden md:block" />
-
-                    {/* Mobile vertical line - slight left */}
-                    <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-gradient-to-b from-yellow-500/40 via-yellow-500/10 to-transparent -translate-x-1/2 md:hidden" />
-
-                    <div className="space-y-2 md:space-y-1 relative">
-                        {data.highlights.map((event, i) => (
-                            <EventCard key={event} name={event} index={i} />
-                        ))}
+                    {/* Stats Box (Inline) */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 flex-grow sm:max-w-[400px]">
+                        <StatBlock label="Participants" value={data.participants} />
+                        <StatBlock label="Events" value={data.events} />
+                        <StatBlock label="Colleges" value={data.colleges} />
+                        <StatBlock label="Prize" value={data.prize} />
                     </div>
                 </div>
+
+                {/* EXPANDED CONTENT */}
+                <AnimatePresence>
+                    {isExpanded && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.4, ease: "circOut" }}
+                            className="overflow-hidden"
+                        >
+                            <div className="mt-4 pt-4 border-t border-yellow-500/10">
+                                <p className="text-[11px] xs:text-[12px] sm:text-sm text-zinc-400 leading-relaxed font-normal border-l border-yellow-500/20 pl-3 py-0.5">
+                                    {data.explanation}
+                                </p>
+
+                                <div className="mt-6 relative">
+                                    {/* Vertical gold gradient line in center - Desktop */}
+                                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-yellow-500/60 via-yellow-500/20 to-transparent -translate-x-1/2 hidden md:block shadow-[0_0_8px_rgba(255,215,0,0.3)]" />
+
+                                    {/* Compact Mobile Vertical Line */}
+                                    <div className="absolute left-[9px] top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-yellow-500/40 via-yellow-500/10 to-transparent md:hidden shadow-[0_0_5px_rgba(255,215,0,0.2)]" />
+
+                                    <div className="space-y-1.5 md:space-y-1 relative pl-5 md:pl-0">
+                                        {data.highlights.map((event, i) => (
+                                            <EventCard key={event} name={event} index={i} />
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </div>
         </motion.div>
     );
@@ -419,77 +608,88 @@ const YearCard = memo(function YearCard({
 /* ─────────────── PAGE ─────────────── */
 
 export default function AboutPage() {
+    const [expandedYear, setExpandedYear] = useState<number | null>(2025);
+
     const yearCards = useMemo(
         () =>
             timelineData.map((data, i) => (
-                <YearCard key={data.year} data={data} index={i} />
+                <YearCard
+                    key={data.year}
+                    data={data}
+                    index={i}
+                    isExpanded={expandedYear === data.year}
+                    onToggle={() => setExpandedYear(expandedYear === data.year ? null : data.year)}
+                />
             )),
-        []
+        [expandedYear]
     );
 
     return (
-        <main className="min-h-screen bg-black-core overflow-hidden">
-            <div className="max-w-4xl mx-auto px-4 xs:px-6 sm:px-8 pt-24 xs:pt-28 sm:pt-36 pb-20 xs:pb-24 sm:pb-32">
+        <main className="relative min-h-screen bg-transparent overflow-x-hidden">
+            <ParticleBackground />
+            <div className="max-w-[1200px] mx-auto px-4 xs:px-6 sm:px-8 md:px-12 pt-24 xs:pt-28 sm:pt-40 pb-20 xs:pb-24 sm:pb-32 relative z-10">
 
                 {/* TOP TITLE: XION 2026 */}
-                <motion.div {...fadeInHero} className="text-center">
-                    <h1
-                        className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black gold-gradient-text uppercase tracking-tighter leading-none"
-                        style={{ filter: "drop-shadow(0 0 30px rgba(255, 215, 0, 0.4))" }}
-                    >
-                        XION 2026
+                <motion.div {...fadeInHero} className="text-center will-change-transform mb-12 xs:mb-16 sm:mb-24">
+                    <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-4 tracking-tighter text-white leading-none">
+                        XION <span className="gold-gradient-text drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">2026</span>
                     </h1>
+                    <p className="text-[10px] xs:text-xs sm:text-base md:text-lg text-zinc-400 max-w-[280px] xs:max-w-md mx-auto leading-relaxed tracking-[0.2em] font-medium uppercase">
+                        THE FUTURE OF NEUROBOTIX & AI EXCELLENCE
+                    </p>
                 </motion.div>
 
-                {/* SUB TITLE: ABOUT XION 2026 */}
-                <motion.div {...fadeInHeroDelayed} className="mt-4 xs:mt-5 sm:mt-6 text-center">
+                {/* MAIN ABOUT HEADING (Mobile optimized) */}
+                <div className="mb-12 xs:mb-16 sm:mb-24 text-center px-2">
                     <h2
-                        className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold gold-gradient-text uppercase tracking-widest"
-                        style={{ filter: "drop-shadow(0 0 15px rgba(255, 215, 0, 0.3))" }}
+                        className="text-lg xs:text-2xl sm:text-4xl md:text-5xl font-black gold-gradient-text uppercase tracking-[0.15em] xs:tracking-[0.2em] leading-tight"
                     >
-                        About XION 2026
+                        About <span className="relative pb-1 sm:pb-2 whitespace-nowrap">
+                            XION 2026
+                            <span className="absolute bottom-0 left-0 w-full h-[2px] sm:h-[2.5px] bg-yellow-500 shadow-[0_0_8px_#ffb700,0_0_15px_#ffb700] rounded-full" />
+                        </span>
                     </h2>
-                </motion.div>
+                </div>
 
                 {/* DESCRIPTION (Strict Wording) */}
                 <motion.div
                     {...fadeInUp}
-                    className="mt-10 xs:mt-12 sm:mt-16 text-center space-y-5 xs:space-y-6 sm:space-y-8"
+                    className="mt-10 xs:mt-12 sm:mt-16 text-center space-y-4 xs:space-y-6 sm:space-y-8 will-change-transform"
                 >
-                    <div className="max-w-3xl mx-auto text-sm xs:text-base sm:text-lg md:text-xl text-zinc-400 leading-[1.8] font-normal tracking-wide">
+                    <div className="max-w-3xl mx-auto text-xs xs:text-sm sm:text-base md:text-xl text-zinc-400 leading-relaxed xs:leading-loose font-normal tracking-wide">
                         <p>
                             XION has been conceived as a <span className="text-yellow-500/90 font-bold">National level</span> technical fest in the field of <span className="text-yellow-500/90 font-bold">Robotics</span> to provide a platform for the students to exhibit their technical knowledge and creativity. This is an annual event for students from all over India.
                         </p>
-                        <p className="mt-6">
+                        <p className="mt-5 xs:mt-6">
                             This event comprises of Technical competitions like <span className="text-yellow-500/90 font-bold">Robo-Wars, Path finder, Ramp Up, Robo Soccer, Robo Quiz, Paper presentation</span> and other robotic related events which will test the technical knowledge and skills of the students to a greater depth.
                         </p>
-                        <p className="mt-6">
+                        <p className="mt-5 xs:mt-6">
                             Apart from these, there are <span className="text-yellow-500/90 font-bold">workshops</span> that give a variety of exposure to students.
                         </p>
                     </div>
                 </motion.div>
 
                 {/* TIMELINE TITLE */}
-                <motion.div {...fadeInUp} className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center">
+                <motion.div {...fadeInUp} className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center will-change-transform">
                     <h2
-                        className="text-4xl xs:text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black gold-gradient-text uppercase tracking-tighter leading-none"
-                        style={{ filter: "drop-shadow(0 0 25px rgba(255, 215, 0, 0.4))" }}
+                        className="text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-black gold-gradient-text uppercase tracking-tighter leading-none"
+                        style={{ filter: "drop-shadow(0 0 20px rgba(255, 215, 0, 0.35))" }}
                     >
                         Timeline
                     </h2>
                 </motion.div>
 
                 {/* PAST EDITIONS SECTION */}
-                <div className="mt-12 xs:mt-16 sm:mt-20 md:mt-24 space-y-8 xs:space-y-10 sm:space-y-14 md:space-y-20">
+                <div className="mt-12 xs:mt-16 sm:mt-20 md:mt-28 space-y-3 xs:space-y-4 max-w-4xl mx-auto">
                     {yearCards}
                 </div>
 
                 {/* FOOTER LEGACY (Subtle) */}
                 <motion.div
                     {...fadeInUp}
-                    className="mt-24 xs:mt-32 sm:mt-40 border-t border-yellow-500/10 pt-10 text-center"
+                    className="mt-24 xs:mt-32 sm:mt-40 border-t border-yellow-500/10 pt-10 text-center will-change-transform"
                 >
-                    <p className="text-[10px] xs:text-xs text-zinc-500 uppercase tracking-[0.3em] font-medium">
+                    <p className="text-[9px] xs:text-[10px] text-zinc-500 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium">
                         End of History — XION Robotics Club
                     </p>
                 </motion.div>
