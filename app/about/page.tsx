@@ -23,7 +23,7 @@ interface TimelineYear {
 const timelineData: TimelineYear[] = [
     {
         year: 2025,
-        edition: "NeuroBotix '25",
+        edition: "XION'25",
         theme: "The Ultimate Robotics & Tech Fest",
         explanation: "The 14th edition of the flagship tech fest of The Robotics Club, SRM Vadapalani. Held on March 24th & 25th, 2025 at SRMIST Vadapalani Campus. A national-level symposium featuring technical events like Robo War and Paper Presentation, organized by the Department of Electronics and Communication Engineering & Robotics Club. Visit: srmecevdp.com/XION25",
         participants: "2000+",
