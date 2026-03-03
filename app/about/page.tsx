@@ -1,7 +1,10 @@
 "use client";
 
-import { memo, useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Points, PointMaterial } from "@react-three/drei";
+import * as THREE from "three";
+import { memo, useMemo, useState, useEffect, useRef } from "react";
 
 /* ─────────────── TIMELINE DATA (2025 → 2011) ─────────────── */
 
@@ -299,93 +302,82 @@ const fadeInHeroDelayed = {
 
 /* ─────────────── COMPONENTS (Memoized) ─────────────── */
 
-const ParticleBackground = memo(function ParticleBackground() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-    const [mounted, setMounted] = useState(false);
+// Strict Configuration Constants
+const particleCount = 450;
+const particleSpread = 8;
+const speed = 0.40;
+const particleHoverFactor = 1.00;
+const particleBaseSize = 100; // Used as internal scale base
+const sizeRandomness = 1.00;
+const cameraDistance = 20;
+const moveParticlesOnHover = true;
 
-    useEffect(() => {
-        setMounted(true);
-        const handleMouseMove = (e: MouseEvent) => {
-            // Subtle interaction: not aggressive
-            setMousePosition({
-                x: (e.clientX / window.innerWidth - 0.5) * 20,
-                y: (e.clientY / window.innerHeight - 0.5) * 20,
-            });
-        };
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
+const ParticleField = memo(function ParticleField() {
+    const ref = useRef<THREE.Points>(null!);
 
-    // New Large Neon Orbs
-    const orbs = useMemo(() => {
-        if (!mounted) return [];
-        return Array.from({ length: 12 }).map((_, i) => ({
-            id: i,
-            // Large & Bright sizes (30px to 80px)
-            size: Math.random() * 50 + 30,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            // Strict gold neon colors
-            color: i % 2 === 0 ? "#ffd70f" : "#ecdd7e",
-            duration: Math.random() * 15 + 15,
-            delay: Math.random() * -30,
-            drift: Math.random() * 100 - 50,
-        }));
-    }, [mounted]);
+    // Generate 450 particles in a sphere/box hybrid distribution
+    const [positions] = useState(() => {
+        const pos = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            pos[i * 3] = (Math.random() - 0.5) * particleSpread * 2.5;
+            pos[i * 3 + 1] = (Math.random() - 0.5) * particleSpread * 2.5;
+            pos[i * 3 + 2] = (Math.random() - 0.5) * particleSpread * 2.5;
+        }
+        return pos;
+    });
 
-    if (!mounted) return null;
+    useFrame((state, delta) => {
+        // Continuous Cinematic Motion (speed = 0.40)
+        ref.current.rotation.y += delta * speed * 0.1;
+        ref.current.rotation.x += delta * speed * 0.05;
+
+        // Mouse Movement Response (particleHoverFactor = 1.00)
+        if (moveParticlesOnHover) {
+            const targetX = state.pointer.x * 0.2 * particleHoverFactor;
+            const targetY = state.pointer.y * 0.2 * particleHoverFactor;
+            ref.current.position.x += (targetX - ref.current.position.x) * 0.05;
+            ref.current.position.y += (targetY - ref.current.position.y) * 0.05;
+        }
+    });
 
     return (
-        <div
-            className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020202]"
-            style={{ zIndex: -1, width: '100vw', height: '100vh', top: 0, left: 0 }}
-        >
-            {/* Darker base for high contrast with bright particles */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black opacity-98" />
+        <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
+            <PointMaterial
+                transparent
+                color="#ffd70f"
+                // Size Calibration for 8px - 11px visual appearance
+                // Base size 100 scaled down for elegant R3F rendering
+                size={particleBaseSize * 0.0016}
+                sizeAttenuation={true}
+                depthWrite={false}
+                blending={THREE.AdditiveBlending}
+                opacity={0.85}
+            />
+        </Points>
+    );
+});
 
-            {orbs.map((orb) => (
-                <motion.div
-                    key={orb.id}
-                    className="absolute rounded-full"
-                    style={{
-                        width: orb.size,
-                        height: orb.size,
-                        left: orb.left,
-                        top: orb.top,
-                        backgroundColor: orb.color,
-                        // Neon Glow Enhancement (drop-shadow & filters)
-                        filter: `blur(0.8px)`,
-                        boxShadow: `0 0 30px ${orb.color}, 0 0 60px ${orb.color}33`,
-                        willChange: 'transform, opacity'
-                    }}
-                    animate={{
-                        y: [0, -120, 0],
-                        x: [0, orb.drift, 0],
-                        opacity: [0.7, 1, 0.7],
-                        scale: [1, 1.15, 1],
-                    }}
-                    transition={{
-                        duration: orb.duration,
-                        repeat: Infinity,
-                        delay: orb.delay,
-                        ease: "easeInOut",
-                    }}
-                >
-                    {/* Subtle mouse-follow layer (moveParticlesOnHover = true) */}
-                    <motion.div
-                        className="w-full h-full rounded-full"
-                        animate={{
-                            x: mousePosition.x * 1,
-                            y: mousePosition.y * 1,
-                        }}
-                        transition={{ type: "spring", damping: 15 }}
-                    />
-                </motion.div>
-            ))}
+const ParticleBackground = memo(function ParticleBackground() {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => { setMounted(true); }, []);
 
-            {/* Performance-efficient ambient glow textures */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ffd70f]/[0.02] blur-[150px] rounded-full" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#ecdd7e]/[0.02] blur-[180px] rounded-full" />
+    if (!mounted) return <div className="fixed inset-0 bg-[#020202] -z-10" />;
+
+    return (
+        <div className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020202]" style={{ zIndex: -1 }}>
+            {/* High-Performance WebGL Canvas */}
+            <Canvas
+                camera={{ position: [0, 0, cameraDistance], fov: 60 }}
+                dpr={[1, 2]} // Optimize rendering
+                gl={{ antialias: true, alpha: true }}
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            >
+                <ParticleField />
+            </Canvas>
+
+            {/* Subtle radial depth overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-60" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#020202_90%)]" />
         </div>
     );
 });
@@ -560,15 +552,12 @@ export default function AboutPage() {
                     </p>
                 </motion.div>
 
-                {/* MAIN ABOUT HEADING (Mobile optimized) */}
-                <div className="mb-12 xs:mb-16 sm:mb-24 text-center px-2">
+                {/* MAIN ABOUT HEADING (Semantic & Refactored) */}
+                <div className="mb-12 xs:mb-16 sm:mb-24 text-center px-4">
                     <h2
-                        className="text-lg xs:text-2xl sm:text-4xl md:text-5xl font-black gold-gradient-text uppercase tracking-[0.15em] xs:tracking-[0.2em] leading-tight"
+                        className="inline-block text-lg xs:text-2xl sm:text-4xl md:text-5xl font-black gold-gradient-text uppercase tracking-[0.15em] xs:tracking-[0.2em] leading-tight pb-1 sm:pb-2 border-b-[2px] sm:border-b-[3px] border-yellow-500 drop-shadow-[0_2px_10px_rgba(255,183,0,0.8)]"
                     >
-                        About <span className="relative pb-1 sm:pb-2 whitespace-nowrap">
-                            XION 2026
-                            <span className="absolute bottom-0 left-0 w-full h-[2px] sm:h-[2.5px] bg-yellow-500 shadow-[0_0_8px_#ffb700,0_0_15px_#ffb700] rounded-full" />
-                        </span>
+                        ABOUT XION 2026
                     </h2>
                 </div>
 
