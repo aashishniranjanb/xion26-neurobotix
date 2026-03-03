@@ -29,6 +29,7 @@ export default function NavbarMobile() {
                             src="/xion-logo.png"
                             alt="XION"
                             fill
+                            sizes="34px"
                             className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)]"
                             priority
                         />
@@ -58,6 +59,7 @@ export default function NavbarMobile() {
                             src="/srm-logo.png"
                             alt="SRM"
                             fill
+                            sizes="32px"
                             className="object-cover"
                             priority
                         />

@@ -9,7 +9,14 @@ export default function VideoIntro({
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isFadingOut, setIsFadingOut] = useState(false);
+    const [videoSrc, setVideoSrc] = useState<string>("");
     const hasCompleted = useRef(false);
+
+    // Initial screen check on mount
+    useEffect(() => {
+        const isMobile = window.innerWidth < 768;
+        setVideoSrc(isMobile ? "/bot-mobile.webm" : "/bot-desktopm.mp4");
+    }, []);
 
     // Smooth exit transition
     const triggerExit = useCallback(() => {
@@ -19,67 +26,68 @@ export default function VideoIntro({
         // Wait for the CSS fade-out to finish before unmounting
         setTimeout(() => {
             onComplete();
-        }, 900); // matches the CSS transition duration
+        }, 1200); // matches the 1.2s CSS transition duration
     }, [onComplete]);
 
     useEffect(() => {
+        if (!videoSrc) return;
+
         const video = videoRef.current;
         if (!video) return;
 
-        // Set playback speed
+        // Set playback rate (slightly faster for cinematic feel)
         video.playbackRate = 1.25;
 
-        // Attempt autoplay (muted is required for autoplay on most browsers)
+        // Attempt autoplay
         const playPromise = video.play();
         if (playPromise !== undefined) {
             playPromise.catch(() => {
-                // If autoplay is blocked, skip to content after a brief moment
-                setTimeout(triggerExit, 500);
+                // If blocked, skip after a short delay
+                setTimeout(triggerExit, 800);
             });
         }
 
-        // When video ends, trigger cinematic exit
-        const handleEnded = () => {
-            triggerExit();
-        };
-
+        const handleEnded = () => triggerExit();
         video.addEventListener("ended", handleEnded);
 
-        // Safety timeout — if video is longer than 15s at 1.25x, skip anyway
-        const safetyTimer = setTimeout(() => {
-            triggerExit();
-        }, 15000);
+        // Safety timeout (15s @ 1.25x)
+        const safetyTimer = setTimeout(triggerExit, 15000);
 
         return () => {
             video.removeEventListener("ended", handleEnded);
             clearTimeout(safetyTimer);
         };
-    }, [triggerExit]);
+    }, [videoSrc, triggerExit]);
+
+    if (!videoSrc) return <div className="video-intro-overlay bg-[#020202] fixed inset-0 z-[100]" />;
 
     return (
         <div
-            className={`video-intro-overlay ${isFadingOut ? "video-intro-exit" : ""}`}
-            aria-hidden="true"
-            style={{ willChange: "opacity, filter, transform" }}
+            className={`video-intro-overlay bg-[#020202] ${isFadingOut ? "video-intro-exit" : ""}`}
+            style={{
+                willChange: "opacity, filter",
+                transform: "translateZ(0)" // Force GPU layer
+            }}
         >
-            {/* Fallback background — shown before video loads */}
-            <div className="video-intro-fallback" />
-
             <video
                 ref={videoRef}
+                key={videoSrc}
                 className="video-intro-player"
-                src="/intro-video-ai.mp4"
+                src={videoSrc}
                 muted
                 playsInline
                 autoPlay
                 preload="auto"
                 disablePictureInPicture
-                disableRemotePlayback
-                style={{ willChange: "transform, opacity, filter" }}
+                style={{
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
+                    transform: "translateZ(0)" // Hardware acceleration
+                }}
             />
-
-            {/* Bottom gradient for smoother visual blending */}
-            <div className="video-intro-vignette" />
+            {/* Dark vignette to improve readability of potential overlay text and smoothing */}
+            <div className="video-intro-vignette opacity-60" />
         </div>
     );
 }

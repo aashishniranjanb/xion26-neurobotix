@@ -7,19 +7,27 @@ import NavbarMobile from "./NavbarMobile";
 
 export default function NavigationWrapper() {
     const [isVisible, setIsVisible] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-        // Check if intro was already seen in this session or if we're not on home
-        const isNotHome = window.location.pathname !== "/";
-        if (isNotHome) {
+        setIsMounted(true);
+
+        // Use a consistent value for hydration to avoid mismatch
+        const introPlayed = typeof window !== 'undefined' && sessionStorage.getItem("xion_intro_played") === "true";
+        const isIntroRoute = typeof window !== 'undefined' && (window.location.pathname === "/" || window.location.pathname === "/intro");
+
+        if (introPlayed || !isIntroRoute) {
             setIsVisible(true);
             return;
         }
 
         const handleIntroFinished = () => setIsVisible(true);
         window.addEventListener("xion_intro_finished", handleIntroFinished);
+
         return () => window.removeEventListener("xion_intro_finished", handleIntroFinished);
     }, []);
+
+    if (!isMounted) return null;
 
     return (
         <AnimatePresence>
