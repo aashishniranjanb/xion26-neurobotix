@@ -1,7 +1,10 @@
 "use client";
 
-import { memo, useMemo, useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Points, PointMaterial } from "@react-three/drei";
+import * as THREE from "three";
+import { memo, useMemo, useState, useEffect, useRef } from "react";
 
 /* ─────────────── TIMELINE DATA (2025 → 2011) ─────────────── */
 
@@ -21,238 +24,418 @@ const timelineData: TimelineYear[] = [
     {
         year: 2025,
         edition: "NeuroBotix '25",
-        theme: "The Neural Nexus of Robotics",
-        explanation: "The 2025 edition, NeuroBotix, focuses on the intersection of neuroscience and robotics. It explores how neural networks and biological intelligence inspire the next generation of autonomous systems and human-robot interaction.",
+        theme: "The Ultimate Robotics & Tech Fest",
+        explanation: "The 14th edition of the flagship tech fest of The Robotics Club, SRM Vadapalani. Held on March 24th & 25th, 2025 at SRMIST Vadapalani Campus. A national-level symposium featuring technical events like Robo War and Paper Presentation, organized by the Department of Electronics and Communication Engineering & Robotics Club. Visit: srmecevdp.com/XION25",
         participants: "2000+",
         events: 10,
         colleges: "100+",
-        prize: "₹2,00,000+",
-        highlights: ["Robo-Wars", "Robo Soccer", "Path Finder", "Ramp Up", "Paper Presentation", "Robo Quiz", "Workshops on AI & Robotics", "Keynote by Industry Leaders", "XION Little Champs", "Project Exhibition"],
+        prize: "₹40,000+",
+        highlights: [
+            "Robo-Wars",
+            "Robo Soccer",
+            "Path Finder",
+            "Ramp Up",
+            "Paper Presentation",
+            "Robo Quiz",
+            "Workshops on AI & Robotics",
+            "Keynote by Industry Leaders",
+            "XION Little Champs",
+            "Project Exhibition",
+        ],
     },
     {
         year: 2024,
-        edition: "Abhigyan '24",
-        theme: "Digital Revolution & Green Innovation",
-        explanation: "The 2024 edition focused on merging digital transformation with environmental consciousness. This edition showcased cutting-edge technologies while emphasizing sustainable practices.",
+        edition: "XION’24",
+        theme: "Robolution",
+        explanation: "XION 2024 featured competitions like Robo Soccer, Path Finder, and Ramp Up. It aimed to showcase innovative projects and technical skills. Related events included 'Xion Little Champs 2024' for school students and 'AI & Robotics Odyssey' workshop.",
         participants: "1500+",
         events: 8,
         colleges: "80+",
-        prize: "₹1,50,000+",
-        highlights: ["Robo Soccer", "Ramp Up (Terrain)", "Robo War", "Paper Presentation", "XION Little Champs", "Technical Papers", "Workshops", "Industry Keynotes"],
+        prize: "₹40,000+",
+        highlights: [
+            "Robo Soccer",
+            "Path Finder",
+            "Ramp Up",
+            "Robo Quiz",
+            "XION Little Champs",
+            "AI & Robotics Odyssey",
+            "Technical Papers",
+            "Industry Keynotes",
+        ],
     },
     {
         year: 2023,
-        edition: "XION '23",
+        edition: "XION ’23",
         theme: "Robomania Unleashed",
-        explanation: "XION 2023 celebrated the raw power of mechanical engineering and the thrill of competitive robotics. It marked a significant return to large-scale, high-intensity physical competitions after the hybrid years.",
+        explanation: "The 12th Edition of XION held at SRMIST Vadapalani campus. Rajagopalan J, senior DGM (Retd.) Bharat Electronics Limited, Chennai was the chief guest. Featuring competitions like Robo War, Robo Soccer and Paper Presentations covering AI and Mechatronics.",
         participants: "800+",
         events: 6,
         colleges: "50+",
-        prize: "₹75,000+",
-        highlights: ["Robo-Wars", "Path Finder", "Ramp Up", "Robo Soccer", "Robo Quiz", "Paper Presentation"],
+        prize: "₹30,000+",
+        highlights: [
+            "Robo-Wars",
+            "Path Finder",
+            "Robo War",
+            "Robo Soccer",
+            "Ramp Up",
+            "Paper Presentation",
+            "Robo Quiz",
+            "Obstacle avoiding Robot",
+        ],
     },
     {
         year: 2022,
-        edition: "XION '22",
-        theme: "Synchronized Intelligence",
-        explanation: "The 2022 edition emphasized the importance of connectivity and swarm intelligence. It showcased how multiple robotic units can work in harmony to solve complex architectural and logistics problems.",
+        edition: "XION ’22",
+        theme: "LINE FOLLOWER WORKSHOP",
+        explanation: "Focused on precision engineering and autonomous path tracking. The year was highlighted by a significant two-day Line Follower Workshop held in October, emphasizing hands-on robotics design.",
         participants: "600+",
         events: 5,
         colleges: "40+",
-        prize: "₹50,000+",
-        highlights: ["Robo Soccer", "Ramp Up", "Path Finder", "Paper Presentation", "Robo Quiz"],
+        prize: "₹25,000+",
+        highlights: [
+            "Line Follower Workshop",
+            "Robo Soccer",
+            "Ramp Up",
+            "Path Finder",
+            "Paper Presentation",
+            "Robo Quiz",
+        ],
     },
     {
         year: 2021,
-        edition: "XION '21",
-        theme: "Virtual Horizons",
-        explanation: "A pivotal online edition that transitioned physical challenges into robust virtual simulations. XION 2021 proved that technical excellence and competitive spirit know no physical bounds, reaching students across the globe.",
+        edition: "XION ’21",
+        theme: "ROBOTICS 101 USING TINKER CAD",
+        explanation: "A pivotal year focusing on digital twin simulations and cloud-based robotics design. Students gained experience in basic robotics using Arduino and robotics design using TinkerCAD during multiple workshops.",
         participants: "500+",
         events: 7,
         colleges: "60+",
-        prize: "₹25,000+",
-        highlights: ["Bot-Thesis", "Quizzard", "Litter-o-Bot", "Protobot", "Robo-Dock", "TinkerBot", "Robotics 101"],
+        prize: "₹20,000+",
+        highlights: [
+            "Robotics 101",
+            "Basic Robotics Arduino",
+            "TinkerCAD Design",
+            "Quizzard",
+            "Protobot",
+            "Robo-Dock",
+        ],
     },
     {
         year: 2020,
-        edition: "XION '20",
-        theme: "Resilient Engineering",
-        explanation: "Held during a period of global transition, the 2020 edition focused on adaptability and remote automation. It highlighted the role of robotics in maintaining essential systems and fostering human connection through technology.",
+        edition: "XION ’20",
+        theme: "MULTISENSORY ROBOT DESIGN",
+        explanation: "A year of rapid adaptation, with workshops on Raspberry Pi, Multisensory design using Arduino, and a series of Outreach workshops conducted at schools like Vidhyodaya, GRT Mahalakshmi, and Daniel Thomas.",
         participants: "700+",
         events: 8,
         colleges: "45+",
-        prize: "₹60,000+",
-        highlights: ["Electroclick", "Code Ya Bot", "E-Expo", "Bot Assembler", "Paper Presentation", "Robo Soccer", "Path Finder", "Exposion"],
+        prize: "₹25,000+",
+        highlights: [
+            "Python Raspberry Pi",
+            "Multisensory Arduino",
+            "School Outreach",
+            "Electroclick",
+            "Code Ya Bot",
+            "Robo Soccer",
+            "Path Finder",
+        ],
     },
     {
         year: 2019,
-        edition: "XION '19",
-        theme: "Industrial Frontiers",
-        explanation: "XION 2019 brought industrial-grade robotics to the academic stage. It challenged students to design solutions that could directly impact manufacturing, logistics, and precision healthcare sectors.",
+        edition: "XION ’19",
+        theme: "ROBOTICS AND VR",
+        explanation: "Exploring new frontiers in virtual reality and robotic process automation. Workshops covered RPA for IT Core, Robotics and VR, and practical applications of Line Follower bots using Arduino (SensoBots).",
         participants: "600+",
         events: 6,
         colleges: "40+",
-        prize: "₹50,000+",
-        highlights: ["Robotics Workshop", "Robowar", "Robosoccer", "Pick and Place Bot", "Robo E Junk", "Paper Presentation"],
+        prize: "₹20,000+",
+        highlights: [
+            "Robotics Process (RPA)",
+            "VR & Robotics",
+            "SensoBots Arduino",
+            "Robowar",
+            "Robosoccer",
+            "Pick and Place",
+        ],
     },
     {
         year: 2018,
-        edition: "XION '18",
+        edition: "XION ’18",
         theme: "Autonomous Realms",
-        explanation: "This edition was dedicated to the advancement of autonomous navigation and decision-making. From self-driving micro-bots to complex pathfinders, it pushed the limits of independent machine intelligence.",
+        explanation: "Advanced workshop series including Quadcopter design and Animation. This edition was unique for combining techfest challenges with extensive SRM Outreach activities across the region.",
         participants: "500+",
         events: 6,
         colleges: "35+",
         prize: "₹40,000+",
-        highlights: ["Robotics Workshop", "Robowar", "Robosoccer", "Pick and Place", "Robo E Junk", "Paper Presentation"],
+        highlights: [
+            "Quadcopter Workshop",
+            "Animation Workshop",
+            "SRM Outreach",
+            "Robowar",
+            "Robosoccer",
+            "Pick and Place",
+        ],
     },
     {
         year: 2017,
-        edition: "XION '17",
-        theme: "IoT Controlled Robotics",
-        explanation: "XION 2017 explored the burgeoning world of the Internet of Things (IoT). It demonstrated how pervasive connectivity allows for the remote control and monitoring of sophisticated robotic systems from anywhere in the world.",
+        edition: "XION ’17",
+        theme: "IOT CONTROLLED BOT",
+        explanation: "Entering the age of pervasive connectivity. Workshops focus on IoT controlled robots, paired with the ROBOJUNIOR Outreach program to foster technological interest in the next generation.",
         participants: "400+",
         events: 4,
         colleges: "30+",
         prize: "₹30,000+",
-        highlights: ["IoT Workshop", "National Techfest", "Robo Junior", "SRM Outreach"],
+        highlights: [
+            "IoT Workshop",
+            "Robo Junior",
+            "SRM Outreach",
+            "National Techfest",
+        ],
     },
     {
         year: 2016,
-        edition: "XION '16",
-        theme: "Brain Wave Robotics",
-        explanation: "A highly experimental year that ventured into Brain-Computer Interfaces (BCI). Students explored how human thought and neural signals could be harnessed to control robotic hardware directly.",
+        edition: "XION ’16",
+        theme: "BRAIN WAVE CONTROL",
+        explanation: "An experimental era featuring 'iSensoBots' and cutting-edge brain-wave control systems. Students explored how neural signals could be interfaced directly with robotic hardware.",
         participants: "300+",
         events: 2,
         colleges: "25+",
         prize: "₹20,000+",
-        highlights: ["Brain Wave Control", "iSensoBots", "EEG Dynamics"],
+        highlights: [
+            "Brain Wave Control",
+            "iSensoBots",
+            "National Techfest",
+        ],
     },
     {
         year: 2015,
-        edition: "XION '15",
+        edition: "XION ’15",
         theme: "Advanced Robotic Systems",
-        explanation: "This edition focused on secondary robotic functions like haptics and underwater maneuvering. It expanded the scope of XION beyond terrestrial bots into more challenging environments.",
+        explanation: "A massive year covering AndroidoBots (Android controlled robots), underwater submarine robotics (NIOT influenced), and Haptics for robotic hand control. Certificates given were internationally recognized.",
         participants: "350+",
         events: 5,
         colleges: "30+",
         prize: "₹25,000+",
-        highlights: ["Haptics Control", "Underwater Bots", "AndroidoBots", "National Techfest", "Android-Botix"],
+        highlights: [
+            "AndroidoBots",
+            "Underwater Robotics",
+            "Haptics Design",
+            "National Techfest",
+            "Android-Botix",
+        ],
     },
     {
         year: 2014,
-        edition: "XION '14",
+        edition: "XION ’14",
         theme: "Gesture & Biped Robotics",
-        explanation: "XION 2014 was a study in biomimicry and natural interfaces. It focused on bipedal movement and gesture-based control systems that made robot interaction more intuitive and human-like.",
+        explanation: "Focus on biomimicry with Biped walking robot design and Accelerobotics (Gesture control). It also introduced SensoBots (multisensory robots) to provide students with deeper sensory integration knowledge.",
         participants: "300+",
         events: 3,
         colleges: "20+",
         prize: "₹20,000+",
-        highlights: ["AcceloRobotics", "Biped Walking", "SensoBots Design"],
+        highlights: [
+            "AcceloRobotics",
+            "Biped Walking",
+            "SensoBots Design",
+        ],
     },
     {
         year: 2013,
-        edition: "XION '13",
-        theme: "Microcontroller Robotics",
-        explanation: "The 2013 edition centered on the brains behind the bots—microcontrollers. It provided foundational knowledge in PIC and Arduino architectures, empowering students to build more intelligent systems.",
+        edition: "XION ’13",
+        theme: "PIC MICROCONTROLLER ROBOTICS",
+        explanation: "The club focuses on training in foundational architectures like PIC microcontrollers and Arduino, preparing students for the National Robotics Competition (NRC) conducted in IIT Bombay.",
         participants: "250+",
         events: 2,
         colleges: "15+",
         prize: "₹15,000+",
-        highlights: ["PIC Controller", "Arduino Systems", "Embedded Logic"],
+        highlights: [
+            "PIC Controller",
+            "Arduino Systems",
+            "IIT Bombay NRC Preps",
+        ],
     },
     {
         year: 2012,
-        edition: "XION '12",
-        theme: "Vision Robotics",
-        explanation: "XION 2012 introduced the concept of 'Sixth Sense' and machine vision. It challenged participants to create robots that could perceive and react to their visual environment in real-time.",
+        edition: "XION ’12",
+        theme: "Sixth Sense Vision Robotics",
+        explanation: "Introduction of machine vision and 'Sixth-Sense' technologies. Workshops led by eminent scientists focused on image processing and real-time visual perception for mobile bots.",
         participants: "200+",
         events: 2,
         colleges: "15+",
         prize: "₹15,000+",
-        highlights: ["National Techfest", "Sixth Sense Vision", "Image Processing"],
+        highlights: [
+            "National Techfest",
+            "Sixth Sense Vision",
+            "Image Processing",
+        ],
     },
     {
         year: 2011,
-        edition: "XION '11",
+        edition: "XION ’11",
         theme: "The Genesis",
-        explanation: "The inaugural edition of XION that laid the cornerstone for a decade of innovation. Starting with foundational workshops, it established the vision of a national-level platform for robotics enthusiasts across India.",
+        explanation: "The inception of the Robotics Club at SRMIST Vadapalani in March 2011. The inaugural workshop focused on BASCOM and Arduino-based robotics, laying the foundation for a legacy of innovation.",
         participants: "150+",
         events: 2,
         colleges: "10+",
         prize: "₹10,000+",
-        highlights: ["BASCOM Systems", "Inaugural Workshop", "Project Demo"],
+        highlights: [
+            "BASCOM Systems",
+            "Arduino Genesis",
+            "Inaugural Workshop",
+        ],
     },
 ];
 
-/* ─────────────── PARTICLE BACKGROUND ─────────────── */
+/* ─────────────── SHARED ANIMATION CONFIGS ─────────────── */
+
+const fadeInUp = {
+    initial: { opacity: 0, y: 20 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-10%" },
+    transition: { duration: 0.5, ease: "easeOut" as const },
+};
+
+const fadeInHero = {
+    initial: { opacity: 0, y: -20 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, ease: "easeOut" as const },
+};
+
+const fadeInHeroDelayed = {
+    initial: { opacity: 0, y: -15 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.8, delay: 0.15, ease: "easeOut" as const },
+};
+
+/* ─────────────── COMPONENTS (Memoized) ─────────────── */
+
+// Strict Configuration Constants
+const particleCount = 450;
+const particleSpread = 8;
+const speed = 0.40;
+const particleHoverFactor = 1.00;
+const particleBaseSize = 100; // Used as internal scale base
+const sizeRandomness = 1.00;
+const cameraDistance = 20;
+const moveParticlesOnHover = true;
+
+const ParticleField = memo(function ParticleField() {
+    const ref = useRef<THREE.Points>(null!);
+
+    // Generate 450 particles in a sphere/box hybrid distribution
+    const [positions] = useState(() => {
+        const pos = new Float32Array(particleCount * 3);
+        for (let i = 0; i < particleCount; i++) {
+            pos[i * 3] = (Math.random() - 0.5) * particleSpread * 2.5;
+            pos[i * 3 + 1] = (Math.random() - 0.5) * particleSpread * 2.5;
+            pos[i * 3 + 2] = (Math.random() - 0.5) * particleSpread * 2.5;
+        }
+        return pos;
+    });
+
+    useFrame((state, delta) => {
+        // Continuous Cinematic Motion (speed = 0.40)
+        ref.current.rotation.y += delta * speed * 0.1;
+        ref.current.rotation.x += delta * speed * 0.05;
+
+        // Mouse Movement Response (particleHoverFactor = 1.00)
+        if (moveParticlesOnHover) {
+            const targetX = state.pointer.x * 0.2 * particleHoverFactor;
+            const targetY = state.pointer.y * 0.2 * particleHoverFactor;
+            ref.current.position.x += (targetX - ref.current.position.x) * 0.05;
+            ref.current.position.y += (targetY - ref.current.position.y) * 0.05;
+        }
+    });
+
+    return (
+        <Points ref={ref} positions={positions} stride={3} frustumCulled={false}>
+            <PointMaterial
+                transparent
+                color="#ffd70f"
+                // Size Calibration for 8px - 11px visual appearance
+                // Base size 100 scaled down for elegant R3F rendering
+                size={particleBaseSize * 0.0016}
+                sizeAttenuation={true}
+                depthWrite={false}
+                blending={THREE.AdditiveBlending}
+                opacity={0.85}
+            />
+        </Points>
+    );
+});
 
 const ParticleBackground = memo(function ParticleBackground() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [mounted, setMounted] = useState(false);
+    useEffect(() => { setMounted(true); }, []);
 
-    useEffect(() => {
-        setMounted(true);
-        const handleMouseMove = (e: MouseEvent) => {
-            setMousePosition({
-                x: (e.clientX / window.innerWidth - 0.5) * 20,
-                y: (e.clientY / window.innerHeight - 0.5) * 20,
-            });
-        };
-        window.addEventListener("mousemove", handleMouseMove);
-        return () => window.removeEventListener("mousemove", handleMouseMove);
-    }, []);
-
-    const orbs = useMemo(() => {
-        if (!mounted) return [];
-        return Array.from({ length: 12 }).map((_, i) => ({
-            id: i,
-            size: Math.random() * 50 + 30,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            color: i % 2 === 0 ? "#ffd70f" : "#ecdd7e",
-            duration: Math.random() * 15 + 15,
-            delay: Math.random() * -30,
-            drift: Math.random() * 100 - 50,
-        }));
-    }, [mounted]);
-
-    if (!mounted) return null;
+    if (!mounted) return <div className="fixed inset-0 bg-[#020202] -z-10" />;
 
     return (
         <div className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020202]" style={{ zIndex: -1 }}>
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black opacity-98" />
-            {orbs.map((orb) => (
-                <motion.div
-                    key={orb.id}
-                    className="absolute rounded-full"
-                    style={{
-                        width: orb.size, height: orb.size,
-                        left: orb.left, top: orb.top,
-                        backgroundColor: orb.color,
-                        filter: `blur(0.8px)`,
-                        boxShadow: `0 0 30px ${orb.color}, 0 0 60px ${orb.color}33`,
-                        willChange: 'transform, opacity',
-                    }}
-                    animate={{ y: [0, -120, 0], x: [0, orb.drift, 0], opacity: [0.7, 1, 0.7], scale: [1, 1.15, 1] }}
-                    transition={{ duration: orb.duration, repeat: Infinity, delay: orb.delay, ease: "easeInOut" }}
-                >
-                    <motion.div
-                        className="w-full h-full rounded-full"
-                        animate={{ x: mousePosition.x, y: mousePosition.y }}
-                        transition={{ type: "spring", damping: 15 }}
-                    />
-                </motion.div>
-            ))}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ffd70f]/[0.02] blur-[150px] rounded-full" />
-            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#ecdd7e]/[0.02] blur-[180px] rounded-full" />
+            {/* High-Performance WebGL Canvas */}
+            <Canvas
+                camera={{ position: [0, 0, cameraDistance], fov: 60 }}
+                dpr={[1, 2]} // Optimize rendering
+                gl={{ antialias: true, alpha: true }}
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+            >
+                <ParticleField />
+            </Canvas>
+
+            {/* Subtle radial depth overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-60" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_0%,_#020202_90%)]" />
         </div>
     );
 });
 
-/* ─────────────── TIMELINE NODE (Click-to-Expand Box) ─────────────── */
+const StatBlock = memo(function StatBlock({
+    label,
+    value,
+}: {
+    label: string,
+    value: string | number,
+}) {
+    return (
+        <div className="group/stat bg-black/40 rounded-lg p-1.5 xs:p-2 text-center border border-yellow-500/10 hover:border-yellow-500/30 transition-all duration-300">
+            <p className="text-[14px] xs:text-base sm:text-lg font-black gold-gradient-text leading-tight uppercase group-hover/stat:scale-105 transition-transform duration-300">
+                {value}
+            </p>
+            <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 leading-tight font-bold group-hover/stat:text-zinc-300 transition-colors">
+                {label}
+            </p>
+        </div>
+    );
+});
 
-function TimelineNode({
+const EventCard = memo(function EventCard({
+    name,
+    index,
+}: {
+    name: string;
+    index: number;
+}) {
+    const isLeft = index % 2 === 0;
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, x: isLeft ? -15 : 15 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
+            viewport={{ once: true, margin: "-20px" }}
+            className={`flex w-full ${isLeft ? "justify-start" : "justify-end"} md:px-1`}
+        >
+            <div className="group/event bg-black-charcoal/60 backdrop-blur-md border border-yellow-500/10 rounded-lg p-2 xs:p-2.5 w-[calc(100%-20px)] xs:w-[calc(100%-24px)] md:w-[48%] transition-all duration-400 hover:border-yellow-500/40 hover:bg-yellow-500/[0.06] hover:backdrop-blur-xl hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] will-change-transform">
+                <div className="flex items-center gap-2 xs:gap-3">
+                    <span className="w-1 h-1 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(255,215,0,0.8)] flex-shrink-0" />
+                    <p className="text-[11px] xs:text-sm sm:text-base text-zinc-300 font-bold leading-tight tracking-wide group-hover/event:text-white transition-colors duration-300">
+                        {name}
+                    </p>
+                </div>
+            </div>
+        </motion.div>
+    );
+});
+
+const YearCard = memo(function YearCard({
     data,
     index,
     isExpanded,
@@ -263,205 +446,109 @@ function TimelineNode({
     isExpanded: boolean;
     onToggle: () => void;
 }) {
-    const isLeft = index % 2 === 0;
-
     return (
-        <div className="relative grid grid-cols-1 md:grid-cols-[1fr_48px_1fr] items-start">
-
-            {/* ── CENTRAL SPINE DOT (Desktop) ── */}
-            <div className="hidden md:flex absolute left-1/2 top-5 -translate-x-1/2 z-20 items-center justify-center">
-                <span className="block w-3.5 h-3.5 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-[0_0_12px_rgba(255,215,0,0.5)] border-2 border-[#0a0a0a]" />
-            </div>
-
-            {/* ── LEFT COLUMN ── */}
-            <div className={`hidden md:block ${isLeft ? '' : 'order-1'}`}>
-                {isLeft && (
-                    <motion.div
-                        initial={{ opacity: 0, x: -40 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-5%" }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="pr-6"
-                    >
-                        <CardBox data={data} isExpanded={isExpanded} onToggle={onToggle} align="right" />
-                    </motion.div>
-                )}
-            </div>
-
-            {/* ── CENTER SPACER ── */}
-            <div className="hidden md:block w-12" />
-
-            {/* ── RIGHT COLUMN ── */}
-            <div className={`hidden md:block ${!isLeft ? '' : 'order-3'}`}>
-                {!isLeft && (
-                    <motion.div
-                        initial={{ opacity: 0, x: 40 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-5%" }}
-                        transition={{ duration: 0.5, ease: "easeOut" }}
-                        className="pl-6"
-                    >
-                        <CardBox data={data} isExpanded={isExpanded} onToggle={onToggle} align="left" />
-                    </motion.div>
-                )}
-            </div>
-
-            {/* ── MOBILE CARD ── */}
-            <motion.div
-                className="block md:hidden"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-5%" }}
-                transition={{ duration: 0.4, ease: "easeOut" }}
-            >
-                <CardBox data={data} isExpanded={isExpanded} onToggle={onToggle} align="left" />
-            </motion.div>
-        </div>
-    );
-}
-
-/* ─────────────── CARD BOX (Collapsed Title → Click to Expand) ─────────────── */
-
-function CardBox({
-    data,
-    isExpanded,
-    onToggle,
-    align,
-}: {
-    data: TimelineYear;
-    isExpanded: boolean;
-    onToggle: () => void;
-    align: "left" | "right";
-}) {
-    return (
-        <div
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            viewport={{ once: true, margin: "-15%" }}
             onClick={onToggle}
-            className={`
-                relative cursor-pointer select-none
-                bg-[#0a0a0a]/80 backdrop-blur-md rounded-xl overflow-hidden
-                border transition-all duration-400
-                ${isExpanded
-                    ? "border-yellow-500/50 shadow-[0_0_30px_rgba(255,215,0,0.08)]"
-                    : "border-yellow-500/15 hover:border-yellow-500/40 hover:shadow-[0_0_20px_rgba(255,215,0,0.05)]"
-                }
-            `}
+            className={`group relative bg-[#0a0a0a]/80 backdrop-blur-md border ${isExpanded ? "border-yellow-500/60 shadow-[0_0_25px_rgba(255,215,0,0.1)]" : "border-yellow-500/15"
+                } rounded-xl p-3 xs:p-4 transition-all duration-400 hover:border-yellow-500/50 hover:bg-[#0a0a0a]/90 hover:backdrop-blur-xl hover:shadow-[0_0_35px_rgba(255,215,0,0.15)] cursor-pointer overflow-hidden`}
         >
-            {/* Gold top accent */}
-            <div className={`absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 ${isExpanded ? "opacity-100" : "opacity-40"} bg-gradient-to-r from-yellow-500/40 via-yellow-400 to-yellow-500/40 rounded-t-xl`} />
+            <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/[0.02] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
 
-            {/* ── COLLAPSED HEADER (Always Visible) ── */}
-            <div className="p-4 xs:p-5">
-                <div className={`flex items-center gap-3 xs:gap-4 ${align === "right" ? "md:flex-row-reverse md:text-right" : ""}`}>
-                    {/* Year badge */}
-                    <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 rounded-full border-2 border-yellow-500/25 flex items-center justify-center bg-yellow-500/[0.05]">
-                        <span className="text-lg xs:text-xl font-black gold-gradient-text">
-                            {data.year.toString().slice(-2)}
-                        </span>
-                    </div>
-
-                    {/* Title + Theme */}
-                    <div className="flex-1 min-w-0">
-                        <h3 className="text-sm xs:text-base sm:text-lg font-black text-white tracking-wide truncate">
-                            {data.edition}
-                        </h3>
-                        <p className="text-[10px] xs:text-xs italic text-yellow-500/60 font-medium mt-0.5 truncate">
-                            &ldquo;{data.theme}&rdquo;
-                        </p>
-                    </div>
-
-                    {/* Expand indicator */}
-                    <div className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full border border-yellow-500/20 text-yellow-500/50 transition-transform duration-300 ${isExpanded ? "rotate-45" : ""}`}>
-                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                            <path d="M6 2.5V9.5M2.5 6H9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-                        </svg>
-                    </div>
-                </div>
-
-                {/* Quick stats row (always visible) */}
-                <div className={`mt-3 flex gap-3 xs:gap-4 text-[9px] xs:text-[10px] text-zinc-500 font-bold uppercase tracking-widest ${align === "right" ? "md:justify-end" : ""}`}>
-                    <span>{data.participants} participants</span>
-                    <span>·</span>
-                    <span>{data.events} events</span>
-                    <span>·</span>
-                    <span>{data.colleges} colleges</span>
-                </div>
-            </div>
-
-            {/* ── EXPANDED CONTENT ── */}
-            <AnimatePresence>
-                {isExpanded && (
-                    <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease: "circOut" }}
-                        className="overflow-hidden"
-                    >
-                        <div className="px-4 xs:px-5 pb-5 pt-0">
-                            {/* Divider */}
-                            <div className="h-px bg-gradient-to-r from-transparent via-yellow-500/20 to-transparent mb-4" />
-
-                            {/* Description */}
-                            <p className={`text-xs xs:text-sm text-zinc-400 leading-relaxed border-l-2 border-yellow-500/20 pl-3 ${align === "right" ? "md:border-l-0 md:border-r-2 md:pl-0 md:pr-3 md:text-right" : ""}`}>
-                                {data.explanation}
-                            </p>
-
-                            {/* Full Stats Grid */}
-                            <div className="mt-4 grid grid-cols-2 xs:grid-cols-4 gap-2">
-                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
-                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.participants}</p>
-                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Participants</p>
-                                </div>
-                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
-                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.events}</p>
-                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Events</p>
-                                </div>
-                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
-                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.colleges}</p>
-                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Colleges</p>
-                                </div>
-                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
-                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.prize}</p>
-                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Prize Pool</p>
-                                </div>
-                            </div>
-
-                            {/* Highlight chips */}
-                            <div className={`mt-4 flex flex-wrap gap-1.5 xs:gap-2 ${align === "right" ? "md:justify-end" : ""}`}>
-                                {data.highlights.map((h) => (
-                                    <span
-                                        key={h}
-                                        className="inline-block px-2.5 py-1 text-[9px] xs:text-[10px] sm:text-xs bg-yellow-500/[0.06] border border-yellow-500/15 rounded-full text-yellow-400/90 font-semibold tracking-wide"
-                                    >
-                                        {h}
-                                    </span>
-                                ))}
-                            </div>
+            <div className="relative z-10">
+                {/* COLLAPSED HEADER (Always visible) */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-6">
+                    <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 rounded-full border border-yellow-500/20 flex items-center justify-center bg-yellow-500/[0.05] group-hover:bg-yellow-500/10 transition-colors">
+                            <span className="text-xl xs:text-2xl font-black gold-gradient-text">
+                                {data.year.toString().slice(-2)}
+                            </span>
                         </div>
-                    </motion.div>
-                )}
-            </AnimatePresence>
-        </div>
+                        <div>
+                            <h3 className="text-sm xs:text-base font-bold text-zinc-100">
+                                {data.edition}
+                            </h3>
+                            <p className="text-[10px] xs:text-[11px] italic text-yellow-500/70 font-medium truncate max-w-[200px] xs:max-w-none">
+                                &ldquo;{data.theme}&rdquo;
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Stats Box (Inline) */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 flex-grow sm:max-w-[400px]">
+                        <StatBlock label="Participants" value={data.participants} />
+                        <StatBlock label="Events" value={data.events} />
+                        <StatBlock label="Colleges" value={data.colleges} />
+                        <StatBlock label="Prize" value={data.prize} />
+                    </div>
+                </div>
+
+                {/* EXPANDED CONTENT */}
+                <AnimatePresence>
+                    {isExpanded && (
+                        <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.4, ease: "circOut" }}
+                            className="overflow-hidden"
+                        >
+                            <div className="mt-4 pt-4 border-t border-yellow-500/10">
+                                <p className="text-[11px] xs:text-[12px] sm:text-sm text-zinc-400 leading-relaxed font-normal border-l border-yellow-500/20 pl-3 py-0.5">
+                                    {data.explanation}
+                                </p>
+
+                                <div className="mt-6 relative">
+                                    {/* Vertical gold gradient line in center - Desktop */}
+                                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-yellow-500/60 via-yellow-500/20 to-transparent -translate-x-1/2 hidden md:block shadow-[0_0_8px_rgba(255,215,0,0.3)]" />
+
+                                    {/* Compact Mobile Vertical Line */}
+                                    <div className="absolute left-[9px] top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-yellow-500/40 via-yellow-500/10 to-transparent md:hidden shadow-[0_0_5px_rgba(255,215,0,0.2)]" />
+
+                                    <div className="space-y-1.5 md:space-y-1 relative pl-5 md:pl-0">
+                                        {data.highlights.map((event, i) => (
+                                            <EventCard key={event} name={event} index={i} />
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
+            </div>
+        </motion.div>
     );
-}
+});
 
 /* ─────────────── PAGE ─────────────── */
 
 export default function AboutPage() {
     const [expandedYear, setExpandedYear] = useState<number | null>(2025);
 
+    const yearCards = useMemo(
+        () =>
+            timelineData.map((data, i) => (
+                <YearCard
+                    key={data.year}
+                    data={data}
+                    index={i}
+                    isExpanded={expandedYear === data.year}
+                    onToggle={() => setExpandedYear(expandedYear === data.year ? null : data.year)}
+                />
+            )),
+        [expandedYear]
+    );
+
     return (
         <main className="relative min-h-screen bg-transparent overflow-x-hidden">
             <ParticleBackground />
             <div className="max-w-[1200px] mx-auto px-4 xs:px-6 sm:px-8 md:px-12 pt-24 xs:pt-28 sm:pt-40 pb-20 xs:pb-24 sm:pb-32 relative z-10">
 
-                {/* ═══════ HERO ═══════ */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, ease: "easeOut" }}
-                    className="text-center will-change-transform mb-12 xs:mb-16 sm:mb-24"
-                >
+                {/* TOP TITLE: XION 2026 */}
+                <motion.div {...fadeInHero} className="text-center will-change-transform mb-12 xs:mb-16 sm:mb-24">
                     <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-4 tracking-tighter text-white leading-none">
                         XION <span className="gold-gradient-text drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">2026</span>
                     </h1>
@@ -470,103 +557,65 @@ export default function AboutPage() {
                     </p>
                 </motion.div>
 
-                {/* ═══════ ABOUT HEADING ═══════ */}
-                <div className="mb-12 xs:mb-16 sm:mb-24 text-center px-2">
-                    <h2 className="text-lg xs:text-2xl sm:text-4xl md:text-5xl font-black gold-gradient-text uppercase tracking-[0.15em] xs:tracking-[0.2em] leading-tight">
-                        About <span className="relative pb-1 sm:pb-2 whitespace-nowrap">
-                            XION 2026
-                            <span className="absolute bottom-0 left-0 w-full h-[2px] sm:h-[2.5px] bg-yellow-500 shadow-[0_0_8px_#ffb700,0_0_15px_#ffb700] rounded-full" />
-                        </span>
+                {/* MAIN ABOUT HEADING (Semantic & Refactored) */}
+                <div className="mb-12 xs:mb-16 sm:mb-24 text-center px-4">
+                    <h2
+                        className="inline-block text-lg xs:text-2xl sm:text-4xl md:text-5xl font-black gold-gradient-text uppercase tracking-[0.15em] xs:tracking-[0.2em] leading-tight pb-1 sm:pb-2 border-b-[2px] sm:border-b-[3px] border-yellow-500 drop-shadow-[0_2px_10px_rgba(255,183,0,0.8)]"
+                    >
+                        ABOUT XION 2026
                     </h2>
                 </div>
 
-                {/* ═══════ DESCRIPTION ═══════ */}
+                {/* DESCRIPTION (Strict Wording) */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.5 }}
-                    className="mt-10 xs:mt-12 sm:mt-16 text-center space-y-4 xs:space-y-6 sm:space-y-8"
+                    {...fadeInUp}
+                    className="mt-10 xs:mt-12 sm:mt-16 text-center space-y-4 xs:space-y-6 sm:space-y-8 will-change-transform"
                 >
-                    <div className="max-w-3xl mx-auto text-xs xs:text-sm sm:text-base md:text-xl text-zinc-400 leading-relaxed xs:leading-loose font-normal tracking-wide">
+                    <div className="max-w-4xl mx-auto text-xs xs:text-sm sm:text-base md:text-xl text-zinc-400 leading-relaxed xs:leading-loose font-normal tracking-wide text-pretty">
                         <p>
-                            XION has been conceived as a <span className="text-yellow-500/90 font-bold">National level</span> technical fest in the field of <span className="text-yellow-500/90 font-bold">Robotics</span> to provide a platform for the students to exhibit their technical knowledge and creativity. This is an annual event for students from all over India.
+                            The <span className="text-yellow-500/90 font-bold uppercase tracking-wider">Robotics Club</span> of SRMIST Vadapalani has been conducting various activities related to the field of Robotics like <span className="text-yellow-500/90 font-bold">Workshops, Technical Competitions</span> and <span className="text-yellow-500/90 font-bold">Outreach activities</span>. The club aims to train our young minds in the latest field of Robotics and encourages students from all branches of Engineering.
                         </p>
                         <p className="mt-5 xs:mt-6">
-                            This event comprises of Technical competitions like <span className="text-yellow-500/90 font-bold">Robo-Wars, Path finder, Ramp Up, Robo Soccer, Robo Quiz, Paper presentation</span> and other robotic related events which will test the technical knowledge and skills of the students to a greater depth.
+                            At present the club has more than <span className="text-yellow-500/90 font-bold">850 student members</span> from SRMIST Vadapalani. The robotics club also encourages in knowledge sharing with the community and organizes various <span className="text-yellow-500/90 font-bold">OUTREACH activities</span> that impart technical skills to school students. Best teams among our members are selected and sent for the <span className="text-yellow-500/90 font-bold">National Robotics Competition (NRC)</span> conducted in <span className="text-yellow-500/90 font-bold">IIT Bombay</span>.
                         </p>
-                        <p className="mt-5 xs:mt-6">
-                            Apart from these, there are <span className="text-yellow-500/90 font-bold">workshops</span> that give a variety of exposure to students.
-                        </p>
+                        <div className="mt-8 pt-8 border-t border-yellow-500/10 grid grid-cols-1 md:grid-cols-2 gap-6 text-sm xs:text-base">
+                            <div className="space-y-1">
+                                <p className="text-zinc-500 uppercase tracking-widest text-[9px] xs:text-[10px] font-black">Chair Person</p>
+                                <p className="text-zinc-200 font-bold">Dr. A. Shirly Edward</p>
+                                <p className="text-zinc-500 text-[11px] xs:text-xs italic">Professor & HOD, ECE Dept.</p>
+                            </div>
+                            <div className="space-y-1">
+                                <p className="text-zinc-500 uppercase tracking-widest text-[9px] xs:text-[10px] font-black">Faculty Coordinators</p>
+                                <p className="text-zinc-200 font-bold">Mrs V. Akila & Dr. Sanjay Kumar</p>
+                                <p className="text-zinc-500 text-[11px] xs:text-xs italic">Robotics Club SRMIST</p>
+                            </div>
+                        </div>
                     </div>
                 </motion.div>
 
-                {/* ═══════ TIMELINE TITLE ═══════ */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.5 }}
-                    className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center"
-                >
+                {/* TIMELINE TITLE */}
+                <motion.div {...fadeInUp} className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center will-change-transform">
                     <h2
                         className="text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-black gold-gradient-text uppercase tracking-tighter leading-none"
                         style={{ filter: "drop-shadow(0 0 20px rgba(255, 215, 0, 0.35))" }}
                     >
                         Timeline
                     </h2>
-                    <p className="mt-3 text-[10px] xs:text-xs text-zinc-500 uppercase tracking-[0.3em] font-bold">
-                        15 Years of Innovation · 2011 — 2025
-                    </p>
                 </motion.div>
 
-                {/* ═══════ ALTERNATING TIMELINE ═══════ */}
-                <div className="relative mt-16 xs:mt-20 sm:mt-28 max-w-5xl mx-auto">
-
-                    {/* Central Gold Spine (Desktop) */}
-                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 z-10">
-                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/50 via-yellow-500/20 to-yellow-500/5 shadow-[0_0_8px_rgba(255,215,0,0.15)]" />
-                    </div>
-
-                    {/* Mobile Spine (Left edge) */}
-                    <div className="block md:hidden absolute left-3 top-0 bottom-0 w-[2px] z-10">
-                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/40 via-yellow-500/15 to-transparent" />
-                    </div>
-
-                    {/* Timeline Cards */}
-                    <div className="space-y-4 xs:space-y-5 md:space-y-6 pl-8 md:pl-0">
-                        {timelineData.map((data, i) => (
-                            <div key={data.year} className="relative">
-                                {/* Mobile spine node */}
-                                <div className="md:hidden absolute -left-[22px] top-5 z-20">
-                                    <span className={`block w-2.5 h-2.5 rounded-full border-2 border-[#0a0a0a] transition-colors duration-300 ${expandedYear === data.year ? "bg-yellow-400 shadow-[0_0_8px_rgba(255,215,0,0.6)]" : "bg-yellow-600/50"}`} />
-                                </div>
-                                <TimelineNode
-                                    data={data}
-                                    index={i}
-                                    isExpanded={expandedYear === data.year}
-                                    onToggle={() => setExpandedYear(expandedYear === data.year ? null : data.year)}
-                                />
-                            </div>
-                        ))}
-                    </div>
-
-                    {/* Spine terminus */}
-                    <div className="hidden md:flex absolute left-1/2 -bottom-4 -translate-x-1/2 z-20 items-center justify-center">
-                        <span className="block w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/15" />
-                    </div>
+                {/* PAST EDITIONS SECTION */}
+                <div className="mt-12 xs:mt-16 sm:mt-20 md:mt-28 space-y-3 xs:space-y-4 max-w-4xl mx-auto">
+                    {yearCards}
                 </div>
 
-                {/* ═══════ FOOTER ═══════ */}
+                {/* FOOTER LEGACY (Subtle) */}
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="mt-24 xs:mt-32 sm:mt-40 border-t border-yellow-500/10 pt-10 text-center"
+                    {...fadeInUp}
+                    className="mt-24 xs:mt-32 sm:mt-40 border-t border-yellow-500/10 pt-10 text-center will-change-transform"
                 >
-                    <p className="text-[9px] xs:text-[10px] text-zinc-500 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium">
-                        End of History — XION Robotics Club
+                    <p className="text-[9px] xs:text-[10px] text-zinc-500 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium leading-relaxed">
+                        Department of Electronics and Communication Engineering — SRMIST Vadapalani<br />
+                        Robotics Club — National Level Techfest XION
                     </p>
                 </motion.div>
             </div>
