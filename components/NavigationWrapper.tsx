@@ -14,16 +14,17 @@ export default function NavigationWrapper() {
     const initialized = useRef(false);
 
     useEffect(() => {
-        // Only run logic on hard refresh / initial mount
+        // --- BLOCKED FOR VIDEO INTRO INTEGRATION ---
+        /*
         if (!initialized.current && sessionRestarted) {
             initialized.current = true;
-            sessionRestarted = false; // Prevents loop on internal navigation
+            sessionRestarted = false; 
 
-            // If we are NOT on intro, go there
             if (pathname !== "/intro") {
                 router.replace("/intro");
             }
         }
+        */
     }, [pathname, router]);
 
     // Hide Navbar on Intro page for clean cinematic look
