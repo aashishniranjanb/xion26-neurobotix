@@ -29,6 +29,7 @@ export default function NavigationWrapper() {
 
     if (!isMounted) return null;
 
+
     return (
         <AnimatePresence>
             {isVisible && (
