@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useMemo, useState, useEffect } from "react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion } from "motion/react";
 
 /* ─────────────── TIMELINE DATA (2025 → 2011) ─────────────── */
 
@@ -276,28 +276,7 @@ const timelineData: TimelineYear[] = [
     },
 ];
 
-/* ─────────────── SHARED ANIMATION CONFIGS ─────────────── */
-
-const fadeInUp = {
-    initial: { opacity: 0, y: 20 },
-    whileInView: { opacity: 1, y: 0 },
-    viewport: { once: true, margin: "-10%" },
-    transition: { duration: 0.5, ease: "easeOut" as const },
-};
-
-const fadeInHero = {
-    initial: { opacity: 0, y: -20 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, ease: "easeOut" as const },
-};
-
-const fadeInHeroDelayed = {
-    initial: { opacity: 0, y: -15 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.8, delay: 0.15, ease: "easeOut" as const },
-};
-
-/* ─────────────── COMPONENTS (Memoized) ─────────────── */
+/* ─────────────── PARTICLE BACKGROUND ─────────────── */
 
 const ParticleBackground = memo(function ParticleBackground() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -306,7 +285,6 @@ const ParticleBackground = memo(function ParticleBackground() {
     useEffect(() => {
         setMounted(true);
         const handleMouseMove = (e: MouseEvent) => {
-            // Subtle interaction: not aggressive
             setMousePosition({
                 x: (e.clientX / window.innerWidth - 0.5) * 20,
                 y: (e.clientY / window.innerHeight - 0.5) * 20,
@@ -316,16 +294,13 @@ const ParticleBackground = memo(function ParticleBackground() {
         return () => window.removeEventListener("mousemove", handleMouseMove);
     }, []);
 
-    // New Large Neon Orbs
     const orbs = useMemo(() => {
         if (!mounted) return [];
         return Array.from({ length: 12 }).map((_, i) => ({
             id: i,
-            // Large & Bright sizes (30px to 80px)
             size: Math.random() * 50 + 30,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            // Strict gold neon colors
             color: i % 2 === 0 ? "#ffd70f" : "#ecdd7e",
             duration: Math.random() * 15 + 15,
             delay: Math.random() * -30,
@@ -340,9 +315,7 @@ const ParticleBackground = memo(function ParticleBackground() {
             className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020202]"
             style={{ zIndex: -1, width: '100vw', height: '100vh', top: 0, left: 0 }}
         >
-            {/* Darker base for high contrast with bright particles */}
             <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black opacity-98" />
-
             {orbs.map((orb) => (
                 <motion.div
                     key={orb.id}
@@ -353,7 +326,6 @@ const ParticleBackground = memo(function ParticleBackground() {
                         left: orb.left,
                         top: orb.top,
                         backgroundColor: orb.color,
-                        // Neon Glow Enhancement (drop-shadow & filters)
                         filter: `blur(0.8px)`,
                         boxShadow: `0 0 30px ${orb.color}, 0 0 60px ${orb.color}33`,
                         willChange: 'transform, opacity'
@@ -371,7 +343,6 @@ const ParticleBackground = memo(function ParticleBackground() {
                         ease: "easeInOut",
                     }}
                 >
-                    {/* Subtle mouse-follow layer (moveParticlesOnHover = true) */}
                     <motion.div
                         className="w-full h-full rounded-full"
                         animate={{
@@ -382,189 +353,177 @@ const ParticleBackground = memo(function ParticleBackground() {
                     />
                 </motion.div>
             ))}
-
-            {/* Performance-efficient ambient glow textures */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ffd70f]/[0.02] blur-[150px] rounded-full" />
             <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#ecdd7e]/[0.02] blur-[180px] rounded-full" />
         </div>
     );
 });
 
-const StatBlock = memo(function StatBlock({
-    label,
-    value,
-}: {
-    label: string,
-    value: string | number,
-}) {
+/* ─────────────── STAT PILL ─────────────── */
+
+function StatPill({ label, value }: { label: string; value: string | number }) {
     return (
-        <div className="group/stat bg-black/40 rounded-lg p-2 xs:p-2.5 text-center border border-yellow-500/10 hover:border-yellow-500/30 transition-all duration-300">
-            <p className="text-[14px] xs:text-base sm:text-lg font-black gold-gradient-text leading-tight uppercase group-hover/stat:scale-105 transition-transform duration-300">
-                {value}
-            </p>
-            <p className="text-xs text-zinc-500 uppercase tracking-widest mt-1 shadow-sm leading-tight font-bold group-hover/stat:text-zinc-300 transition-colors">
-                {label}
-            </p>
+        <div className="bg-black/60 border border-yellow-500/15 rounded-lg px-3 py-2 text-center hover:border-yellow-500/40 transition-colors duration-300">
+            <p className="text-sm xs:text-base font-black gold-gradient-text leading-tight">{value}</p>
+            <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.15em] mt-0.5 font-bold">{label}</p>
         </div>
     );
-});
+}
 
-const EventCard = memo(function EventCard({
-    name,
-    index,
-}: {
-    name: string;
-    index: number;
-}) {
+/* ─────────────── TIMELINE CARD ─────────────── */
+
+function TimelineCard({ data, index }: { data: TimelineYear; index: number }) {
     const isLeft = index % 2 === 0;
 
     return (
-        <motion.div
-            initial={{ opacity: 0, x: isLeft ? -15 : 15 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
-            viewport={{ once: true, margin: "-20px" }}
-            className={`flex w-full ${isLeft ? "justify-start" : "justify-end"} md:px-1`}
+        <div className="relative grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-0 md:gap-8 group/row">
+
+            {/* ── CENTRAL SPINE NODE (Desktop only) ── */}
+            <div className="hidden md:flex absolute left-1/2 top-8 -translate-x-1/2 z-20 flex-col items-center">
+                <div className="relative">
+                    {/* Ping animation */}
+                    <span className="absolute inset-0 rounded-full bg-yellow-500/40 animate-ping" style={{ animationDuration: '3s' }} />
+                    {/* Core dot */}
+                    <span className="relative block w-4 h-4 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-[0_0_12px_rgba(255,215,0,0.6)] border-2 border-black" />
+                </div>
+            </div>
+
+            {/* ── LEFT COLUMN ── */}
+            <div className={`${isLeft ? 'block' : 'hidden md:block'} ${isLeft ? '' : 'md:order-1'}`}>
+                {isLeft ? (
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-10%" }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                    >
+                        <CardContent data={data} align="right" />
+                    </motion.div>
+                ) : (
+                    <div className="hidden md:block" />
+                )}
+            </div>
+
+            {/* ── CENTER SPINE (Desktop structural spacer) ── */}
+            <div className="hidden md:block w-px" />
+
+            {/* ── RIGHT COLUMN ── */}
+            <div className={`${!isLeft ? 'block' : 'hidden md:block'} ${!isLeft ? '' : 'md:order-3'}`}>
+                {!isLeft ? (
+                    <motion.div
+                        initial={{ opacity: 0, x: 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-10%" }}
+                        transition={{ duration: 0.6, ease: "easeOut" }}
+                    >
+                        <CardContent data={data} align="left" />
+                    </motion.div>
+                ) : (
+                    <div className="hidden md:block" />
+                )}
+            </div>
+
+            {/* ── MOBILE CARD (shown only on mobile for the "wrong" side) ── */}
+            {!isLeft && (
+                <motion.div
+                    className="block md:hidden"
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                >
+                    <CardContent data={data} align="left" />
+                </motion.div>
+            )}
+        </div>
+    );
+}
+
+/* ─────────────── CARD CONTENT ─────────────── */
+
+function CardContent({ data, align }: { data: TimelineYear; align: "left" | "right" }) {
+    return (
+        <div
+            className={`
+                relative bg-[#0a0a0a]/80 backdrop-blur-md border border-yellow-500/15
+                rounded-xl p-4 xs:p-5 sm:p-6
+                transition-all duration-500
+                hover:border-yellow-500/50 hover:shadow-[0_0_40px_rgba(255,215,0,0.08)]
+                ${align === "right" ? "md:text-right" : "md:text-left"}
+            `}
         >
-            <div className="group/event bg-black-charcoal/60 backdrop-blur-md border border-yellow-500/10 rounded-lg p-3 xs:p-3.5 w-[calc(100%-20px)] xs:w-[calc(100%-24px)] md:w-[48%] transition-all duration-400 hover:border-yellow-500/40 hover:bg-yellow-500/[0.06] hover:backdrop-blur-xl hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] will-change-transform">
-                <div className="flex items-center gap-3">
-                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(255,215,0,0.8)] flex-shrink-0" />
-                    <p className="text-xs xs:text-sm sm:text-base text-zinc-300 font-bold leading-tight tracking-wide group-hover/event:text-white transition-colors duration-300">
-                        {name}
+            {/* Gold top bar */}
+            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-yellow-500/60 via-yellow-400 to-yellow-500/60 rounded-t-xl" />
+
+            {/* HEADER: Year Badge + Edition + Theme */}
+            <div className={`flex items-center gap-3 xs:gap-4 ${align === "right" ? "md:flex-row-reverse" : ""}`}>
+                <div className="flex-shrink-0 w-14 h-14 xs:w-16 xs:h-16 rounded-full border-2 border-yellow-500/30 flex items-center justify-center bg-yellow-500/[0.06]">
+                    <span className="text-xl xs:text-2xl font-black gold-gradient-text">
+                        {data.year.toString().slice(-2)}
+                    </span>
+                </div>
+                <div>
+                    <h3 className="text-base xs:text-lg sm:text-xl font-black text-white tracking-wide">{data.edition}</h3>
+                    <p className="text-[10px] xs:text-xs italic text-yellow-500/70 font-semibold mt-0.5">
+                        &ldquo;{data.theme}&rdquo;
                     </p>
                 </div>
             </div>
-        </motion.div>
-    );
-});
 
-const YearCard = memo(function YearCard({
-    data,
-    index,
-    isExpanded,
-    onToggle,
-}: {
-    data: TimelineYear;
-    index: number;
-    isExpanded: boolean;
-    onToggle: () => void;
-}) {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            viewport={{ once: true, margin: "-15%" }}
-            onClick={onToggle}
-            className={`group relative bg-[#0a0a0a]/80 backdrop-blur-md border ${isExpanded ? "border-yellow-500/60 shadow-[0_0_25px_rgba(255,215,0,0.1)]" : "border-yellow-500/15"
-                } rounded-xl p-3 xs:p-4 transition-all duration-400 hover:border-yellow-500/50 hover:bg-[#0a0a0a]/90 hover:backdrop-blur-xl hover:shadow-[0_0_35px_rgba(255,215,0,0.15)] cursor-pointer overflow-hidden`}
-        >
-            <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/[0.02] via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+            {/* DESCRIPTION */}
+            <p className={`mt-4 text-xs xs:text-sm text-zinc-400 leading-relaxed font-normal border-l-2 border-yellow-500/20 pl-3 ${align === "right" ? "md:border-l-0 md:border-r-2 md:pl-0 md:pr-3" : ""}`}>
+                {data.explanation}
+            </p>
 
-            <div className="relative z-10">
-                {/* COLLAPSED HEADER (Always visible) */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-6">
-                    <div className="flex items-center gap-3">
-                        <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 rounded-full border border-yellow-500/20 flex items-center justify-center bg-yellow-500/[0.05] group-hover:bg-yellow-500/10 transition-colors">
-                            <span className="text-xl xs:text-2xl font-black gold-gradient-text">
-                                {data.year.toString().slice(-2)}
-                            </span>
-                        </div>
-                        <div>
-                            <h3 className="text-sm xs:text-base font-bold text-zinc-100 uppercase tracking-wide">
-                                {data.edition}
-                            </h3>
-                            <p className="text-xs italic text-yellow-500/80 font-bold tracking-tight truncate max-w-[200px] xs:max-w-none mt-1">
-                                &ldquo;{data.theme}&rdquo;
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Stats Box (Inline) */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-1.5 flex-grow sm:max-w-[400px]">
-                        <StatBlock label="Participants" value={data.participants} />
-                        <StatBlock label="Events" value={data.events} />
-                        <StatBlock label="Colleges" value={data.colleges} />
-                        <StatBlock label="Prize" value={data.prize} />
-                    </div>
-                </div>
-
-                {/* EXPANDED CONTENT */}
-                <AnimatePresence>
-                    {isExpanded && (
-                        <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: "auto", opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.4, ease: "circOut" }}
-                            className="overflow-hidden"
-                        >
-                            <div className="mt-4 pt-4 border-t border-yellow-500/10">
-                                <p className="text-xs xs:text-[13px] sm:text-sm text-zinc-400 leading-relaxed font-medium border-l-2 border-yellow-500/30 pl-4 py-1">
-                                    {data.explanation}
-                                </p>
-
-                                <div className="mt-6 relative">
-                                    {/* Vertical gold gradient line in center - Desktop */}
-                                    <div className="absolute left-1/2 top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-yellow-500/60 via-yellow-500/20 to-transparent -translate-x-1/2 hidden md:block shadow-[0_0_8px_rgba(255,215,0,0.3)]" />
-
-                                    {/* Compact Mobile Vertical Line */}
-                                    <div className="absolute left-[9px] top-0 bottom-0 w-[0.5px] bg-gradient-to-b from-yellow-500/40 via-yellow-500/10 to-transparent md:hidden shadow-[0_0_5px_rgba(255,215,0,0.2)]" />
-
-                                    <div className="space-y-1.5 md:space-y-1 relative pl-5 md:pl-0">
-                                        {data.highlights.map((event, i) => (
-                                            <EventCard key={event} name={event} index={i} />
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+            {/* STATS GRID */}
+            <div className="mt-4 grid grid-cols-2 xs:grid-cols-4 gap-2">
+                <StatPill label="Participants" value={data.participants} />
+                <StatPill label="Events" value={data.events} />
+                <StatPill label="Colleges" value={data.colleges} />
+                <StatPill label="Prize Pool" value={data.prize} />
             </div>
-        </motion.div>
+
+            {/* HIGHLIGHTS CHIPS */}
+            <div className={`mt-4 flex flex-wrap gap-1.5 xs:gap-2 ${align === "right" ? "md:justify-end" : ""}`}>
+                {data.highlights.map((h) => (
+                    <span
+                        key={h}
+                        className="inline-block px-2.5 py-1 text-[9px] xs:text-[10px] sm:text-xs bg-yellow-500/[0.06] border border-yellow-500/15 rounded-full text-yellow-400/90 font-semibold tracking-wide hover:bg-yellow-500/15 hover:border-yellow-500/30 transition-all duration-300"
+                    >
+                        {h}
+                    </span>
+                ))}
+            </div>
+        </div>
     );
-});
+}
 
 /* ─────────────── PAGE ─────────────── */
 
 export default function AboutPage() {
-    const [expandedYear, setExpandedYear] = useState<number | null>(2025);
-
-    const yearCards = useMemo(
-        () =>
-            timelineData.map((data, i) => (
-                <YearCard
-                    key={data.year}
-                    data={data}
-                    index={i}
-                    isExpanded={expandedYear === data.year}
-                    onToggle={() => setExpandedYear(expandedYear === data.year ? null : data.year)}
-                />
-            )),
-        [expandedYear]
-    );
-
     return (
         <main className="relative min-h-screen bg-transparent overflow-x-hidden">
             <ParticleBackground />
             <div className="max-w-[1200px] mx-auto px-4 xs:px-6 sm:px-8 md:px-12 pt-24 xs:pt-28 sm:pt-40 pb-20 xs:pb-24 sm:pb-32 relative z-10">
 
-                {/* TOP TITLE: XION 2026 */}
-                <motion.div {...fadeInHero} className="text-center will-change-transform mb-12 xs:mb-16 sm:mb-24">
+                {/* ═══════ HERO ═══════ */}
+                <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, ease: "easeOut" }}
+                    className="text-center will-change-transform mb-12 xs:mb-16 sm:mb-24"
+                >
                     <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-4 tracking-tighter text-white leading-none">
                         XION <span className="gold-gradient-text drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">2026</span>
                     </h1>
-                    <p className="text-xs xs:text-sm sm:text-base md:text-lg text-zinc-400 max-w-[280px] xs:max-w-md mx-auto leading-relaxed tracking-[0.25em] font-black uppercase">
-                        THE FUTURE OF NEURAL <span className="text-yellow-500/80">ROBOTICS</span>
+                    <p className="text-[10px] xs:text-xs sm:text-base md:text-lg text-zinc-400 max-w-[280px] xs:max-w-md mx-auto leading-relaxed tracking-[0.2em] font-medium uppercase">
+                        THE FUTURE OF NEUROBOTIX & AI EXCELLENCE
                     </p>
                 </motion.div>
 
-                {/* MAIN ABOUT HEADING (Mobile optimized) */}
+                {/* ═══════ ABOUT HEADING ═══════ */}
                 <div className="mb-12 xs:mb-16 sm:mb-24 text-center px-2">
-                    <h2
-                        className="text-lg xs:text-2xl sm:text-4xl md:text-5xl font-black gold-gradient-text uppercase tracking-[0.15em] xs:tracking-[0.2em] leading-tight"
-                    >
+                    <h2 className="text-lg xs:text-2xl sm:text-4xl md:text-5xl font-black gold-gradient-text uppercase tracking-[0.15em] xs:tracking-[0.2em] leading-tight">
                         About <span className="relative pb-1 sm:pb-2 whitespace-nowrap">
                             XION 2026
                             <span className="absolute bottom-0 left-0 w-full h-[2px] sm:h-[2.5px] bg-yellow-500 shadow-[0_0_8px_#ffb700,0_0_15px_#ffb700] rounded-full" />
@@ -572,9 +531,12 @@ export default function AboutPage() {
                     </h2>
                 </div>
 
-                {/* DESCRIPTION (Strict Wording) */}
+                {/* ═══════ DESCRIPTION ═══════ */}
                 <motion.div
-                    {...fadeInUp}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                     className="mt-10 xs:mt-12 sm:mt-16 text-center space-y-4 xs:space-y-6 sm:space-y-8 will-change-transform"
                 >
                     <div className="max-w-3xl mx-auto text-xs xs:text-sm sm:text-base md:text-xl text-zinc-400 leading-relaxed xs:leading-loose font-normal tracking-wide">
@@ -590,24 +552,63 @@ export default function AboutPage() {
                     </div>
                 </motion.div>
 
-                {/* TIMELINE TITLE */}
-                <motion.div {...fadeInUp} className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center will-change-transform">
+                {/* ═══════ TIMELINE TITLE ═══════ */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
+                    className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center will-change-transform"
+                >
                     <h2
                         className="text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-black gold-gradient-text uppercase tracking-tighter leading-none"
                         style={{ filter: "drop-shadow(0 0 20px rgba(255, 215, 0, 0.35))" }}
                     >
                         Timeline
                     </h2>
+                    <p className="mt-3 text-[10px] xs:text-xs text-zinc-500 uppercase tracking-[0.3em] font-bold">
+                        15 Years of Innovation · 2011 — 2025
+                    </p>
                 </motion.div>
 
-                {/* PAST EDITIONS SECTION */}
-                <div className="mt-12 xs:mt-16 sm:mt-20 md:mt-28 space-y-3 xs:space-y-4 max-w-4xl mx-auto">
-                    {yearCards}
+                {/* ═══════ ALTERNATING TIMELINE ═══════ */}
+                <div className="relative mt-16 xs:mt-20 sm:mt-28 max-w-5xl mx-auto">
+
+                    {/* ── CENTRAL GOLD SPINE (Desktop) ── */}
+                    <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 z-10">
+                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/60 via-yellow-500/20 to-yellow-500/5 shadow-[0_0_10px_rgba(255,215,0,0.2)]" />
+                    </div>
+
+                    {/* ── MOBILE SPINE (Left edge) ── */}
+                    <div className="block md:hidden absolute left-4 top-0 bottom-0 w-[2px] z-10">
+                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/50 via-yellow-500/15 to-transparent" />
+                    </div>
+
+                    {/* ── TIMELINE CARDS ── */}
+                    <div className="space-y-8 xs:space-y-10 md:space-y-16 pl-10 md:pl-0">
+                        {timelineData.map((data, i) => (
+                            <div key={data.year} className="relative">
+                                {/* Mobile spine node */}
+                                <div className="md:hidden absolute -left-[26px] top-6 z-20">
+                                    <span className="block w-3 h-3 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-[0_0_8px_rgba(255,215,0,0.5)] border-2 border-black" />
+                                </div>
+                                <TimelineCard data={data} index={i} />
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* ── SPINE TERMINUS ── */}
+                    <div className="hidden md:flex absolute left-1/2 -bottom-4 -translate-x-1/2 z-20 items-center justify-center">
+                        <span className="block w-3 h-3 rounded-full bg-yellow-500/30 border border-yellow-500/20" />
+                    </div>
                 </div>
 
-                {/* FOOTER LEGACY (Subtle) */}
+                {/* ═══════ FOOTER LEGACY ═══════ */}
                 <motion.div
-                    {...fadeInUp}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-10%" }}
+                    transition={{ duration: 0.5, ease: "easeOut" }}
                     className="mt-24 xs:mt-32 sm:mt-40 border-t border-yellow-500/10 pt-10 text-center will-change-transform"
                 >
                     <p className="text-[9px] xs:text-[10px] text-zinc-500 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium">
