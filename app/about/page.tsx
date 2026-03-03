@@ -1,7 +1,7 @@
 "use client";
 
 import { memo, useMemo, useState, useEffect } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 
 /* ─────────────── TIMELINE DATA (2025 → 2011) ─────────────── */
 
@@ -27,18 +27,7 @@ const timelineData: TimelineYear[] = [
         events: 10,
         colleges: "100+",
         prize: "₹2,00,000+",
-        highlights: [
-            "Robo-Wars",
-            "Robo Soccer",
-            "Path Finder",
-            "Ramp Up",
-            "Paper Presentation",
-            "Robo Quiz",
-            "Workshops on AI & Robotics",
-            "Keynote by Industry Leaders",
-            "XION Little Champs",
-            "Project Exhibition",
-        ],
+        highlights: ["Robo-Wars", "Robo Soccer", "Path Finder", "Ramp Up", "Paper Presentation", "Robo Quiz", "Workshops on AI & Robotics", "Keynote by Industry Leaders", "XION Little Champs", "Project Exhibition"],
     },
     {
         year: 2024,
@@ -49,16 +38,7 @@ const timelineData: TimelineYear[] = [
         events: 8,
         colleges: "80+",
         prize: "₹1,50,000+",
-        highlights: [
-            "Robo Soccer",
-            "Ramp Up (Terrain)",
-            "Robo War",
-            "Paper Presentation",
-            "XION Little Champs",
-            "Technical Papers",
-            "Workshops",
-            "Industry Keynotes",
-        ],
+        highlights: ["Robo Soccer", "Ramp Up (Terrain)", "Robo War", "Paper Presentation", "XION Little Champs", "Technical Papers", "Workshops", "Industry Keynotes"],
     },
     {
         year: 2023,
@@ -69,14 +49,7 @@ const timelineData: TimelineYear[] = [
         events: 6,
         colleges: "50+",
         prize: "₹75,000+",
-        highlights: [
-            "Robo-Wars",
-            "Path Finder",
-            "Ramp Up",
-            "Robo Soccer",
-            "Robo Quiz",
-            "Paper Presentation",
-        ],
+        highlights: ["Robo-Wars", "Path Finder", "Ramp Up", "Robo Soccer", "Robo Quiz", "Paper Presentation"],
     },
     {
         year: 2022,
@@ -87,13 +60,7 @@ const timelineData: TimelineYear[] = [
         events: 5,
         colleges: "40+",
         prize: "₹50,000+",
-        highlights: [
-            "Robo Soccer",
-            "Ramp Up",
-            "Path Finder",
-            "Paper Presentation",
-            "Robo Quiz",
-        ],
+        highlights: ["Robo Soccer", "Ramp Up", "Path Finder", "Paper Presentation", "Robo Quiz"],
     },
     {
         year: 2021,
@@ -104,15 +71,7 @@ const timelineData: TimelineYear[] = [
         events: 7,
         colleges: "60+",
         prize: "₹25,000+",
-        highlights: [
-            "Bot-Thesis",
-            "Quizzard",
-            "Litter-o-Bot",
-            "Protobot",
-            "Robo-Dock",
-            "TinkerBot",
-            "Robotics 101",
-        ],
+        highlights: ["Bot-Thesis", "Quizzard", "Litter-o-Bot", "Protobot", "Robo-Dock", "TinkerBot", "Robotics 101"],
     },
     {
         year: 2020,
@@ -123,16 +82,7 @@ const timelineData: TimelineYear[] = [
         events: 8,
         colleges: "45+",
         prize: "₹60,000+",
-        highlights: [
-            "Electroclick",
-            "Code Ya Bot",
-            "E-Expo",
-            "Bot Assembler",
-            "Paper Presentation",
-            "Robo Soccer",
-            "Path Finder",
-            "Exposion",
-        ],
+        highlights: ["Electroclick", "Code Ya Bot", "E-Expo", "Bot Assembler", "Paper Presentation", "Robo Soccer", "Path Finder", "Exposion"],
     },
     {
         year: 2019,
@@ -143,14 +93,7 @@ const timelineData: TimelineYear[] = [
         events: 6,
         colleges: "40+",
         prize: "₹50,000+",
-        highlights: [
-            "Robotics Workshop",
-            "Robowar",
-            "Robosoccer",
-            "Pick and Place Bot",
-            "Robo E Junk",
-            "Paper Presentation",
-        ],
+        highlights: ["Robotics Workshop", "Robowar", "Robosoccer", "Pick and Place Bot", "Robo E Junk", "Paper Presentation"],
     },
     {
         year: 2018,
@@ -161,14 +104,7 @@ const timelineData: TimelineYear[] = [
         events: 6,
         colleges: "35+",
         prize: "₹40,000+",
-        highlights: [
-            "Robotics Workshop",
-            "Robowar",
-            "Robosoccer",
-            "Pick and Place",
-            "Robo E Junk",
-            "Paper Presentation",
-        ],
+        highlights: ["Robotics Workshop", "Robowar", "Robosoccer", "Pick and Place", "Robo E Junk", "Paper Presentation"],
     },
     {
         year: 2017,
@@ -179,12 +115,7 @@ const timelineData: TimelineYear[] = [
         events: 4,
         colleges: "30+",
         prize: "₹30,000+",
-        highlights: [
-            "IoT Workshop",
-            "National Techfest",
-            "Robo Junior",
-            "SRM Outreach",
-        ],
+        highlights: ["IoT Workshop", "National Techfest", "Robo Junior", "SRM Outreach"],
     },
     {
         year: 2016,
@@ -206,13 +137,7 @@ const timelineData: TimelineYear[] = [
         events: 5,
         colleges: "30+",
         prize: "₹25,000+",
-        highlights: [
-            "Haptics Control",
-            "Underwater Bots",
-            "AndroidoBots",
-            "National Techfest",
-            "Android-Botix",
-        ],
+        highlights: ["Haptics Control", "Underwater Bots", "AndroidoBots", "National Techfest", "Android-Botix"],
     },
     {
         year: 2014,
@@ -223,11 +148,7 @@ const timelineData: TimelineYear[] = [
         events: 3,
         colleges: "20+",
         prize: "₹20,000+",
-        highlights: [
-            "AcceloRobotics",
-            "Biped Walking",
-            "SensoBots Design",
-        ],
+        highlights: ["AcceloRobotics", "Biped Walking", "SensoBots Design"],
     },
     {
         year: 2013,
@@ -238,11 +159,7 @@ const timelineData: TimelineYear[] = [
         events: 2,
         colleges: "15+",
         prize: "₹15,000+",
-        highlights: [
-            "PIC Controller",
-            "Arduino Systems",
-            "Embedded Logic",
-        ],
+        highlights: ["PIC Controller", "Arduino Systems", "Embedded Logic"],
     },
     {
         year: 2012,
@@ -253,11 +170,7 @@ const timelineData: TimelineYear[] = [
         events: 2,
         colleges: "15+",
         prize: "₹15,000+",
-        highlights: [
-            "National Techfest",
-            "Sixth Sense Vision",
-            "Image Processing",
-        ],
+        highlights: ["National Techfest", "Sixth Sense Vision", "Image Processing"],
     },
     {
         year: 2011,
@@ -268,11 +181,7 @@ const timelineData: TimelineYear[] = [
         events: 2,
         colleges: "10+",
         prize: "₹10,000+",
-        highlights: [
-            "BASCOM Systems",
-            "Inaugural Workshop",
-            "Project Demo",
-        ],
+        highlights: ["BASCOM Systems", "Inaugural Workshop", "Project Demo"],
     },
 ];
 
@@ -311,44 +220,26 @@ const ParticleBackground = memo(function ParticleBackground() {
     if (!mounted) return null;
 
     return (
-        <div
-            className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020202]"
-            style={{ zIndex: -1, width: '100vw', height: '100vh', top: 0, left: 0 }}
-        >
+        <div className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020202]" style={{ zIndex: -1 }}>
             <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black opacity-98" />
             {orbs.map((orb) => (
                 <motion.div
                     key={orb.id}
                     className="absolute rounded-full"
                     style={{
-                        width: orb.size,
-                        height: orb.size,
-                        left: orb.left,
-                        top: orb.top,
+                        width: orb.size, height: orb.size,
+                        left: orb.left, top: orb.top,
                         backgroundColor: orb.color,
                         filter: `blur(0.8px)`,
                         boxShadow: `0 0 30px ${orb.color}, 0 0 60px ${orb.color}33`,
-                        willChange: 'transform, opacity'
+                        willChange: 'transform, opacity',
                     }}
-                    animate={{
-                        y: [0, -120, 0],
-                        x: [0, orb.drift, 0],
-                        opacity: [0.7, 1, 0.7],
-                        scale: [1, 1.15, 1],
-                    }}
-                    transition={{
-                        duration: orb.duration,
-                        repeat: Infinity,
-                        delay: orb.delay,
-                        ease: "easeInOut",
-                    }}
+                    animate={{ y: [0, -120, 0], x: [0, orb.drift, 0], opacity: [0.7, 1, 0.7], scale: [1, 1.15, 1] }}
+                    transition={{ duration: orb.duration, repeat: Infinity, delay: orb.delay, ease: "easeInOut" }}
                 >
                     <motion.div
                         className="w-full h-full rounded-full"
-                        animate={{
-                            x: mousePosition.x * 1,
-                            y: mousePosition.y * 1,
-                        }}
+                        animate={{ x: mousePosition.x, y: mousePosition.y }}
                         transition={{ type: "spring", damping: 15 }}
                     />
                 </motion.div>
@@ -359,141 +250,197 @@ const ParticleBackground = memo(function ParticleBackground() {
     );
 });
 
-/* ─────────────── STAT PILL ─────────────── */
+/* ─────────────── TIMELINE NODE (Click-to-Expand Box) ─────────────── */
 
-function StatPill({ label, value }: { label: string; value: string | number }) {
-    return (
-        <div className="bg-black/60 border border-yellow-500/15 rounded-lg px-3 py-2 text-center hover:border-yellow-500/40 transition-colors duration-300">
-            <p className="text-sm xs:text-base font-black gold-gradient-text leading-tight">{value}</p>
-            <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.15em] mt-0.5 font-bold">{label}</p>
-        </div>
-    );
-}
-
-/* ─────────────── TIMELINE CARD ─────────────── */
-
-function TimelineCard({ data, index }: { data: TimelineYear; index: number }) {
+function TimelineNode({
+    data,
+    index,
+    isExpanded,
+    onToggle,
+}: {
+    data: TimelineYear;
+    index: number;
+    isExpanded: boolean;
+    onToggle: () => void;
+}) {
     const isLeft = index % 2 === 0;
 
     return (
-        <div className="relative grid grid-cols-1 md:grid-cols-[1fr_auto_1fr] gap-0 md:gap-8 group/row">
+        <div className="relative grid grid-cols-1 md:grid-cols-[1fr_48px_1fr] items-start">
 
-            {/* ── CENTRAL SPINE NODE (Desktop only) ── */}
-            <div className="hidden md:flex absolute left-1/2 top-8 -translate-x-1/2 z-20 flex-col items-center">
-                <div className="relative">
-                    {/* Ping animation */}
-                    <span className="absolute inset-0 rounded-full bg-yellow-500/40 animate-ping" style={{ animationDuration: '3s' }} />
-                    {/* Core dot */}
-                    <span className="relative block w-4 h-4 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-[0_0_12px_rgba(255,215,0,0.6)] border-2 border-black" />
-                </div>
+            {/* ── CENTRAL SPINE DOT (Desktop) ── */}
+            <div className="hidden md:flex absolute left-1/2 top-5 -translate-x-1/2 z-20 items-center justify-center">
+                <span className="block w-3.5 h-3.5 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-[0_0_12px_rgba(255,215,0,0.5)] border-2 border-[#0a0a0a]" />
             </div>
 
             {/* ── LEFT COLUMN ── */}
-            <div className={`${isLeft ? 'block' : 'hidden md:block'} ${isLeft ? '' : 'md:order-1'}`}>
-                {isLeft ? (
+            <div className={`hidden md:block ${isLeft ? '' : 'order-1'}`}>
+                {isLeft && (
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
+                        initial={{ opacity: 0, x: -40 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-10%" }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        viewport={{ once: true, margin: "-5%" }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="pr-6"
                     >
-                        <CardContent data={data} align="right" />
+                        <CardBox data={data} isExpanded={isExpanded} onToggle={onToggle} align="right" />
                     </motion.div>
-                ) : (
-                    <div className="hidden md:block" />
                 )}
             </div>
 
-            {/* ── CENTER SPINE (Desktop structural spacer) ── */}
-            <div className="hidden md:block w-px" />
+            {/* ── CENTER SPACER ── */}
+            <div className="hidden md:block w-12" />
 
             {/* ── RIGHT COLUMN ── */}
-            <div className={`${!isLeft ? 'block' : 'hidden md:block'} ${!isLeft ? '' : 'md:order-3'}`}>
-                {!isLeft ? (
+            <div className={`hidden md:block ${!isLeft ? '' : 'order-3'}`}>
+                {!isLeft && (
                     <motion.div
-                        initial={{ opacity: 0, x: 50 }}
+                        initial={{ opacity: 0, x: 40 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-10%" }}
-                        transition={{ duration: 0.6, ease: "easeOut" }}
+                        viewport={{ once: true, margin: "-5%" }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        className="pl-6"
                     >
-                        <CardContent data={data} align="left" />
+                        <CardBox data={data} isExpanded={isExpanded} onToggle={onToggle} align="left" />
                     </motion.div>
-                ) : (
-                    <div className="hidden md:block" />
                 )}
             </div>
 
-            {/* ── MOBILE CARD (shown only on mobile for the "wrong" side) ── */}
-            {!isLeft && (
-                <motion.div
-                    className="block md:hidden"
-                    initial={{ opacity: 0, x: 30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                >
-                    <CardContent data={data} align="left" />
-                </motion.div>
-            )}
+            {/* ── MOBILE CARD ── */}
+            <motion.div
+                className="block md:hidden"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-5%" }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+                <CardBox data={data} isExpanded={isExpanded} onToggle={onToggle} align="left" />
+            </motion.div>
         </div>
     );
 }
 
-/* ─────────────── CARD CONTENT ─────────────── */
+/* ─────────────── CARD BOX (Collapsed Title → Click to Expand) ─────────────── */
 
-function CardContent({ data, align }: { data: TimelineYear; align: "left" | "right" }) {
+function CardBox({
+    data,
+    isExpanded,
+    onToggle,
+    align,
+}: {
+    data: TimelineYear;
+    isExpanded: boolean;
+    onToggle: () => void;
+    align: "left" | "right";
+}) {
     return (
         <div
+            onClick={onToggle}
             className={`
-                relative bg-[#0a0a0a]/80 backdrop-blur-md border border-yellow-500/15
-                rounded-xl p-4 xs:p-5 sm:p-6
-                transition-all duration-500
-                hover:border-yellow-500/50 hover:shadow-[0_0_40px_rgba(255,215,0,0.08)]
-                ${align === "right" ? "md:text-right" : "md:text-left"}
+                relative cursor-pointer select-none
+                bg-[#0a0a0a]/80 backdrop-blur-md rounded-xl overflow-hidden
+                border transition-all duration-400
+                ${isExpanded
+                    ? "border-yellow-500/50 shadow-[0_0_30px_rgba(255,215,0,0.08)]"
+                    : "border-yellow-500/15 hover:border-yellow-500/40 hover:shadow-[0_0_20px_rgba(255,215,0,0.05)]"
+                }
             `}
         >
-            {/* Gold top bar */}
-            <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-yellow-500/60 via-yellow-400 to-yellow-500/60 rounded-t-xl" />
+            {/* Gold top accent */}
+            <div className={`absolute top-0 left-0 right-0 h-[2px] transition-opacity duration-300 ${isExpanded ? "opacity-100" : "opacity-40"} bg-gradient-to-r from-yellow-500/40 via-yellow-400 to-yellow-500/40 rounded-t-xl`} />
 
-            {/* HEADER: Year Badge + Edition + Theme */}
-            <div className={`flex items-center gap-3 xs:gap-4 ${align === "right" ? "md:flex-row-reverse" : ""}`}>
-                <div className="flex-shrink-0 w-14 h-14 xs:w-16 xs:h-16 rounded-full border-2 border-yellow-500/30 flex items-center justify-center bg-yellow-500/[0.06]">
-                    <span className="text-xl xs:text-2xl font-black gold-gradient-text">
-                        {data.year.toString().slice(-2)}
-                    </span>
+            {/* ── COLLAPSED HEADER (Always Visible) ── */}
+            <div className="p-4 xs:p-5">
+                <div className={`flex items-center gap-3 xs:gap-4 ${align === "right" ? "md:flex-row-reverse md:text-right" : ""}`}>
+                    {/* Year badge */}
+                    <div className="flex-shrink-0 w-12 h-12 xs:w-14 xs:h-14 rounded-full border-2 border-yellow-500/25 flex items-center justify-center bg-yellow-500/[0.05]">
+                        <span className="text-lg xs:text-xl font-black gold-gradient-text">
+                            {data.year.toString().slice(-2)}
+                        </span>
+                    </div>
+
+                    {/* Title + Theme */}
+                    <div className="flex-1 min-w-0">
+                        <h3 className="text-sm xs:text-base sm:text-lg font-black text-white tracking-wide truncate">
+                            {data.edition}
+                        </h3>
+                        <p className="text-[10px] xs:text-xs italic text-yellow-500/60 font-medium mt-0.5 truncate">
+                            &ldquo;{data.theme}&rdquo;
+                        </p>
+                    </div>
+
+                    {/* Expand indicator */}
+                    <div className={`flex-shrink-0 w-6 h-6 flex items-center justify-center rounded-full border border-yellow-500/20 text-yellow-500/50 transition-transform duration-300 ${isExpanded ? "rotate-45" : ""}`}>
+                        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                            <path d="M6 2.5V9.5M2.5 6H9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+                        </svg>
+                    </div>
                 </div>
-                <div>
-                    <h3 className="text-base xs:text-lg sm:text-xl font-black text-white tracking-wide">{data.edition}</h3>
-                    <p className="text-[10px] xs:text-xs italic text-yellow-500/70 font-semibold mt-0.5">
-                        &ldquo;{data.theme}&rdquo;
-                    </p>
+
+                {/* Quick stats row (always visible) */}
+                <div className={`mt-3 flex gap-3 xs:gap-4 text-[9px] xs:text-[10px] text-zinc-500 font-bold uppercase tracking-widest ${align === "right" ? "md:justify-end" : ""}`}>
+                    <span>{data.participants} participants</span>
+                    <span>·</span>
+                    <span>{data.events} events</span>
+                    <span>·</span>
+                    <span>{data.colleges} colleges</span>
                 </div>
             </div>
 
-            {/* DESCRIPTION */}
-            <p className={`mt-4 text-xs xs:text-sm text-zinc-400 leading-relaxed font-normal border-l-2 border-yellow-500/20 pl-3 ${align === "right" ? "md:border-l-0 md:border-r-2 md:pl-0 md:pr-3" : ""}`}>
-                {data.explanation}
-            </p>
-
-            {/* STATS GRID */}
-            <div className="mt-4 grid grid-cols-2 xs:grid-cols-4 gap-2">
-                <StatPill label="Participants" value={data.participants} />
-                <StatPill label="Events" value={data.events} />
-                <StatPill label="Colleges" value={data.colleges} />
-                <StatPill label="Prize Pool" value={data.prize} />
-            </div>
-
-            {/* HIGHLIGHTS CHIPS */}
-            <div className={`mt-4 flex flex-wrap gap-1.5 xs:gap-2 ${align === "right" ? "md:justify-end" : ""}`}>
-                {data.highlights.map((h) => (
-                    <span
-                        key={h}
-                        className="inline-block px-2.5 py-1 text-[9px] xs:text-[10px] sm:text-xs bg-yellow-500/[0.06] border border-yellow-500/15 rounded-full text-yellow-400/90 font-semibold tracking-wide hover:bg-yellow-500/15 hover:border-yellow-500/30 transition-all duration-300"
+            {/* ── EXPANDED CONTENT ── */}
+            <AnimatePresence>
+                {isExpanded && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: "circOut" }}
+                        className="overflow-hidden"
                     >
-                        {h}
-                    </span>
-                ))}
-            </div>
+                        <div className="px-4 xs:px-5 pb-5 pt-0">
+                            {/* Divider */}
+                            <div className="h-px bg-gradient-to-r from-transparent via-yellow-500/20 to-transparent mb-4" />
+
+                            {/* Description */}
+                            <p className={`text-xs xs:text-sm text-zinc-400 leading-relaxed border-l-2 border-yellow-500/20 pl-3 ${align === "right" ? "md:border-l-0 md:border-r-2 md:pl-0 md:pr-3 md:text-right" : ""}`}>
+                                {data.explanation}
+                            </p>
+
+                            {/* Full Stats Grid */}
+                            <div className="mt-4 grid grid-cols-2 xs:grid-cols-4 gap-2">
+                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
+                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.participants}</p>
+                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Participants</p>
+                                </div>
+                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
+                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.events}</p>
+                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Events</p>
+                                </div>
+                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
+                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.colleges}</p>
+                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Colleges</p>
+                                </div>
+                                <div className="bg-black/50 border border-yellow-500/10 rounded-lg px-3 py-2 text-center">
+                                    <p className="text-sm xs:text-base font-black gold-gradient-text">{data.prize}</p>
+                                    <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 font-bold">Prize Pool</p>
+                                </div>
+                            </div>
+
+                            {/* Highlight chips */}
+                            <div className={`mt-4 flex flex-wrap gap-1.5 xs:gap-2 ${align === "right" ? "md:justify-end" : ""}`}>
+                                {data.highlights.map((h) => (
+                                    <span
+                                        key={h}
+                                        className="inline-block px-2.5 py-1 text-[9px] xs:text-[10px] sm:text-xs bg-yellow-500/[0.06] border border-yellow-500/15 rounded-full text-yellow-400/90 font-semibold tracking-wide"
+                                    >
+                                        {h}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
@@ -501,6 +448,8 @@ function CardContent({ data, align }: { data: TimelineYear; align: "left" | "rig
 /* ─────────────── PAGE ─────────────── */
 
 export default function AboutPage() {
+    const [expandedYear, setExpandedYear] = useState<number | null>(2025);
+
     return (
         <main className="relative min-h-screen bg-transparent overflow-x-hidden">
             <ParticleBackground />
@@ -536,8 +485,8 @@ export default function AboutPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="mt-10 xs:mt-12 sm:mt-16 text-center space-y-4 xs:space-y-6 sm:space-y-8 will-change-transform"
+                    transition={{ duration: 0.5 }}
+                    className="mt-10 xs:mt-12 sm:mt-16 text-center space-y-4 xs:space-y-6 sm:space-y-8"
                 >
                     <div className="max-w-3xl mx-auto text-xs xs:text-sm sm:text-base md:text-xl text-zinc-400 leading-relaxed xs:leading-loose font-normal tracking-wide">
                         <p>
@@ -557,8 +506,8 @@ export default function AboutPage() {
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center will-change-transform"
+                    transition={{ duration: 0.5 }}
+                    className="mt-20 xs:mt-24 sm:mt-32 md:mt-40 text-center"
                 >
                     <h2
                         className="text-4xl xs:text-5xl sm:text-6xl md:text-8xl font-black gold-gradient-text uppercase tracking-tighter leading-none"
@@ -574,42 +523,47 @@ export default function AboutPage() {
                 {/* ═══════ ALTERNATING TIMELINE ═══════ */}
                 <div className="relative mt-16 xs:mt-20 sm:mt-28 max-w-5xl mx-auto">
 
-                    {/* ── CENTRAL GOLD SPINE (Desktop) ── */}
+                    {/* Central Gold Spine (Desktop) */}
                     <div className="hidden md:block absolute left-1/2 top-0 bottom-0 w-[2px] -translate-x-1/2 z-10">
-                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/60 via-yellow-500/20 to-yellow-500/5 shadow-[0_0_10px_rgba(255,215,0,0.2)]" />
+                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/50 via-yellow-500/20 to-yellow-500/5 shadow-[0_0_8px_rgba(255,215,0,0.15)]" />
                     </div>
 
-                    {/* ── MOBILE SPINE (Left edge) ── */}
-                    <div className="block md:hidden absolute left-4 top-0 bottom-0 w-[2px] z-10">
-                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/50 via-yellow-500/15 to-transparent" />
+                    {/* Mobile Spine (Left edge) */}
+                    <div className="block md:hidden absolute left-3 top-0 bottom-0 w-[2px] z-10">
+                        <div className="w-full h-full bg-gradient-to-b from-yellow-500/40 via-yellow-500/15 to-transparent" />
                     </div>
 
-                    {/* ── TIMELINE CARDS ── */}
-                    <div className="space-y-8 xs:space-y-10 md:space-y-16 pl-10 md:pl-0">
+                    {/* Timeline Cards */}
+                    <div className="space-y-4 xs:space-y-5 md:space-y-6 pl-8 md:pl-0">
                         {timelineData.map((data, i) => (
                             <div key={data.year} className="relative">
                                 {/* Mobile spine node */}
-                                <div className="md:hidden absolute -left-[26px] top-6 z-20">
-                                    <span className="block w-3 h-3 rounded-full bg-gradient-to-br from-yellow-400 to-yellow-600 shadow-[0_0_8px_rgba(255,215,0,0.5)] border-2 border-black" />
+                                <div className="md:hidden absolute -left-[22px] top-5 z-20">
+                                    <span className={`block w-2.5 h-2.5 rounded-full border-2 border-[#0a0a0a] transition-colors duration-300 ${expandedYear === data.year ? "bg-yellow-400 shadow-[0_0_8px_rgba(255,215,0,0.6)]" : "bg-yellow-600/50"}`} />
                                 </div>
-                                <TimelineCard data={data} index={i} />
+                                <TimelineNode
+                                    data={data}
+                                    index={i}
+                                    isExpanded={expandedYear === data.year}
+                                    onToggle={() => setExpandedYear(expandedYear === data.year ? null : data.year)}
+                                />
                             </div>
                         ))}
                     </div>
 
-                    {/* ── SPINE TERMINUS ── */}
+                    {/* Spine terminus */}
                     <div className="hidden md:flex absolute left-1/2 -bottom-4 -translate-x-1/2 z-20 items-center justify-center">
-                        <span className="block w-3 h-3 rounded-full bg-yellow-500/30 border border-yellow-500/20" />
+                        <span className="block w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/15" />
                     </div>
                 </div>
 
-                {/* ═══════ FOOTER LEGACY ═══════ */}
+                {/* ═══════ FOOTER ═══════ */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-10%" }}
-                    transition={{ duration: 0.5, ease: "easeOut" }}
-                    className="mt-24 xs:mt-32 sm:mt-40 border-t border-yellow-500/10 pt-10 text-center will-change-transform"
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="mt-24 xs:mt-32 sm:mt-40 border-t border-yellow-500/10 pt-10 text-center"
                 >
                     <p className="text-[9px] xs:text-[10px] text-zinc-500 uppercase tracking-[0.2em] sm:tracking-[0.3em] font-medium">
                         End of History — XION Robotics Club
