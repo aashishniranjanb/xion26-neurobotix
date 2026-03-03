@@ -398,11 +398,11 @@ const StatBlock = memo(function StatBlock({
     value: string | number,
 }) {
     return (
-        <div className="group/stat bg-black/40 rounded-lg p-1.5 xs:p-2 text-center border border-yellow-500/10 hover:border-yellow-500/30 transition-all duration-300">
+        <div className="group/stat bg-black/40 rounded-lg p-2 xs:p-2.5 text-center border border-yellow-500/10 hover:border-yellow-500/30 transition-all duration-300">
             <p className="text-[14px] xs:text-base sm:text-lg font-black gold-gradient-text leading-tight uppercase group-hover/stat:scale-105 transition-transform duration-300">
                 {value}
             </p>
-            <p className="text-[8px] xs:text-[9px] text-zinc-500 uppercase tracking-[0.1em] mt-0.5 leading-tight font-bold group-hover/stat:text-zinc-300 transition-colors">
+            <p className="text-xs text-zinc-500 uppercase tracking-widest mt-1 shadow-sm leading-tight font-bold group-hover/stat:text-zinc-300 transition-colors">
                 {label}
             </p>
         </div>
@@ -426,10 +426,10 @@ const EventCard = memo(function EventCard({
             viewport={{ once: true, margin: "-20px" }}
             className={`flex w-full ${isLeft ? "justify-start" : "justify-end"} md:px-1`}
         >
-            <div className="group/event bg-black-charcoal/60 backdrop-blur-md border border-yellow-500/10 rounded-lg p-2 xs:p-2.5 w-[calc(100%-20px)] xs:w-[calc(100%-24px)] md:w-[48%] transition-all duration-400 hover:border-yellow-500/40 hover:bg-yellow-500/[0.06] hover:backdrop-blur-xl hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] will-change-transform">
-                <div className="flex items-center gap-2 xs:gap-3">
-                    <span className="w-1 h-1 rounded-full bg-yellow-500 shadow-[0_0_5px_rgba(255,215,0,0.8)] flex-shrink-0" />
-                    <p className="text-[11px] xs:text-sm sm:text-base text-zinc-300 font-bold leading-tight tracking-wide group-hover/event:text-white transition-colors duration-300">
+            <div className="group/event bg-black-charcoal/60 backdrop-blur-md border border-yellow-500/10 rounded-lg p-3 xs:p-3.5 w-[calc(100%-20px)] xs:w-[calc(100%-24px)] md:w-[48%] transition-all duration-400 hover:border-yellow-500/40 hover:bg-yellow-500/[0.06] hover:backdrop-blur-xl hover:shadow-[0_0_20px_rgba(255,215,0,0.15)] will-change-transform">
+                <div className="flex items-center gap-3">
+                    <span className="w-1.5 h-1.5 rounded-full bg-yellow-500 shadow-[0_0_8px_rgba(255,215,0,0.8)] flex-shrink-0" />
+                    <p className="text-xs xs:text-sm sm:text-base text-zinc-300 font-bold leading-tight tracking-wide group-hover/event:text-white transition-colors duration-300">
                         {name}
                     </p>
                 </div>
@@ -471,10 +471,10 @@ const YearCard = memo(function YearCard({
                             </span>
                         </div>
                         <div>
-                            <h3 className="text-sm xs:text-base font-bold text-zinc-100">
+                            <h3 className="text-sm xs:text-base font-bold text-zinc-100 uppercase tracking-wide">
                                 {data.edition}
                             </h3>
-                            <p className="text-[10px] xs:text-[11px] italic text-yellow-500/70 font-medium truncate max-w-[200px] xs:max-w-none">
+                            <p className="text-xs italic text-yellow-500/80 font-bold tracking-tight truncate max-w-[200px] xs:max-w-none mt-1">
                                 &ldquo;{data.theme}&rdquo;
                             </p>
                         </div>
@@ -500,7 +500,7 @@ const YearCard = memo(function YearCard({
                             className="overflow-hidden"
                         >
                             <div className="mt-4 pt-4 border-t border-yellow-500/10">
-                                <p className="text-[11px] xs:text-[12px] sm:text-sm text-zinc-400 leading-relaxed font-normal border-l border-yellow-500/20 pl-3 py-0.5">
+                                <p className="text-xs xs:text-[13px] sm:text-sm text-zinc-400 leading-relaxed font-medium border-l-2 border-yellow-500/30 pl-4 py-1">
                                     {data.explanation}
                                 </p>
 
@@ -555,8 +555,8 @@ export default function AboutPage() {
                     <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black mb-4 tracking-tighter text-white leading-none">
                         XION <span className="gold-gradient-text drop-shadow-[0_0_15px_rgba(255,215,0,0.3)]">2026</span>
                     </h1>
-                    <p className="text-[10px] xs:text-xs sm:text-base md:text-lg text-zinc-400 max-w-[280px] xs:max-w-md mx-auto leading-relaxed tracking-[0.2em] font-medium uppercase">
-                        THE FUTURE OF NEUROBOTIX & AI EXCELLENCE
+                    <p className="text-xs xs:text-sm sm:text-base md:text-lg text-zinc-400 max-w-[280px] xs:max-w-md mx-auto leading-relaxed tracking-[0.25em] font-black uppercase">
+                        THE FUTURE OF NEURAL <span className="text-yellow-500/80">ROBOTICS</span>
                     </p>
                 </motion.div>
 
