@@ -302,169 +302,90 @@ const fadeInHeroDelayed = {
 const ParticleBackground = memo(function ParticleBackground() {
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
     const [mounted, setMounted] = useState(false);
-    const [counts, setCounts] = useState({ tiny: 70, mid: 20, hero: 12 });
 
     useEffect(() => {
         setMounted(true);
-
-        // Adaptive density based on screen size
-        const updateCounts = () => {
-            const width = window.innerWidth;
-            if (width >= 1024) {
-                setCounts({ tiny: 250, mid: 60, hero: 40 }); // Balanced high-end
-            } else if (width >= 768) {
-                setCounts({ tiny: 120, mid: 35, hero: 20 });
-            } else {
-                setCounts({ tiny: 70, mid: 20, hero: 12 }); // Optimized for mobile/low-end
-            }
+        const handleMouseMove = (e: MouseEvent) => {
+            // Subtle interaction: not aggressive
+            setMousePosition({
+                x: (e.clientX / window.innerWidth - 0.5) * 20,
+                y: (e.clientY / window.innerHeight - 0.5) * 20,
+            });
         };
-
-        updateCounts();
-        window.addEventListener('resize', updateCounts);
-
-        // Only track mouse for fine pointers (saves CPU on mobile/touch)
-        const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-        if (isFinePointer) {
-            const handleMouseMove = (e: MouseEvent) => {
-                setMousePosition({
-                    x: (e.clientX / window.innerWidth - 0.5) * 40,
-                    y: (e.clientY / window.innerHeight - 0.5) * 40,
-                });
-            };
-            window.addEventListener("mousemove", handleMouseMove);
-            return () => {
-                window.removeEventListener("mousemove", handleMouseMove);
-                window.removeEventListener('resize', updateCounts);
-            };
-        }
-
-        return () => window.removeEventListener('resize', updateCounts);
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
     }, []);
 
-    // Optimized particle generation with adaptive counts
-    const bgParticles = useMemo(() => {
+    // New Large Neon Orbs
+    const orbs = useMemo(() => {
         if (!mounted) return [];
-        return Array.from({ length: counts.tiny }).map((_, i) => ({
+        return Array.from({ length: 12 }).map((_, i) => ({
             id: i,
-            size: Math.random() * 1.5 + 1,
+            // Large & Bright sizes (30px to 80px)
+            size: Math.random() * 50 + 30,
             left: `${Math.random() * 100}%`,
             top: `${Math.random() * 100}%`,
-            duration: Math.random() * 4 + 4,
-            delay: Math.random() * 5,
+            // Strict gold neon colors
+            color: i % 2 === 0 ? "#ffd70f" : "#ecdd7e",
+            duration: Math.random() * 15 + 15,
+            delay: Math.random() * -30,
+            drift: Math.random() * 100 - 50,
         }));
-    }, [mounted, counts.tiny]);
-
-    const midOrbs = useMemo(() => {
-        if (!mounted) return [];
-        return Array.from({ length: counts.mid }).map((_, i) => ({
-            id: i,
-            size: Math.random() * 3 + 4,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            duration: Math.random() * 8 + 6,
-            delay: Math.random() * 8,
-        }));
-    }, [mounted, counts.mid]);
-
-    const heroOrbs = useMemo(() => {
-        if (!mounted) return [];
-        return Array.from({ length: counts.hero }).map((_, i) => ({
-            id: i,
-            size: Math.random() * 5 + 9,
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-            duration: Math.random() * 12 + 15,
-            driftX: Math.random() * 100 - 50,
-        }));
-    }, [mounted, counts.hero]);
+    }, [mounted]);
 
     if (!mounted) return null;
 
     return (
-        <div className="fixed inset-0 pointer-events-none -z-50 overflow-hidden bg-[#020202]">
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black opacity-95" />
+        <div
+            className="fixed inset-0 pointer-events-none overflow-hidden bg-[#020202]"
+            style={{ zIndex: -1, width: '100vw', height: '100vh', top: 0, left: 0 }}
+        >
+            {/* Darker base for high contrast with bright particles */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black via-[#050505] to-black opacity-98" />
 
-            {bgParticles.map((p) => (
+            {orbs.map((orb) => (
                 <motion.div
-                    key={`bg-${p.id}`}
-                    className="absolute rounded-full bg-yellow-400 shadow-[0_0_6px_#ffd700]"
+                    key={orb.id}
+                    className="absolute rounded-full"
                     style={{
-                        width: p.size,
-                        height: p.size,
-                        left: p.left,
-                        top: p.top,
+                        width: orb.size,
+                        height: orb.size,
+                        left: orb.left,
+                        top: orb.top,
+                        backgroundColor: orb.color,
+                        // Neon Glow Enhancement (drop-shadow & filters)
+                        filter: `blur(0.8px)`,
+                        boxShadow: `0 0 30px ${orb.color}, 0 0 60px ${orb.color}33`,
                         willChange: 'transform, opacity'
                     }}
                     animate={{
-                        y: [0, -700],
-                        opacity: [0, 0.7, 0],
-                        x: [0, Math.sin(p.id) * 25 + mousePosition.x * 0.4],
+                        y: [0, -120, 0],
+                        x: [0, orb.drift, 0],
+                        opacity: [0.7, 1, 0.7],
+                        scale: [1, 1.15, 1],
                     }}
                     transition={{
-                        duration: p.duration,
+                        duration: orb.duration,
                         repeat: Infinity,
-                        delay: p.delay,
-                        ease: "linear",
-                    }}
-                />
-            ))}
-
-            {midOrbs.map((p) => (
-                <motion.div
-                    key={`mid-${p.id}`}
-                    className="absolute rounded-full bg-yellow-500/70 blur-[0.5px] shadow-[0_0_12px_#ffb700]"
-                    style={{
-                        width: p.size,
-                        height: p.size,
-                        left: p.left,
-                        top: p.top,
-                        willChange: 'transform, opacity'
-                    }}
-                    animate={{
-                        y: [0, -600],
-                        x: [0, mousePosition.x * 1.5],
-                        opacity: [0, 0.6, 0],
-                    }}
-                    transition={{
-                        duration: p.duration,
-                        repeat: Infinity,
-                        delay: p.delay,
+                        delay: orb.delay,
                         ease: "easeInOut",
                     }}
-                />
+                >
+                    {/* Subtle mouse-follow layer (moveParticlesOnHover = true) */}
+                    <motion.div
+                        className="w-full h-full rounded-full"
+                        animate={{
+                            x: mousePosition.x * 1,
+                            y: mousePosition.y * 1,
+                        }}
+                        transition={{ type: "spring", damping: 15 }}
+                    />
+                </motion.div>
             ))}
 
-            {heroOrbs.map((p) => (
-                <motion.div
-                    key={`hero-${p.id}`}
-                    className="absolute rounded-full mix-blend-screen"
-                    style={{
-                        width: p.size,
-                        height: p.size,
-                        left: p.left,
-                        top: p.top,
-                        background: "radial-gradient(circle at 30% 30%, #fff0a0 0%, #ffd700 40%, #ff8c00 85%, transparent 100%)",
-                        boxShadow: "0 0 15px rgba(255, 215, 0, 0.7), inset 0 0 8px rgba(255, 255, 255, 0.6)",
-                        filter: "blur(0.5px)",
-                        willChange: 'transform, opacity'
-                    }}
-                    animate={{
-                        y: [0, -800],
-                        x: [0, p.driftX + mousePosition.x * 3],
-                        scale: [1, 1.25, 1],
-                        opacity: [0, 0.8, 0],
-                    }}
-                    transition={{
-                        duration: p.duration,
-                        repeat: Infinity,
-                        delay: Math.random() * 5,
-                        ease: "linear",
-                    }}
-                />
-            ))}
-
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-yellow-500/[0.04] blur-[100px] rounded-full sm:w-[500px] sm:h-[500px]" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-amber-500/[0.03] blur-[120px] rounded-full sm:w-[600px] sm:h-[600px]" />
+            {/* Performance-efficient ambient glow textures */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#ffd70f]/[0.02] blur-[150px] rounded-full" />
+            <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#ecdd7e]/[0.02] blur-[180px] rounded-full" />
         </div>
     );
 });
