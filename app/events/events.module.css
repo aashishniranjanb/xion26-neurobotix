@@ -1,0 +1,448 @@
+/* ===== Galaxy Canvas ===== */
+.canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===== Top Bar ===== */
+.topBar {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 50px 0;
+  z-index: 10;
+}
+
+.logoWrap {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+}
+
+.logoGlow {
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.1), transparent 70%);
+  opacity: 0.4;
+  filter: blur(2px);
+}
+
+/* ===== Title ===== */
+.title {
+  font-size: 5.5rem;
+  margin: 120px 0 10px;
+  color: #d4af37;
+  text-align: center;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  position: relative;
+  z-index: 2;
+}
+
+
+.subtitle {
+  text-align: center;
+  color: #a1a1aa;
+  font-size: 1.05rem;
+  margin-bottom: 30px;
+  position: relative;
+  z-index: 2;
+}
+
+/* ===== Sections ===== */
+.section {
+  padding: 30px 40px 50px;
+  animation: fadeIn 1.2s ease forwards;
+  position: relative;
+  z-index: 2;
+}
+
+.sectionTitle {
+  font-size: 2rem;
+  margin-bottom: 30px;
+  color: #d4af37;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  position: relative;
+  display: inline-block;
+}
+
+.sectionTitle::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.4), transparent);
+  margin-top: 8px;
+}
+
+/* ===== Grid ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* ===== Card ===== */
+.card {
+  background: #0c0c0f;
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  border-radius: 18px;
+  overflow: hidden;
+  transition: transform 0.3s ease, border 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+
+.card:hover {
+  transform: translateY(-6px);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+}
+
+/* ===== Video Wrap ===== */
+.videoWrap {
+  overflow: hidden;
+  height: 190px;
+}
+
+.videoWrap video,
+.videoWrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.card:hover .videoWrap video,
+.card:hover .videoWrap img {
+  transform: scale(1.1);
+}
+
+/* ===== Text Visual (no video) ===== */
+.textVisual {
+  height: 190px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0a0a0e;
+  position: relative;
+  overflow: hidden;
+}
+
+.eventIcon {
+  font-size: 3.2rem;
+  z-index: 1;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .eventIcon {
+  transform: scale(1.1);
+}
+
+/* ===== Card Body ===== */
+.cardBody {
+  padding: 18px 20px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.cardName {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #d4af37;
+  text-align: center;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.cardTagline {
+  font-size: 0.85rem;
+  color: #a1a1aa;
+  text-align: center;
+  margin: 0 0 16px;
+  line-height: 1.4;
+  flex: 1;
+}
+
+/* ===== Rules Button ===== */
+.rulesBtn {
+  padding: 9px 26px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+  background: transparent;
+  border: 1px solid #d4af37;
+  color: #d4af37;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.rulesBtn:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+/* ===== Modal ===== */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(6px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: modalFadeIn 0.25s ease;
+}
+
+.modalContent {
+  background: #0b0b0f;
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 18px;
+  padding: 36px 32px;
+  max-width: 900px;
+  /* Increased for side-by-side */
+  width: 95%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+}
+
+.modalClose {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #d4af37;
+  font-size: 1.3rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: transform 0.2s;
+  line-height: 1;
+}
+
+.modalClose:hover {
+  transform: scale(1.2);
+}
+
+.modalTitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #d4af37;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.modalBody {
+  display: flex;
+  gap: 40px;
+  margin-top: 24px;
+  align-items: flex-start;
+}
+
+.rulesSection {
+  flex: 1.2;
+}
+
+.posterSection {
+  flex: 1;
+  max-width: 320px;
+  position: sticky;
+  top: 0;
+}
+
+.posterContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.posterImage {
+  width: 100%;
+  aspect-ratio: 1 / 1.414;
+  object-fit: cover;
+  border-radius: 12px;
+  background: #000;
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.posterPlaceholder {
+  width: 100%;
+  flex-direction: column;
+  aspect-ratio: 1 / 1.414;
+  /* A3 Portrait ratio */
+  background: linear-gradient(135deg, #1a1a1f 0%, #0c0c0f 100%);
+  border: 1px dashed rgba(212, 175, 55, 0.3);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #d4af37;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  position: relative;
+  overflow: hidden;
+}
+
+.posterPlaceholder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(212, 175, 55, 0.05) 0%, transparent 70%);
+}
+
+.modalSubtitle {
+  font-size: 1.1rem;
+  color: #d4af37;
+  margin: 0 0 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+  padding-bottom: 8px;
+}
+
+.rulesList {
+  list-style: none;
+  counter-reset: rules;
+  padding: 0;
+  margin: 0;
+}
+
+.rulesList li {
+  counter-increment: rules;
+  position: relative;
+  padding: 10px 0 10px 36px;
+  color: #d4d4d8;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  border-bottom: 1px solid rgba(212, 175, 55, 0.06);
+}
+
+.rulesList li:last-child {
+  border-bottom: none;
+}
+
+.rulesList li::before {
+  content: counter(rules);
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 24px;
+  height: 24px;
+  background: rgba(212, 175, 55, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #d4af37;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .topBar {
+    padding: 16px 20px 0;
+  }
+
+  .logoWrap {
+    width: 44px;
+    height: 44px;
+  }
+
+  .title {
+    font-size: 3.2rem;
+    letter-spacing: 0.12em;
+    margin: 80px 0 6px;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+    padding: 0 20px;
+  }
+
+  .section {
+    padding: 20px 16px 40px;
+  }
+
+  .sectionTitle {
+    font-size: 1.4rem;
+  }
+
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .modalContent {
+    padding: 24px 20px;
+  }
+
+  .modalBody {
+    flex-direction: column-reverse;
+    gap: 30px;
+  }
+
+  .posterSection {
+    max-width: 100%;
+    position: static;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.4rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
