@@ -1,5 +1,11 @@
 "use client";
 import { motion } from "motion/react";
+import { Asimovian } from "next/font/google";
+
+const asimovian = Asimovian({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 export default function Hero() {
     return (
@@ -22,8 +28,8 @@ export default function Hero() {
                         filter: "drop-shadow(0 2px 10px rgba(255, 215, 0, 0.4))",
                     }}
                 >
-                    XION 2026
-                </h2>
+                    2026
+                </span>
             </motion.div>
 
             {/* NeuroBotix — Subtitle */}
@@ -44,10 +50,12 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3, duration: 0.8 }}
-                className="max-w-[280px] xs:max-w-xs sm:max-w-md md:max-w-2xl text-xs xs:text-sm sm:text-lg md:text-xl text-zinc-400 font-medium tracking-wide mb-6 sm:mb-8 md:mb-10"
+                className="max-w-[280px] xs:max-w-xs sm:max-w-md md:max-w-2xl text-xs xs:text-sm sm:text-lg md:text-xl font-medium tracking-wide mb-6 sm:mb-8 md:mb-10"
             >
-                Where human neural complexity meets autonomous robotic precision.
-                <span className="text-gold-primary/80">
+                <span className="text-white text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]">
+                    Where human neural complexity meets autonomous robotic precision.
+                </span>
+                <span className="text-gold-primary/80 drop-shadow-[0_0_10px_rgba(255,255,255,0.7)]">
                     {" "}
                     Inspired by brains. Built by engineers.
                 </span>

@@ -1,16 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import "@/styles/globals.css";
 import NavigationWrapper from "@/components/NavigationWrapper";
+import IntroLoader from "@/components/IntroLoader";
 
-export const metadata = {
-  title: "XION 26 — NeuroBotix",
-  description: "Inspired by brains. Built by engineers.",
-};
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [loaded, setLoaded] = useState(false);
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
   return (
     <html lang="en">
       <head>
@@ -19,8 +16,13 @@ export default function RootLayout({
         <link rel="preload" href="/Intro-video-mobile.webm" as="video" type="video/webm" />
       </head>
       <body className="bg-[#030303] text-white antialiased overflow-x-hidden">
-        <NavigationWrapper />
-        {children}
+        <IntroLoader onComplete={() => setLoaded(true)} />
+        {loaded && (
+          <>
+            <NavigationWrapper />
+            {children}
+          </>
+        )}
       </body>
     </html>
   );
