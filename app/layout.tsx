@@ -15,8 +15,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         {/* Preload intro videos for instant playback */}
-        <link rel="preload" href="/Intro-video-new.webm" as="video" type="video/webm" />
-        <link rel="preload" href="/Intro-video-mobile.webm" as="video" type="video/webm" />
+        <link rel="preload" href="/bot-desktopm.mp4" as="video" type="video/mp4" />
+        <link rel="preload" href="/bot-mobile.webm" as="video" type="video/webm" />
       </head>
       <body className="bg-[#030303] text-white antialiased overflow-x-hidden">
         <NavigationWrapper />

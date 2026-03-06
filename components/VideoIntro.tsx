@@ -9,14 +9,11 @@ export default function VideoIntro({
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isFadingOut, setIsFadingOut] = useState(false);
-    const [videoSrc, setVideoSrc] = useState<string>("");
+    const [videoSrc] = useState<string>(() => {
+        if (typeof window === "undefined") return "";
+        return window.innerWidth < 768 ? "/bot-mobile.webm" : "/bot-desktopm.mp4";
+    });
     const hasCompleted = useRef(false);
-
-    // Initial screen check on mount
-    useEffect(() => {
-        const isMobile = window.innerWidth < 768;
-        setVideoSrc(isMobile ? "/bot-mobile.webm" : "/bot-desktopm.mp4");
-    }, []);
 
     // Smooth exit transition
     const triggerExit = useCallback(() => {
