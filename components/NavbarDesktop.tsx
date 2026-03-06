@@ -33,6 +33,7 @@ export default function NavbarDesktop() {
                             src="/xion-logo.png"
                             alt="XION Robotics Club"
                             fill
+                            sizes="(max-width: 768px) 50px, 62px"
                             className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)] relative z-10"
                             priority
                         />
@@ -67,6 +68,7 @@ export default function NavbarDesktop() {
                                 src="/srm-logo.png"
                                 alt="SRM Institute of Science and Technology"
                                 fill
+                                sizes="(max-width: 768px) 46px, 56px"
                                 className="object-cover drop-shadow-[0_0_4px_rgba(255,215,0,0.3)]"
                                 priority
                             />
