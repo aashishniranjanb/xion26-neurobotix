@@ -586,7 +586,7 @@ export default function AboutPage() {
                             </div>
                             <div className="space-y-1">
                                 <p className="text-zinc-500 uppercase tracking-widest text-[9px] xs:text-[10px] font-black">Faculty Coordinators</p>
-                                <p className="text-zinc-200 font-bold">Mrs V. Akila & Dr. Sanjay Kumar</p>
+                                <p className="text-zinc-200 font-bold">Dr. V. Akila & Dr. Sanjay Kumar</p>
                                 <p className="text-zinc-500 text-[11px] xs:text-xs italic">Robotics Club SRMIST</p>
                             </div>
                         </div>

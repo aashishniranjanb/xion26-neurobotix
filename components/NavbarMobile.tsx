@@ -30,7 +30,7 @@ export default function NavbarMobile() {
                             alt="XION"
                             fill
                             sizes="34px"
-                            className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)]"
+                            className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)] active:drop-shadow-[0_0_15px_rgba(255,215,0,0.7)] active:scale-90 transition-all duration-200"
                             priority
                         />
                     </div>
@@ -45,7 +45,7 @@ export default function NavbarMobile() {
                             className="flex flex-col items-center justify-center text-zinc-300 hover:text-yellow-400 active:text-yellow-300 active:scale-110 transition-all duration-150 py-1.5 min-w-[44px] min-h-[44px]"
                         >
                             <Icon size={20} className="xs:size-[22px] sm:size-[24px]" stroke={1.8} />
-                            <span className="text-[7px] xs:text-[8px] sm:text-[9px] uppercase tracking-wider mt-1 font-medium opacity-70">
+                            <span className="hidden xs:block text-[8px] sm:text-[9px] uppercase tracking-wider mt-1 font-medium opacity-70">
                                 {name}
                             </span>
                         </Link>

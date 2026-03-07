@@ -261,7 +261,7 @@ export default function SponsorPage() {
                         Sponsorship Tiers
                     </h2>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 md:gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 xs:gap-4 sm:gap-5 md:gap-8">
                         {/* Title Partner */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}

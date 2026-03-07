@@ -34,7 +34,7 @@ export default function NavbarDesktop() {
                             alt="XION Robotics Club"
                             fill
                             sizes="(max-width: 768px) 50px, 62px"
-                            className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)] relative z-10"
+                            className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)] active:drop-shadow-[0_0_15px_rgba(255,215,0,0.7)] group-hover:scale-105 active:scale-95 transition-all duration-300 relative z-10"
                             priority
                         />
                     </div>

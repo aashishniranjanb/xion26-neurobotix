@@ -3,7 +3,7 @@ import NavigationWrapper from "@/components/NavigationWrapper";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className="bg-[#030303] text-white antialiased overflow-x-hidden">
         <NavigationWrapper />
         {children}
