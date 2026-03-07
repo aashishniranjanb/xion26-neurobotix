@@ -4,6 +4,7 @@ import { useState, useMemo } from "react";
 import styles from "./events.module.css";
 import GalaxyCanvas from "./GalaxyCanvas";
 import EventCard from "./EventCard";
+import EventModal from "./EventModal";
 
 /* ── Event Type ────────────────────────────────────────── */
 

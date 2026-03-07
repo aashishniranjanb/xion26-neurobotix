@@ -137,6 +137,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+  justify-content: center;
 }
 
 /* ===== Card ===== */
@@ -566,7 +567,7 @@
   }
 
   .tabBar {
-    top: 60px;
+    top: 0;
     padding: 8px 12px;
   }
 
@@ -582,6 +583,7 @@
   .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+    justify-content: center;
   }
 
   .videoWrap {
@@ -641,6 +643,7 @@
   .grid {
     grid-template-columns: 1fr;
     gap: 16px;
+    justify-items: center;
   }
 
   .videoWrap {
