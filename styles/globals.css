@@ -200,8 +200,15 @@ body::before {
 
 /* Intro page animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-20px); }
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 .glitch-text {
@@ -231,38 +238,75 @@ body::before {
 }
 
 @keyframes glitchTop {
-  0% { transform: translate(0); }
-  20% { transform: translate(-2px, -2px); }
-  40% { transform: translate(2px, 2px); }
-  60% { transform: translate(-1px, 1px); }
-  80% { transform: translate(1px, -1px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, -2px);
+  }
+
+  40% {
+    transform: translate(2px, 2px);
+  }
+
+  60% {
+    transform: translate(-1px, 1px);
+  }
+
+  80% {
+    transform: translate(1px, -1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
 }
 
 @keyframes glitchBottom {
-  0% { transform: translate(0); }
-  20% { transform: translate(2px, 1px); }
-  40% { transform: translate(-2px, -1px); }
-  60% { transform: translate(1px, -2px); }
-  80% { transform: translate(-1px, 2px); }
-  100% { transform: translate(0); }
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(2px, 1px);
+  }
+
+  40% {
+    transform: translate(-2px, -1px);
+  }
+
+  60% {
+    transform: translate(1px, -2px);
+  }
+
+  80% {
+    transform: translate(-1px, 2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
 }
 
 .scan-lines {
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(255, 215, 0, 0.03) 0px,
-    rgba(255, 215, 0, 0.03) 1px,
-    transparent 1px,
-    transparent 4px
-  );
+  background: repeating-linear-gradient(to bottom,
+      rgba(255, 215, 0, 0.03) 0px,
+      rgba(255, 215, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 4px);
   mix-blend-mode: overlay;
   animation: scanMove 8s linear infinite;
 }
 
 @keyframes scanMove {
-  0% { background-position: 0 0; }
-  100% { background-position: 0 100px; }
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100px;
+  }
 }
 
 /* GOLD 3D EXTRUDED XION */
@@ -275,13 +319,11 @@ body::before {
   letter-spacing: 0.15em;
   line-height: 0.85;
 
-  background: linear-gradient(
-    180deg,
-    #fff4b0 0%,
-    #ffd700 30%,
-    #ffb800 60%,
-    #b8860b 100%
-  );
+  background: linear-gradient(180deg,
+      #fff4b0 0%,
+      #ffd700 30%,
+      #ffb800 60%,
+      #b8860b 100%);
 
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -299,8 +341,8 @@ body::before {
     3px 3px 0 #a87400,
     4px 4px 0 #8b6508,
     0 0 20px rgba(103, 88, 3, 0.8);
-    
- 
+
+
 
   transform: perspective(800px) rotateX(6deg);
 }
@@ -331,13 +373,11 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    to bottom,
-    rgba(0,0,0,0.9) 0px,
-    rgba(0,0,0,0.9) 2px,
-    transparent 2px,
-    transparent 6px
-  );
+  background: repeating-linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.9) 0px,
+      rgba(0, 0, 0, 0.9) 2px,
+      transparent 2px,
+      transparent 6px);
   opacity: 0;
   mix-blend-mode: multiply;
   pointer-events: none;
@@ -347,13 +387,12 @@ body::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(
-    75deg,                  /* angled right */
-    rgba(0, 0, 0, 0.9) 0px,
-    rgba(0, 0, 0, 0.9) 3px,
-    transparent 3px,
-    transparent 9px
-  );
+  background: repeating-linear-gradient(75deg,
+      /* angled right */
+      rgba(0, 0, 0, 0.9) 0px,
+      rgba(0, 0, 0, 0.9) 3px,
+      transparent 3px,
+      transparent 9px);
   opacity: 0;
   pointer-events: none;
   mix-blend-mode: multiply;
@@ -369,22 +408,27 @@ body::before {
     background-position: 0 0;
     transform: skewX(0deg);
   }
+
   20% {
     background-position: 0 -10px;
     transform: skewX(-3deg);
   }
+
   40% {
     background-position: 0 15px;
     transform: skewX(2deg);
   }
+
   60% {
     background-position: 0 -20px;
     transform: skewX(-4deg);
   }
+
   80% {
     background-position: 0 10px;
     transform: skewX(3deg);
   }
+
   100% {
     background-position: 0 0;
     transform: skewX(0deg);
@@ -396,20 +440,96 @@ body::before {
     background-position: 0 0;
     transform: translateX(0);
   }
+
   25% {
     background-position: -20px 0;
     transform: translateX(-4px);
   }
+
   50% {
     background-position: 15px 0;
     transform: translateX(3px);
   }
+
   75% {
     background-position: -10px 0;
     transform: translateX(-2px);
   }
+
   100% {
     background-position: 0 0;
     transform: translateX(0);
   }
+}
+
+/* Gold Edge Sweep */
+.gold-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-sweep::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg,
+      transparent,
+      rgba(255, 215, 0, 0.15),
+      rgba(255, 200, 0, 0.25),
+      transparent);
+  transform: skewX(-25deg);
+  transition: all 0.8s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gold-sweep:hover::before {
+  left: 150%;
+}
+
+/* AI Neural Background */
+@keyframes neuralPulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.08;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.14;
+  }
+}
+
+@keyframes nodeFlicker {
+
+  0%,
+  100% {
+    opacity: 0.04;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes neuralLineFlow {
+
+  0%,
+  100% {
+    stroke-opacity: 0.05;
+  }
+
+  50% {
+    stroke-opacity: 0.18;
+  }
+}
+
+.neural-layer {
+  transition: transform 0.25s ease-out;
+  will-change: transform;
 }

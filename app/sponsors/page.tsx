@@ -55,6 +55,7 @@ export default function SponsorPage() {
 
     /* ─── Detect mobile once on mount ─── */
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setIsMobile(window.innerWidth < 768);
     }, []);
 
@@ -153,7 +154,7 @@ export default function SponsorPage() {
                         systems platform hosted at SRMIST Vadapalani Campus, Chennai.
                     </p>
 
-                    <div className="mt-2 xs:mt-3 text-yellow-500/40 text-[10px] xs:text-xs space-y-1 uppercase font-bold tracking-widest">
+                    <div className="mt-2 xs:mt-3 text-yellow-500/80 text-[10px] xs:text-xs space-y-1 uppercase font-bold tracking-widest">
                         <p>📅 24th March 2026</p>
                         <p>📍 SRMIST Vadapalani Campus, Chennai</p>
                         <p>🏆 National-Level Engineering Techfest</p>
@@ -212,10 +213,10 @@ export default function SponsorPage() {
                     transition={{ duration: 0.5 }}
                     className="mb-12 xs:mb-16 sm:mb-24 md:mb-32"
                 >
-                    <p className="text-center text-zinc-500 text-[10px] xs:text-xs uppercase tracking-wider sm:tracking-[0.3em] mb-3 xs:mb-4 sm:mb-6 font-black">
+                    <p className="text-center text-zinc-200 text-[10px] xs:text-xs uppercase tracking-wider sm:tracking-[0.3em] mb-3 xs:mb-4 sm:mb-6 font-black">
                         Industries We Align With
                     </p>
-                    <div className="flex gap-x-3 gap-y-1.5 xs:gap-x-4 xs:gap-y-2 sm:gap-x-6 sm:gap-y-3 md:gap-x-12 justify-center flex-wrap text-zinc-500/50 text-[10px] xs:text-xs sm:text-sm uppercase tracking-widest font-bold">
+                    <div className="flex gap-x-3 gap-y-1.5 xs:gap-x-4 xs:gap-y-2 sm:gap-x-6 sm:gap-y-3 md:gap-x-12 justify-center flex-wrap text-zinc-300 text-[10px] xs:text-xs sm:text-sm uppercase tracking-widest font-bold">
                         {["Robotics", "AI & ML", "Embedded Systems", "Automation", "Drone Tech", "IoT"].map((ind) => (
                             <span key={ind} className="py-1">{ind}</span>
                         ))}
@@ -338,7 +339,7 @@ export default function SponsorPage() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-12 xs:mb-16 sm:mb-24 md:mb-32 border border-yellow-500/10 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-[#0A0A0A]/40"
                 >
-                    <p className="text-yellow-500/40 text-[9px] xs:text-[10px] uppercase tracking-[0.4em] mb-2 xs:mb-3 sm:mb-4 font-black">
+                    <p className="text-yellow-500/80 text-[9px] xs:text-[10px] uppercase tracking-[0.4em] mb-2 xs:mb-3 sm:mb-4 font-black">
                         Hosted By
                     </p>
                     <h2 className="text-sm xs:text-base sm:text-lg md:text-2xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-snug">
@@ -349,7 +350,7 @@ export default function SponsorPage() {
                         A premier engineering institution fostering innovation in robotics, AI,
                         and emerging technologies.
                     </p>
-                    <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-700/30 text-[9px] xs:text-[10px] tracking-wider">
+                    <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-700 text-[9px] xs:text-[10px] tracking-wider">
                         Collaborated with research labs and emerging tech startups.
                     </p>
                 </motion.div>
@@ -369,7 +370,7 @@ export default function SponsorPage() {
                     <p className="text-yellow-200/90 mb-1.5 xs:mb-2 sm:mb-3 text-[11px] xs:text-xs sm:text-sm md:text-base max-w-xs sm:max-w-none mx-auto font-medium">
                         Join us in shaping the next generation of intelligent systems.
                     </p>
-                    <p className="text-yellow-500/30 mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs max-w-sm sm:max-w-none mx-auto uppercase tracking-widest font-black">
+                    <p className="text-yellow-500 mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs max-w-sm sm:max-w-none mx-auto uppercase tracking-widest font-black">
                         Limited strategic slots available.
                     </p>
 
@@ -392,13 +393,13 @@ export default function SponsorPage() {
                         </MagneticButton>
                     </div>
 
-                    <p className="mt-5 xs:mt-6 sm:mt-8 text-zinc-500 text-[9px] xs:text-[10px] font-medium tracking-widest uppercase">
+                    <p className="mt-5 xs:mt-6 sm:mt-8 text-zinc-300/80 text-[9px] xs:text-[10px] font-medium tracking-widest uppercase">
                         Dedicated sponsor response within 24 hours.
                     </p>
                 </motion.div>
 
                 {/* ═══════ FOOTER CREDIBILITY LINE ═══════ */}
-                <p className="text-center text-zinc-600/40 text-[8px] xs:text-[9px] sm:text-[10px] mt-8 xs:mt-10 sm:mt-14 md:mt-16 tracking-widest max-w-xs sm:max-w-none mx-auto uppercase font-medium">
+                <p className="text-center text-zinc-400 text-[8px] xs:text-[9px] sm:text-[10px] mt-8 xs:mt-10 sm:mt-14 md:mt-16 tracking-widest max-w-xs sm:max-w-none mx-auto uppercase font-medium">
                     Engage directly with India&apos;s emerging robotics innovators · XION 26 — SRMIST Vadapalani Campus
                 </p>
             </div>

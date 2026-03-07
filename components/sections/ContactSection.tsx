@@ -35,10 +35,10 @@ export default function ContactSection() {
                     <h2 className="text-xl xs:text-2xl sm:text-3xl md:text-5xl font-black tracking-wider sm:tracking-widest uppercase leading-tight">
                         Authorized Communication
                     </h2>
-                    <p className="mt-2 xs:mt-3 sm:mt-4 text-zinc-400 tracking-wide text-xs xs:text-sm md:text-base max-w-md sm:max-w-none mx-auto font-medium">
+                    <p className="mt-2 xs:mt-3 sm:mt-4 text-zinc-200 tracking-wide text-xs xs:text-sm md:text-base max-w-md sm:max-w-none mx-auto font-medium">
                         Official contact channels for XION 26 – NeuroBotix
                     </p>
-                    <p className="text-yellow-500/50 text-[10px] xs:text-xs mt-1.5 tracking-wider uppercase font-bold">
+                    <p className="text-yellow-400/80 text-[10px] xs:text-xs mt-1.5 tracking-wider uppercase font-bold">
                         SRM Vadapalani Campus
                     </p>
                 </motion.div>
@@ -83,7 +83,7 @@ export default function ContactSection() {
                                     </p>
                                 </div>
 
-                                <p className="mt-3 xs:mt-4 text-zinc-500 text-[11px] xs:text-xs leading-relaxed font-semibold">
+                                <p className="mt-3 xs:mt-4 text-zinc-200/80 text-[11px] xs:text-xs leading-relaxed font-semibold">
                                     For all event, sponsorship, and participation inquiries.
                                 </p>
 
@@ -148,7 +148,7 @@ export default function ContactSection() {
                                     Chennai – 600026
                                 </p>
 
-                                <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-500/30 text-[10px] xs:text-xs font-bold tracking-widest uppercase">
+                                <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-500 text-[10px] xs:text-xs font-bold tracking-widest uppercase">
                                     NAAC A++ Accredited · Established 2011
                                 </p>
 
@@ -180,7 +180,7 @@ export default function ContactSection() {
                                     Official Channels
                                 </h3>
 
-                                <p className="text-zinc-400 text-[12px] xs:text-sm mb-3 xs:mb-4 leading-relaxed">
+                                <p className="text-zinc-200/80 text-[12px] xs:text-sm mb-3 xs:mb-4 leading-relaxed">
                                     Verified student-led organizing committee under SRMIST
                                     Vadapalani.
                                 </p>
@@ -211,7 +211,7 @@ export default function ContactSection() {
                                     </Link>
                                 </div>
 
-                                <p className="mt-3 xs:mt-4 sm:mt-6 text-zinc-500 text-[10px] xs:text-xs font-medium">
+                                <p className="mt-3 xs:mt-4 sm:mt-6 text-zinc-200/80 text-[10px] xs:text-xs font-medium">
                                     Response time: within 24 hours.
                                 </p>
                             </div>
@@ -227,9 +227,10 @@ export default function ContactSection() {
                     transition={{ delay: 0.3, duration: 0.5 }}
                     className="mt-8 xs:mt-12 sm:mt-16 md:mt-20 text-center"
                 >
-                    <h3 className="text-lg xs:text-xl sm:text-2xl font-semibold mb-2 xs:mb-3">
+                    <h3 className="font-mono text-lg xs:text-xl sm:text-2xl font-semibold mb-2 xs:mb-3">
                         Transmit Message
                     </h3>
+
                     <p className="text-zinc-500 text-[11px] xs:text-xs mb-5 xs:mb-6 uppercase tracking-[0.2em] font-black">
                         Response time: within 24 hours
                     </p>
@@ -245,7 +246,7 @@ export default function ContactSection() {
                 </motion.div>
 
                 {/* ─── INSTITUTIONAL FOOTER LINE ─── */}
-                <p className="text-center text-zinc-600 text-[9px] xs:text-[10px] sm:text-xs mt-8 xs:mt-10 sm:mt-14 md:mt-16 tracking-widest uppercase font-medium max-w-sm sm:max-w-none mx-auto opacity-50">
+                <p className="text-center text-zinc-200 text-[9px] xs:text-[10px] sm:text-xs mt-8 xs:mt-10 sm:mt-14 md:mt-16 tracking-widest uppercase font-medium max-w-sm sm:max-w-none mx-auto opacity-50">
                     XION 26 is organized under SRMIST Vadapalani Campus · All rights
                     reserved
                 </p>
