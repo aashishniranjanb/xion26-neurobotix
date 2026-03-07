@@ -42,13 +42,13 @@
 /* ===== Sticky Tab Bar ===== */
 .tabBar {
   position: sticky;
-  top: 72px;
+  top: 0;
   z-index: 50;
   padding: 12px 16px;
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  background: rgba(2, 2, 2, 0.75);
-  border-bottom: 1px solid rgba(212, 175, 55, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  background: rgba(2, 2, 2, 0.85);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
 }
 
 .tabContainer {

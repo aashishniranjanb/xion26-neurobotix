@@ -195,6 +195,7 @@ type FilterTab = "all" | "tech" | "nontech";
 
 export default function EventsPage() {
     const [activeTab, setActiveTab] = useState<FilterTab>("all");
+    const [selectedEvent, setSelectedEvent] = useState<EventData | null>(null);
 
     const filteredEvents = useMemo(() => {
         if (activeTab === "all") return allEvents;
@@ -253,10 +254,19 @@ export default function EventsPage() {
                             key={event.name}
                             event={event}
                             index={i}
+                            onOpenModal={() => setSelectedEvent(event)}
                         />
                     ))}
                 </div>
             </section>
+
+            {/* EVENT MODAL (Rendered at root to fix layering) */}
+            {selectedEvent && (
+                <EventModal
+                    event={selectedEvent}
+                    onClose={() => setSelectedEvent(null)}
+                />
+            )}
         </main>
     );
 }
