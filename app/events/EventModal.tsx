@@ -1,16 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
+import Image from "next/image";
 import styles from "./events.module.css";
+import type { EventData } from "./page";
 
 interface EventModalProps {
-    eventName: string;
-    rules: string[];
-    poster: string;
+    event: EventData;
     onClose: () => void;
 }
 
-export default function EventModal({ eventName, rules, poster, onClose }: EventModalProps) {
+export default function EventModal({ event, onClose }: EventModalProps) {
     useEffect(() => {
         document.body.style.overflow = "hidden";
         const handleEsc = (e: KeyboardEvent) => {
@@ -29,35 +29,38 @@ export default function EventModal({ eventName, rules, poster, onClose }: EventM
                 <button className={styles.modalClose} onClick={onClose} aria-label="Close">
                     ✕
                 </button>
-                <h2 className={styles.modalTitle}>{eventName}</h2>
+                <h2 className={styles.modalTitle}>{event.name}</h2>
+                <p className={styles.modalTagline}>{event.tagline}</p>
 
                 <div className={styles.modalBody}>
                     <div className={styles.rulesSection}>
                         <h3 className={styles.modalSubtitle}>Rules &amp; Regulations</h3>
                         <ol className={styles.rulesList}>
-                            {rules.map((rule, i) => (
+                            {event.rules.map((rule, i) => (
                                 <li key={i}>{rule}</li>
                             ))}
                         </ol>
+
+                        {/* Register CTA */}
+                        <a
+                            href={event.registerLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className={styles.modalRegisterBtn}
+                        >
+                            Register Now →
+                        </a>
                     </div>
 
                     <div className={styles.posterSection}>
                         <div className={styles.posterContainer}>
-                            <img
-                                src={`/posters/${poster}`}
-                                alt={`${eventName} Poster`}
+                            <Image
+                                src={event.poster}
+                                alt={`${event.name} Poster`}
+                                width={400}
+                                height={566}
                                 className={styles.posterImage}
-                                onError={(e) => {
-                                    const target = e.target as HTMLImageElement;
-                                    target.style.display = 'none';
-                                    const placeholder = target.nextElementSibling as HTMLElement;
-                                    if (placeholder) placeholder.style.display = 'flex';
-                                }}
                             />
-                            {/* Fallback placeholder if image is missing */}
-                            <div className={styles.posterPlaceholder} style={{ display: 'none' }}>
-                                <p>A3 POSTER - {eventName}</p>
-                            </div>
                         </div>
                     </div>
                 </div>

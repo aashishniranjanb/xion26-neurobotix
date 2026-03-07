@@ -1,235 +1,258 @@
+"use client";
+
+import { useState, useMemo } from "react";
 import styles from "./events.module.css";
 import GalaxyCanvas from "./GalaxyCanvas";
 import EventCard from "./EventCard";
-import Image from "next/image";
 
-/* ── Event data ────────────────────────────────────────── */
+/* ── Event Type ────────────────────────────────────────── */
 
-const technicalEvents = [
+export interface EventData {
+    name: string;
+    tagline: string;
+    videoSrc: string | null;
+    poster: string;
+    rules: string[];
+    category: "tech" | "nontech";
+    registerLink: string;
+    date: string; // ISO date for countdown: "2026-03-23"
+}
+
+/* ── Technical Events ──────────────────────────────────── */
+
+const technicalEvents: EventData[] = [
+    {
+        name: "Mind Forge",
+        tagline: "Present your original research ideas on cutting-edge topics.",
+        videoSrc: "/events/Paper Presentation.webm",
+        poster: "/posters/Mind Forge.jpeg",
+        category: "tech",
+        registerLink: "https://forms.google.com/mindforge-xion2026",
+        date: "2026-03-23",
+        rules: [
+            "Team size: 2 to 4 members per team.",
+            "Participants must submit their PPT prior to the event before the deadline.",
+            "Maximum of 7 slides are allowed, including the title slide if needed.",
+            "Strict 5-minute presentation followed by a 3-minute Q&A session.",
+            "The idea must be original, and plagiarism will lead to immediate disqualification.",
+        ],
+    },
     {
         name: "Robo War",
         tagline: "Full-contact robot combat in the neural arena.",
-        videoSrc: "/robo war webm.webm",
-        poster: "robo-war.png",
+        videoSrc: "/events/Robo War .webm",
+        poster: "/posters/Robo War.jpeg",
+        category: "tech",
+        registerLink: "https://forms.google.com/robowar-xion2026",
+        date: "2026-03-23",
         rules: [
-            "Team size: 2–5 members.",
-            "Robot must fit within specified dimensions (to be announced).",
-            "Maximum weight limit will be strictly enforced.",
-            "Judges' decision is final.",
-            "Fair play mandatory.",
+            "Robots must fit within specified size limits before the match begins.",
+            "Remote control is mandatory; autonomous robots are not allowed.",
+            "Combustion engines are prohibited — batteries only.",
+            "Weapons like spinners, hammers, and flippers are allowed.",
+            "Flame throwers are strictly prohibited.",
+            "Robots undergo safety inspections before matches.",
+            "Sharp edges must be covered until combat begins.",
+        ],
+    },
+    {
+        name: "Decode Reality",
+        tagline: "Can you tell what's real and what's AI-generated?",
+        videoSrc: null,
+        poster: "/posters/Decode Reality.jpeg",
+        category: "tech",
+        registerLink: "https://forms.google.com/decodereality-xion2026",
+        date: "2026-03-23",
+        rules: [
+            "Team size: 2 members per team.",
+            "Participants must join via mobile phone or laptop using the online buzzer system.",
+            "Content is displayed to all teams simultaneously.",
+            "The first team to hit the buzzer and give the correct answer scores the maximum points.",
+            "Switching between tabs is strictly prohibited.",
         ],
     },
     {
         name: "Line Follower",
         tagline: "Autonomous navigation through unknown terrain matrices.",
-        videoSrc: "/line follower (2).webm",
-        poster: "line-follower.png",
+        videoSrc: "/events/Line Follower .webm",
+        poster: "/posters/Line Follower.jpeg",
+        category: "tech",
+        registerLink: "https://forms.google.com/linefollower-xion2026",
+        date: "2026-03-23",
         rules: [
-            "Team size: 2–4 members.",
-            "Robot must be autonomous (no manual control).",
-            "Robot must start within designated start box.",
-            "Time-based scoring.",
-            "If robot leaves track, 2 chances will be given.",
-            "Modification after race start is not allowed.",
+            "Robots must be fully autonomous — no remote control or human intervention once started.",
+            "The robot must accurately follow a continuous black line on a white background (or vice versa).",
+            "The robot must navigate from the starting point to the finish.",
+            "The fastest robot to complete the track with the fewest deviations wins.",
         ],
     },
     {
-        name: "Brain Wave – Debate",
-        tagline: "Argue, counter, and conquer with your words.",
-        videoSrc: "/debate.webm",
-        poster: "/debate poster.png",
+        name: "Brain Wave",
+        tagline: "Argue, counter, and conquer with your words in this technical debate.",
+        videoSrc: "/events/Brain Wave.webm",
+        poster: "/posters/Brain Wave.jpeg",
+        category: "tech",
+        registerLink: "https://forms.google.com/brainwave-xion2026",
+        date: "2026-03-23",
         rules: [
-            "Team size: 2–4 members.",
-            "Topic given 10 minutes before round.",
-            "No internet during preparation.",
-            "Strict time limit per speaker.",
-            "Respectful language mandatory.",
-            "Personal attacks or offensive remarks lead to disqualification.",
+            "Debaters will be given a specific technical topic and assigned a stance (for or against).",
+            "Standard debate time limits for opening statements, rebuttals, and closing remarks will be enforced.",
+            "Teams will be evaluated on technical accuracy, logical argumentation, and presentation skills.",
+            "Respectful language is mandatory — personal attacks lead to disqualification.",
             "Judges' decision is final.",
-        ],
-    },
-    {
-        name: "Neuro Twin",
-        tagline: "Sketch and present your original robot concept on paper.",
-        videoSrc: "/neurobotix.webm",
-        poster: "neuro-twin.png",
-        rules: [
-            "Maximum 2 members per team.",
-            "Participants must bring required materials (A3 chart, colour pencils, sketch pens etc.).",
-            "No pre-made or printed designs allowed.",
-            "2 hours creation + 2–3 minutes explanation.",
-            "Must clearly define bot name, traits, core function & unique feature.",
-            "Judges' decision is final.",
-        ],
-    },
-    {
-        name: "Mind Forge – Paper Presentation",
-        tagline: "Present your original research ideas on cutting-edge topics.",
-        videoSrc: "/Paper Presentation.webm",
-        poster: "mind-forge.png",
-        rules: [
-            "Team size: 2–4 members.",
-            "PPT must be submitted prior to the event (deadline will be announced).",
-            "Maximum 6 slides (excluding title slide if needed).",
-            "Strict 5 minutes presentation + 3 minutes Q&A.",
-            "Idea must be original and aligned with theme.",
-            "No plagiarism.",
-            "Judges' decision will be final.",
-            "Late submissions will not be accepted.",
-        ],
-    },
-    {
-        name: "Decode Reality – AI or Human",
-        tagline: "Can you tell what's real and what's AI-generated?",
-        videoSrc: "/robo war.mp4",
-        poster: "decode-reality.png",
-        rules: [
-            "Team of 2.",
-            "Participants must decide if content is AI-generated or real.",
-            "Points shall be awarded based on the number of correct answers.",
         ],
     },
 ];
 
-const nonTechnicalEvents = [
+/* ── Non-Technical Events ──────────────────────────────── */
+
+const nonTechnicalEvents: EventData[] = [
     {
-        name: "Free Fire",
-        tagline: "Squad up and dominate the battlefield.",
-        videoSrc: "/Free Fire.webm",
-        poster: "free-fire.png",
+        name: "Gold Rush",
+        tagline: "Hunt QR codes, collect gold coins, and race to victory.",
+        videoSrc: null,
+        poster: "/posters/Gold Rush.jpeg",
+        category: "nontech",
+        registerLink: "https://forms.google.com/goldrush-xion2026",
+        date: "2026-03-23",
         rules: [
-            "Team size: Squad (4 members).",
-            "Only registered players allowed.",
-            "Use of hacks or third-party tools = immediate disqualification.",
-            "Room ID will be shared for the registered players.",
+            "Team size: 2 members per team.",
+            "Teams scan hidden QR codes across campus to collect virtual gold coins.",
+            "The team with the highest gold coin total at the end wins.",
+            "Each QR code works only once per team.",
+            "Trespassing into restricted areas will result in immediate disqualification.",
+            "Time limits will be strictly followed.",
+        ],
+    },
+    {
+        name: "Free Fire Tournament",
+        tagline: "Squad up and dominate the battlefield.",
+        videoSrc: "/events/Free Fire.webm",
+        poster: "/posters/Free Fire Tournament.jpeg",
+        category: "nontech",
+        registerLink: "https://forms.google.com/freefire-xion2026",
+        date: "2026-03-23",
+        rules: [
+            "Stage 1: All players compete in a Full Map Battle Royale match.",
+            "Shortlisted players move to Stage 2: 4v4 Clash Squad mode.",
+            "All players must use their registered in-game IDs.",
+            "Hacks, cheats, or any unfair gameplay will lead to immediate disqualification.",
+            "Players must report on time; the organizer's decision is final.",
+        ],
+    },
+    {
+        name: "Grandmaster Grid",
+        tagline: "Outsmart your opponent on the 64-square battlefield.",
+        videoSrc: "/events/Grandmaster Grid.webm",
+        poster: "/posters/Grandmaster Grid.jpeg",
+        category: "nontech",
+        registerLink: "https://forms.google.com/chess-xion2026",
+        date: "2026-03-23",
+        rules: [
+            "The tournament will strictly follow standard FIDE and Chess.com rules.",
+            "In the event of a tie, the Buchholz tie-breaker system will be implemented.",
+            "The arbiter's decision on the board is absolute and final.",
         ],
     },
     {
         name: "Beatverse",
-        tagline: "Argue, counter, and conquer with your words.",
-        videoSrc: "/robo war.mp4",
-        poster: "beatverse.png",
+        tagline: "Decode the beats and guess the track before anyone else.",
+        videoSrc: null,
+        poster: "/posters/Beatverse.jpeg",
+        category: "nontech",
+        registerLink: "https://forms.google.com/beatverse-xion2026",
+        date: "2026-03-23",
         rules: [
-            "Team size: 2–4 members.",
-            "Topic given 10 minutes before round.",
-            "No internet during preparation.",
-            "Strict time limit per speaker.",
-            "Respectful language mandatory.",
-            "Personal attacks or offensive remarks lead to disqualification.",
-            "Judges' decision is final.",
+            "The event will feature music and audio clips in Tamil, English, and Hindi.",
+            "Audio clues will be played, and the first participant/team to buzz in and answer correctly wins the round.",
+            "Only the fastest buzzer gets the opportunity to answer.",
+            "Incorrect guesses may result in negative points or a pass to the next team.",
         ],
     },
     {
         name: "IPL Auction",
         tagline: "Bid smart, build your dream squad under budget.",
-        videoSrc: "/robo war.mp4",
-        poster: "ipl-auction.png",
+        videoSrc: null,
+        poster: "/posters/IPL Auction.jpeg",
+        category: "nontech",
+        registerLink: "https://forms.google.com/iplauction-xion2026",
+        date: "2026-03-23",
         rules: [
-            "Team size: 2–3 members.",
-            "Each team gets a fixed virtual budget.",
-            "Time limit per bidding round.",
-            "No exceeding budget.",
-            "Strategy discussion allowed only within team.",
-            "Final squad strength must meet minimum player requirement.",
-        ],
-    },
-    {
-        name: "Gold Rush",
-        tagline: "Hunt QR codes, collect gold coins, and race to victory.",
-        videoSrc: "/robo war.mp4",
-        poster: "gold-rush.png",
-        rules: [
-            "Team size: 2–4 members.",
-            "QR codes must not be removed or tampered with.",
-            "Each QR works only once per team.",
-            "Time limit will be strictly followed.",
-            "Trespassing into restricted areas leads to disqualification.",
-            "Team with maximum gold coins wins.",
-        ],
-    },
-    {
-        name: "Battle of 64 – Chess",
-        tagline: "Outsmart your opponent on the grandmaster grid.",
-        videoSrc: "/chess.webm",
-        poster: "battle-of-64.png",
-        rules: [
-            "Team of 2 (1 player, 1 strategist).",
-            "Matches played in official software platform.",
-            "Time control format will be announced.",
-            "No external assistance.",
-            "Fair play policy strictly enforced.",
-        ],
-    },
-    {
-        name: "Ultimate Rage Run",
-        tagline: "Survive the rage — highest progress wins.",
-        videoSrc: "/robo war.mp4",
-        poster: "ultimate-rage-run.png",
-        rules: [
-            "Individual participation.",
-            "Predefined level will be selected by organizers.",
-            "Each participant gets 3 attempts only.",
-            "Highest progress wins (distance covered or time survived).",
-            "No restarting outside allowed attempts.",
-            "Rage quitting = attempt counted.",
-            "Unsportsmanlike behaviour leads to disqualification.",
-        ],
-    },
-    {
-        name: "The Hidden Verdict",
-        tagline: "Decode the crime scene and trace the truth.",
-        videoSrc: "/THE HIDDEN VERDICT.webm",
-        poster: "hidden-verdict.png",
-        rules: [
-            "Team size: 3–4 members.",
-            "No external help allowed.",
-            "Time-based completion.",
-            "First team to correctly solve wins.",
+            "Each team is given a fixed virtual purse to build their dream squad.",
+            "Players will go under the hammer sequentially.",
+            "The team with the highest bid when the hammer falls secures the player.",
+            "Teams must fulfill minimum squad size requirements.",
+            "Specific team balance constraints must be met within the budget.",
         ],
     },
 ];
 
+const allEvents: EventData[] = [...technicalEvents, ...nonTechnicalEvents];
+
 /* ── Page ───────────────────────────────────────────────── */
 
+type FilterTab = "all" | "tech" | "nontech";
+
 export default function EventsPage() {
+    const [activeTab, setActiveTab] = useState<FilterTab>("all");
+
+    const filteredEvents = useMemo(() => {
+        if (activeTab === "all") return allEvents;
+        return allEvents.filter((e) => e.category === activeTab);
+    }, [activeTab]);
+
+    const tabs: { key: FilterTab; label: string }[] = [
+        { key: "all", label: "All Events" },
+        { key: "tech", label: "Technical" },
+        { key: "nontech", label: "Non-Technical" },
+    ];
+
     return (
-        <main className="min-h-screen relative pt-28">
+        <main className="min-h-screen relative pt-28 bg-[#020202]">
             <GalaxyCanvas />
 
-            {/* Title */}
-            <h1 className={styles.title}>XION 2026</h1>
+            {/* Hero Title */}
+            <div className={styles.heroSection}>
+                <h1 className={styles.title}>XION 2026</h1>
+                <p className={styles.subtitle}>
+                    10 Events · 2 Days · Unlimited Innovation
+                </p>
+            </div>
 
-            {/* Technical Events */}
-            <section className={styles.section}>
-                <h2 className={styles.sectionTitle}>Technical Events</h2>
-                <div className={styles.grid}>
-                    {technicalEvents.map((event, i) => (
-                        <EventCard
-                            key={i}
-                            name={event.name}
-                            tagline={event.tagline}
-                            videoSrc={event.videoSrc}
-                            rules={event.rules}
-                            variant="tech"
-                            poster={event.poster}
-                        />
+            {/* Sticky Tab Bar */}
+            <div className={styles.tabBar}>
+                <div className={styles.tabContainer}>
+                    {tabs.map((tab) => (
+                        <button
+                            key={tab.key}
+                            onClick={() => setActiveTab(tab.key)}
+                            className={`${styles.tab} ${activeTab === tab.key ? styles.tabActive : ""}`}
+                        >
+                            {tab.label}
+                            {activeTab === tab.key && (
+                                <span className={styles.tabIndicator} />
+                            )}
+                        </button>
                     ))}
                 </div>
-            </section>
+            </div>
 
-            {/* Non-Technical Events */}
+            {/* Event Count */}
+            <div className={styles.eventCount}>
+                <span className={styles.eventCountNumber}>{filteredEvents.length}</span>
+                <span className={styles.eventCountLabel}>
+                    {activeTab === "all" ? "Events" : activeTab === "tech" ? "Technical Events" : "Non-Technical Events"}
+                </span>
+            </div>
+
+            {/* Events Grid */}
             <section className={styles.section}>
-                <h2 className={styles.sectionTitle}>Non-Technical Events</h2>
                 <div className={styles.grid}>
-                    {nonTechnicalEvents.map((event, i) => (
+                    {filteredEvents.map((event, i) => (
                         <EventCard
-                            key={i}
-                            name={event.name}
-                            tagline={event.tagline}
-                            videoSrc={event.videoSrc}
-                            rules={event.rules}
-                            variant="nontech"
-                            poster={event.poster}
+                            key={event.name}
+                            event={event}
+                            index={i}
                         />
                     ))}
                 </div>

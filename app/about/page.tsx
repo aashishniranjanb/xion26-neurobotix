@@ -5,6 +5,8 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
 import * as THREE from "three";
 import { memo, useMemo, useState, useEffect, useRef } from "react";
+import Image from "next/image";
+import { IconX, IconMaximize } from "@tabler/icons-react";
 
 /* ─────────────── TIMELINE DATA (2025 → 2011) ─────────────── */
 
@@ -527,6 +529,7 @@ const YearCard = memo(function YearCard({
 
 export default function AboutPage() {
     const [expandedYear, setExpandedYear] = useState<number | null>(2025);
+    const [isPosterOpen, setIsPosterOpen] = useState(false);
 
     const yearCards = useMemo(
         () =>
@@ -555,6 +558,18 @@ export default function AboutPage() {
                     <p className="text-[10px] xs:text-xs sm:text-base md:text-lg text-zinc-400 max-w-[280px] xs:max-w-md mx-auto leading-relaxed tracking-[0.2em] font-medium uppercase">
                         THE FUTURE OF NEUROBOTIX & AI EXCELLENCE
                     </p>
+
+                    <motion.div {...fadeInHeroDelayed} className="flex justify-center mt-6 xs:mt-8">
+                        <button
+                            onClick={() => setIsPosterOpen(true)}
+                            className="group relative flex items-center gap-2 px-5 py-2.5 bg-yellow-500/10 border border-yellow-500/20 rounded-full hover:bg-yellow-500/20 hover:border-yellow-500/40 transition-all duration-300 shadow-[0_0_15px_rgba(255,215,0,0.05)] active:scale-95"
+                        >
+                            <span className="text-[10px] xs:text-xs font-black uppercase tracking-widest text-yellow-500 group-hover:text-yellow-400">
+                                View Official Poster
+                            </span>
+                            <IconMaximize size={14} className="text-yellow-500 group-hover:text-yellow-400 group-hover:scale-110 transition-transform" />
+                        </button>
+                    </motion.div>
                 </motion.div>
 
                 {/* MAIN ABOUT HEADING (Semantic & Refactored) */}
@@ -619,6 +634,48 @@ export default function AboutPage() {
                     </p>
                 </motion.div>
             </div>
+
+            {/* POSTER MODAL */}
+            <AnimatePresence>
+                {isPosterOpen && (
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 md:p-12 lg:p-20 bg-black/80 backdrop-blur-2xl"
+                        onClick={() => setIsPosterOpen(false)}
+                    >
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+                            className="relative w-full max-w-5xl h-full flex items-center justify-center"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            {/* Close Button */}
+                            <button
+                                onClick={() => setIsPosterOpen(false)}
+                                className="absolute -top-12 right-0 sm:top-0 sm:-right-12 text-zinc-400 hover:text-white transition-colors p-2 z-10"
+                                aria-label="Close Modal"
+                            >
+                                <IconX size={32} stroke={2.5} />
+                            </button>
+
+                            {/* Poster Image Container */}
+                            <div className="relative w-full h-full rounded-2xl overflow-hidden border border-yellow-500/20 shadow-[0_0_80px_rgba(255,215,0,0.15)] bg-black/40">
+                                <Image
+                                    src="/posters/MAIN POSTER XION 2026.jpeg"
+                                    alt="XION 2026 Official Poster"
+                                    fill
+                                    className="object-contain"
+                                    priority
+                                />
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </main>
     );
 }
