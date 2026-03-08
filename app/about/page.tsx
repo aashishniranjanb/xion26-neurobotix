@@ -652,6 +652,11 @@ export default function AboutPage() {
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
                             className="relative w-full max-w-5xl h-full flex items-center justify-center"
                             onClick={(e) => e.stopPropagation()}
+                            role="dialog"
+                            aria-modal="true"
+                            aria-label="XION 2026 Official Poster"
+                            tabIndex={-1}
+                            ref={(el) => { if (el) el.focus() }}
                         >
                             {/* Close Button */}
                             <button

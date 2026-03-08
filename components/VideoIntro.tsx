@@ -115,7 +115,8 @@ export default function VideoIntro({
                 <button
                     onClick={triggerExit}
                     className="video-intro-skip"
-                    aria-label="Skip intro"
+                    aria-label="Skip intro sequence"
+                    tabIndex={0}
                 >
                     <span className="video-intro-skip-text">SKIP INTRO</span>
                     <span className="video-intro-skip-icon">

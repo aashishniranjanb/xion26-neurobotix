@@ -27,8 +27,8 @@ const Engine = dynamic(
 
 export default function HeroSection() {
   return (
-    <div className="h-screen w-full relative overflow-hidden bg-[#030303]">
-      <Engine className="h-full w-full">
+    <section aria-label="Welcome Hero" className="h-screen w-full relative overflow-hidden bg-[#030303]">
+      <Engine className="h-full w-full" aria-hidden="true">
         {/* Desktop Layout */}
         <div className="hidden md:flex items-center h-full max-w-7xl mx-auto px-6 lg:px-12">
           {/* Left Content */}
@@ -54,6 +54,6 @@ export default function HeroSection() {
           </div>
         </div>
       </Engine>
-    </div>
+    </section>
   );
 }

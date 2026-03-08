@@ -46,6 +46,19 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
+/* Global Focus-Visible Styles for A11y */
+*:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+}
+
+/* Hide default focus outline if mouse is used */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* Subtle matte noise */
 body::before {
   content: "";

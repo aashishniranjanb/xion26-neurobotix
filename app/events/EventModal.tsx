@@ -24,12 +24,23 @@ export default function EventModal({ event, onClose }: EventModalProps) {
     }, [onClose]);
 
     return (
-        <div className={styles.modalOverlay} onClick={onClose}>
-            <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-                <button className={styles.modalClose} onClick={onClose} aria-label="Close">
+        <div
+            className={styles.modalOverlay}
+            onClick={onClose}
+        >
+            <div
+                className={styles.modalContent}
+                onClick={(e) => e.stopPropagation()}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="modal-title"
+                tabIndex={-1}
+                ref={(el) => { if (el) el.focus() }}
+            >
+                <button className={styles.modalClose} onClick={onClose} aria-label="Close modal">
                     ✕
                 </button>
-                <h2 className={styles.modalTitle}>{event.name}</h2>
+                <h2 id="modal-title" className={styles.modalTitle}>{event.name}</h2>
                 <p className={styles.modalTagline}>{event.tagline}</p>
 
                 <div className={styles.modalBody}>
