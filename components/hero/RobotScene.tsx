@@ -2,8 +2,14 @@
 
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Environment } from "@react-three/drei";
+import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 import { Suspense, useRef, useEffect } from "react";
 import * as THREE from "three";
+
+// Configure Draco decoder for compressed .glb
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
+dracoLoader.preload();
 
 const mouse = { x: 0, y: 0 };
 
@@ -26,7 +32,7 @@ const RIGHT_FINGER_BONES = [
 ];
 
 function RobotModel() {
-  const { scene } = useGLTF("/robot.glb");
+  const { scene } = useGLTF("/robot.glb", true);
 
   const headBone = useRef<THREE.Bone | null>(null);
   const neckBone = useRef<THREE.Bone | null>(null);
