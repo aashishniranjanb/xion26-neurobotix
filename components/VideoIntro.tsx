@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useEffect, useState, useCallback } from "react";
+import { VIDEO_INTRO_TIMINGS } from "@/lib/constants";
+import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 export default function VideoIntro({
     onComplete,
@@ -13,11 +15,13 @@ export default function VideoIntro({
     const [videoReady, setVideoReady] = useState(false);
     const hasCompleted = useRef(false);
 
+    // Abstracted breakpoint check mapped directly to Tailwind setup
+    const isMobile = useBreakpoint("md");
+
     // ── Pick the right source on mount ──────────────────────
     useEffect(() => {
-        const isMobile = window.innerWidth < 768;
         setVideoSrc(isMobile ? "/bot-mobile.webm" : "/bot-desktopm.mp4");
-    }, []);
+    }, [isMobile]);
 
     // ── Cinematic exit ──────────────────────────────────────
     const triggerExit = useCallback(() => {
@@ -26,7 +30,7 @@ export default function VideoIntro({
         setPhase("exiting");
         setTimeout(() => {
             onComplete();
-        }, 1000);
+        }, VIDEO_INTRO_TIMINGS.FADE_OUT_DURATION_MS);
     }, [onComplete]);
 
     // ── Video lifecycle ─────────────────────────────────────
@@ -56,12 +60,12 @@ export default function VideoIntro({
         if (playPromise !== undefined) {
             playPromise.catch(() => {
                 // Autoplay blocked → skip gracefully
-                setTimeout(triggerExit, 600);
+                setTimeout(triggerExit, VIDEO_INTRO_TIMINGS.AUTOPLAY_ERROR_SKIP_MS);
             });
         }
 
         // Safety timeout — never trap the user
-        const safetyTimer = setTimeout(triggerExit, 12000);
+        const safetyTimer = setTimeout(triggerExit, VIDEO_INTRO_TIMINGS.SAFETY_TIMEOUT_MS);
 
         return () => {
             video.removeEventListener("canplaythrough", onCanPlay);
