@@ -1,8 +1,29 @@
 "use client";
 
 import Hero from "@/components/Hero";
-import RobotScene from "@/components/hero/RobotScene";
-import { Engine } from "@/components/Vortex/Engine";
+import dynamic from "next/dynamic";
+
+// ── Lazy-load heavy 3D/canvas components ────────────────────
+// These are the biggest performance killers: Three.js + .glb model + particle engine.
+// By lazy-loading them, the page renders instantly with the hero text,
+// and the heavy stuff loads in the background after the critical content is visible.
+
+const RobotScene = dynamic(() => import("@/components/hero/RobotScene"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-[200px] h-[200px] rounded-full bg-gold-primary/10 blur-3xl animate-pulse" />
+    </div>
+  ),
+});
+
+const Engine = dynamic(
+  () => import("@/components/Vortex/Engine").then((mod) => mod.Engine),
+  {
+    ssr: false,
+    loading: () => <div className="h-full w-full" />,
+  }
+);
 
 export default function HeroSection() {
   return (

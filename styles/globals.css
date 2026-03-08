@@ -9,6 +9,7 @@
   --black-surface: #111111;
 }
 
+/* Tailwind v4 CSS Theme Variables */
 @theme {
   --color-gold-primary: var(--gold-primary);
   --color-gold-secondary: var(--gold-secondary);
@@ -113,38 +114,37 @@ body::before {
 .video-intro-overlay {
   position: fixed;
   inset: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  z-index: 9999;
   background: #020202;
   opacity: 1;
   transition:
-    opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
-    filter 1.2s cubic-bezier(0.4, 0, 0.2, 1),
-    transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity 1s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 1s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 1s cubic-bezier(0.4, 0, 0.2, 1);
   will-change: opacity, filter, transform;
 }
 
-/* Cinematic exit: fade + slight scale-up + blur */
+/* Cinematic exit */
 .video-intro-exit {
   opacity: 0;
-  filter: blur(12px) brightness(0.3);
-  transform: scale(1.05);
+  filter: blur(10px) brightness(0.2);
+  transform: scale(1.04);
   pointer-events: none;
 }
 
-/* Fallback background while video loads */
-.video-intro-fallback {
+/* ── Static fallback (shown instantly while video loads) ── */
+.video-intro-fallback-img {
   position: absolute;
   inset: 0;
   z-index: 0;
   background:
-    radial-gradient(ellipse at 50% 40%, rgba(255, 215, 0, 0.04) 0%, transparent 60%),
-    linear-gradient(180deg, #020202 0%, #0A0A0A 50%, #020202 100%);
+    radial-gradient(ellipse at 50% 35%, rgba(212, 175, 55, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 184, 0, 0.03) 0%, transparent 45%),
+    linear-gradient(180deg, #020202 0%, #0a0a0a 40%, #050505 100%);
+  transition: opacity 0.8s ease-out;
 }
 
-/* The actual video element */
+/* ── Video element ── */
 .video-intro-player {
   position: absolute;
   inset: 0;
@@ -152,26 +152,147 @@ body::before {
   height: 100%;
   object-fit: cover;
   z-index: 1;
-  /* GPU acceleration */
   transform: translateZ(0);
-  -webkit-transform: translateZ(0);
   backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
 
-/* Bottom vignette for smooth blending */
+/* ── Bottom vignette ── */
 .video-intro-vignette {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 30%;
+  height: 35%;
   z-index: 2;
   pointer-events: none;
+  opacity: 0.7;
   background: linear-gradient(to top,
-      rgba(2, 2, 2, 0.8) 0%,
-      rgba(2, 2, 2, 0.3) 40%,
+      rgba(2, 2, 2, 0.9) 0%,
+      rgba(2, 2, 2, 0.4) 40%,
       transparent 100%);
+}
+
+/* ── Skip Intro Button — Matte Black + Gold Premium ── */
+.video-intro-skip {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  /* Matte black body */
+  background: linear-gradient(145deg, #0a0a0a 0%, #111111 50%, #0a0a0a 100%);
+  /* Gold gradient border */
+  border: 1.5px solid transparent;
+  border-image: linear-gradient(135deg, #d4af37, #b8860b 40%, #d4af37 60%, #f5d060) 1;
+  border-radius: 0;
+  /* Sharp, modern, premium */
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: skipSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+}
+
+/* Gold text */
+.video-intro-skip-text {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #f5d060 0%, #d4af37 40%, #b8860b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gold icon */
+.video-intro-skip-icon {
+  display: flex;
+  align-items: center;
+  color: #d4af37;
+  opacity: 0.8;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Sweeping shine effect */
+.video-intro-skip-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(212, 175, 55, 0.08),
+      rgba(245, 208, 96, 0.15),
+      rgba(212, 175, 55, 0.08),
+      transparent);
+  animation: shineSlide 4s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+
+/* ── Hover ── */
+.video-intro-skip:hover {
+  background: linear-gradient(145deg, #0d0d0d 0%, #151515 50%, #0d0d0d 100%);
+  box-shadow:
+    0 0 24px rgba(212, 175, 55, 0.12),
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(212, 175, 55, 0.08);
+  transform: translateY(-1px);
+}
+
+.video-intro-skip:hover .video-intro-skip-icon {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* ── Active press ── */
+.video-intro-skip:active {
+  transform: scale(0.97) translateY(0);
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.08),
+    inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes skipSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shineSlide {
+
+  0%,
+  100% {
+    left: -100%;
+  }
+
+  50% {
+    left: 150%;
+  }
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: 768px) {
+  .video-intro-skip {
+    bottom: 28px;
+    right: 28px;
+    padding: 12px 22px;
+    gap: 8px;
+  }
+
+  .video-intro-skip-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+  }
 }
 
 /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -326,6 +447,7 @@ body::before {
       #b8860b 100%);
 
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 
   text-shadow:
