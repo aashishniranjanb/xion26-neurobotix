@@ -147,9 +147,9 @@ export default function VideoIntro({
             >
                 {isMobile ? (
                     <>
-                        {/* Mobile: MP4 first (iOS + all browsers), WebM mobile-specific second (Android) */}
-                        <source src="/bot-desktopm.mp4" type="video/mp4" />
+                        {/* Mobile: WebM primary, MP4 fallback for iOS/Safari */}
                         <source src="/bot-mobile.webm" type="video/webm" />
+                        <source src="/bot-mobile.mp4" type="video/mp4" />
                     </>
                 ) : (
                     <>
