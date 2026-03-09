@@ -2,7 +2,6 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import { VIDEO_INTRO_TIMINGS } from "@/lib/constants";
-import { useBreakpoint } from "@/hooks/useBreakpoint";
 
 export default function VideoIntro({
     onComplete,
@@ -11,17 +10,8 @@ export default function VideoIntro({
 }) {
     const videoRef = useRef<HTMLVideoElement>(null);
     const [phase, setPhase] = useState<"fallback" | "playing" | "exiting">("fallback");
-    const [videoSrc, setVideoSrc] = useState<string>("");
     const [videoReady, setVideoReady] = useState(false);
     const hasCompleted = useRef(false);
-
-    // Abstracted breakpoint check mapped directly to Tailwind setup
-    const isMobile = useBreakpoint("md");
-
-    // ── Pick the right source on mount ──────────────────────
-    useEffect(() => {
-        setVideoSrc(isMobile ? "/bot-mobile.webm" : "/bot-desktopm.mp4");
-    }, [isMobile]);
 
     // ── Cinematic exit ──────────────────────────────────────
     const triggerExit = useCallback(() => {
@@ -35,7 +25,6 @@ export default function VideoIntro({
 
     // ── Video lifecycle ─────────────────────────────────────
     useEffect(() => {
-        if (!videoSrc) return;
         const video = videoRef.current;
         if (!video) return;
 
@@ -46,7 +35,7 @@ export default function VideoIntro({
 
         const onEnded = () => triggerExit();
         const onError = () => {
-            console.warn("Video failed, skipping intro:", videoSrc);
+            console.warn("Video failed, skipping intro");
             triggerExit();
         };
 
@@ -73,7 +62,7 @@ export default function VideoIntro({
             video.removeEventListener("error", onError);
             clearTimeout(safetyTimer);
         };
-    }, [videoSrc, triggerExit]);
+    }, [triggerExit]);
 
     // ── Render ──────────────────────────────────────────────
     return (
@@ -84,32 +73,30 @@ export default function VideoIntro({
                 style={{ opacity: videoReady ? 0 : 1 }}
             />
 
-            {/* Video element */}
-            {videoSrc && (
-                <video
-                    ref={videoRef}
-                    key={videoSrc}
-                    className="video-intro-player"
-                    muted
-                    playsInline
-                    autoPlay
-                    preload="auto"
-                    controls={false}
-                    disablePictureInPicture
-                    style={{
-                        opacity: videoReady ? 1 : 0,
-                        transition: "opacity 0.6s ease-in",
-                    }}
-                >
-                    {/* Primary source */}
-                    <source
-                        src={videoSrc}
-                        type={videoSrc.endsWith(".webm") ? "video/webm" : "video/mp4"}
-                    />
-                    {/* MP4 fallback for iOS/Safari that don't support WebM */}
-                    <source src="/bot-desktopm.mp4" type="video/mp4" />
-                </video>
-            )}
+            {/* Video element — Uses native CSS media queries to avoid React hydration remount blocking autoplay on iOS */}
+            <video
+                ref={videoRef}
+                className="video-intro-player"
+                muted
+                playsInline
+                autoPlay
+                preload="auto"
+                controls={false}
+                disablePictureInPicture
+                style={{
+                    opacity: videoReady ? 1 : 0,
+                    transition: "opacity 0.6s ease-in",
+                    objectFit: "cover",
+                }}
+            >
+                {/* Desktop: MP4 Main, WebM backup */}
+                <source src="/bot-desktopm.mp4" type="video/mp4" media="(min-width: 768px)" />
+                <source src="/Bot-Desktopm.webm" type="video/webm" media="(min-width: 768px)" />
+
+                {/* Mobile: WebM Main (if supported), MP4 desktop version as ultimate fallback (it will automatically crop via objectFit="cover") */}
+                <source src="/bot-mobile.webm" type="video/webm" media="(max-width: 767px)" />
+                <source src="/bot-desktopm.mp4" type="video/mp4" media="(max-width: 767px)" />
+            </video>
 
             {/* Bottom vignette */}
             <div className="video-intro-vignette" />
