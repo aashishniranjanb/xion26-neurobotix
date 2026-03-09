@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Image from "next/image";
 import styles from "./events.module.css";
-import type { EventData } from "./page";
+import type { EventData } from "./EventsContent";
 
 interface EventModalProps {
     event: EventData;
