@@ -21,28 +21,56 @@ function getCountdownText(dateStr: string): string {
     return `${days} days left`;
 }
 
+const MAX_LOOPS = 2;
+
 export default function EventCard({ event, index, onOpenModal }: EventCardProps) {
     const countdown = useMemo(() => getCountdownText(event.date), [event.date]);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [isHovered, setIsHovered] = useState(false);
+    const loopCount = useRef(0);
+    const [showPoster, setShowPoster] = useState(true);
 
-    // Play/pause based on hover/touch
     useEffect(() => {
         const video = videoRef.current;
-        if (!video) return;
+        if (!video || !event.videoSrc) return;
 
-        if (isHovered) {
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(() => {
-                    // Ignore autoplay errors
-                });
+        // Track loops — stop after MAX_LOOPS
+        const handleEnded = () => {
+            loopCount.current += 1;
+            if (loopCount.current >= MAX_LOOPS) {
+                video.pause();
+                setShowPoster(true); // fade poster back in
+            } else {
+                video.play().catch(() => { });
             }
-        } else {
-            video.pause();
-            video.currentTime = 0;
-        }
-    }, [isHovered]);
+        };
+
+        // IntersectionObserver — play when 40% visible, pause when out
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        // Reset and play only if loops haven't been exhausted
+                        if (loopCount.current < MAX_LOOPS) {
+                            setShowPoster(false);
+                            const p = video.play();
+                            if (p) p.catch(() => { });
+                        }
+                    } else {
+                        video.pause();
+                    }
+                });
+            },
+            { threshold: 0.4 }
+        );
+
+        video.addEventListener("ended", handleEnded);
+        observer.observe(video);
+
+        return () => {
+            video.removeEventListener("ended", handleEnded);
+            observer.disconnect();
+        };
+    }, [event.videoSrc]);
 
     const handleShare = async () => {
         const shareData = {
@@ -57,7 +85,6 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                 /* user cancelled */
             }
         } else {
-            // Fallback: copy link
             await navigator.clipboard.writeText(
                 `${shareData.text}\n${shareData.url}`
             );
@@ -72,10 +99,6 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
         <div
             className={`${styles.card} ${variantClass}`}
             style={{ animationDelay: `${index * 0.08}s` }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-            onTouchStart={() => setIsHovered(true)}
-            onTouchEnd={() => setIsHovered(false)}
         >
             {/* Countdown Badge */}
             <div className={styles.countdownBadge}>
@@ -83,32 +106,47 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                 {countdown}
             </div>
 
-            {/* Media: Video or Poster */}
+            {/* Media: Video + Poster overlay */}
             <div className={styles.videoWrap}>
                 {event.videoSrc ? (
-                    <video
-                        ref={videoRef}
-                        src={event.videoSrc}
-                        poster={event.poster}
-                        muted
-                        loop
-                        playsInline
-                        preload="none"
-                    />
+                    <>
+                        <video
+                            ref={videoRef}
+                            src={event.videoSrc}
+                            muted
+                            playsInline
+                            preload="none"
+                        />
+                        {/* Poster overlay — fades in/out */}
+                        <Image
+                            src={event.poster}
+                            alt={event.name}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 768px) 50vw, 33vw"
+                            style={{
+                                position: "absolute",
+                                inset: 0,
+                                opacity: showPoster ? 1 : 0,
+                                transition: "opacity 0.6s ease",
+                                zIndex: 2,
+                                pointerEvents: "none",
+                            }}
+                        />
+                    </>
                 ) : (
                     <Image
                         src={event.poster}
                         alt={event.name}
                         fill
                         className="object-cover"
-                        sizes="(max-width: 768px) 100vw, 33vw"
+                        sizes="(max-width: 768px) 50vw, 33vw"
                     />
                 )}
             </div>
 
             {/* Card Body */}
             <div className={styles.cardBody}>
-                {/* Category Tag */}
                 <span className={styles.categoryTag}>
                     {event.category === "tech" ? "Technical" : "Non-Technical"}
                 </span>
