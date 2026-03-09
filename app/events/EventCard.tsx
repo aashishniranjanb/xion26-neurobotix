@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useEffect, useRef } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./events.module.css";
 import type { EventData } from "./EventsContent";
@@ -24,35 +24,25 @@ function getCountdownText(dateStr: string): string {
 export default function EventCard({ event, index, onOpenModal }: EventCardProps) {
     const countdown = useMemo(() => getCountdownText(event.date), [event.date]);
     const videoRef = useRef<HTMLVideoElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
 
+    // Play/pause based on hover/touch
     useEffect(() => {
         const video = videoRef.current;
         if (!video) return;
 
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const playPromise = video.play();
-                        if (playPromise !== undefined) {
-                            playPromise.catch(() => {
-                                // Ignore autoplay errors on some browsers
-                            });
-                        }
-                    } else {
-                        video.pause();
-                    }
+        if (isHovered) {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Ignore autoplay errors
                 });
-            },
-            { threshold: 0.5 } // Play when 50% of the video is in view
-        );
-
-        observer.observe(video);
-
-        return () => {
-            observer.disconnect();
-        };
-    }, []);
+            }
+        } else {
+            video.pause();
+            video.currentTime = 0;
+        }
+    }, [isHovered]);
 
     const handleShare = async () => {
         const shareData = {
@@ -82,6 +72,10 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
         <div
             className={`${styles.card} ${variantClass}`}
             style={{ animationDelay: `${index * 0.08}s` }}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onTouchStart={() => setIsHovered(true)}
+            onTouchEnd={() => setIsHovered(false)}
         >
             {/* Countdown Badge */}
             <div className={styles.countdownBadge}>

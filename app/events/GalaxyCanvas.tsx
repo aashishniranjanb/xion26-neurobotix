@@ -3,6 +3,8 @@
 import { useEffect, useRef } from "react";
 import styles from "./events.module.css";
 
+const STAR_COUNT = 200; // reduced from 600
+
 export default function GalaxyCanvas() {
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -32,34 +34,30 @@ export default function GalaxyCanvas() {
             alpha: number;
         }[] = [];
 
-        for (let i = 0; i < 600; i++) {
-            const r = Math.random() * 2.3 + 0.5;
+        for (let i = 0; i < STAR_COUNT; i++) {
+            const r = Math.random() * 1.8 + 0.3;
             stars.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 r: r,
-                speed: r * 0.15 + 0.05,
-                alpha: Math.random() * 0.6 + 0.2,
+                speed: r * 0.12 + 0.03,
+                alpha: Math.random() * 0.5 + 0.15,
             });
         }
 
         function animate() {
             if (!canvas || !ctx) return;
-            const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            gradient.addColorStop(0, "#000000");
-            gradient.addColorStop(0.5, "#050505");
-            gradient.addColorStop(1, "#0a0a0a");
-            ctx.fillStyle = gradient;
+
+            // Simple solid fill — cheaper than gradient
+            ctx.fillStyle = "#030303";
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+            // Draw all stars WITHOUT shadowBlur (massive perf gain)
             for (const s of stars) {
                 ctx.beginPath();
                 ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = `rgba(212, 175, 55, ${s.alpha * 0.5})`;
                 ctx.fillStyle = `rgba(212, 175, 55, ${s.alpha})`;
                 ctx.fill();
-                ctx.shadowBlur = 0; // Reset for next elements
 
                 s.y += s.speed;
                 if (s.y > canvas.height) {
