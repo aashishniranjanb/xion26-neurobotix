@@ -21,6 +21,11 @@ export default function GalaxyCanvas() {
             if (!canvas) return;
             canvas.width = window.innerWidth;
             canvas.height = document.documentElement.scrollHeight;
+
+            // Kickstart animation again if it was halted but is now visible
+            if (getComputedStyle(canvas).display !== "none" && !animationId) {
+                animate();
+            }
         }
 
         resize();
@@ -47,6 +52,12 @@ export default function GalaxyCanvas() {
 
         function animate() {
             if (!canvas || !ctx) return;
+
+            // Completely halt JS execution on mobile (display: none in CSS)
+            if (getComputedStyle(canvas).display === "none") {
+                animationId = 0;
+                return;
+            }
 
             // Simple solid fill — cheaper than gradient
             ctx.fillStyle = "#030303";

@@ -160,6 +160,7 @@
   border-color: rgba(212, 175, 55, 0.35);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4),
     0 0 30px rgba(212, 175, 55, 0.08);
+  will-change: transform;
 }
 
 /* ===== Countdown Badge ===== */
@@ -584,6 +585,11 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     justify-content: center;
+  }
+
+  /* Disable canvas rendering completely on mobile screens */
+  .canvas {
+    display: none !important;
   }
 
   .videoWrap {
