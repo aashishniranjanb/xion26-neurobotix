@@ -10,6 +10,7 @@ export default function VideoIntro({
 }) {
     const desktopVideoRef = useRef<HTMLVideoElement>(null);
     const mobileVideoRef = useRef<HTMLVideoElement>(null);
+    const activeVideoRef = useRef<HTMLVideoElement | null>(null);
     const [phase, setPhase] = useState<"fallback" | "playing" | "exiting">("fallback");
     const [videoReady, setVideoReady] = useState(false);
     const hasCompleted = useRef(false);
@@ -24,73 +25,69 @@ export default function VideoIntro({
         }, VIDEO_INTRO_TIMINGS.FADE_OUT_DURATION_MS);
     }, [onComplete]);
 
-    // ── Video lifecycle & Autoplay handling ───────────────────
+    // ── Detect which video is visible & load ONLY that one ──
     useEffect(() => {
-        const desktopVideo = desktopVideoRef.current;
-        const mobileVideo = mobileVideoRef.current;
-        if (!desktopVideo || !mobileVideo) return;
+        const desktopEl = desktopVideoRef.current;
+        const mobileEl = mobileVideoRef.current;
+        if (!desktopEl || !mobileEl) return;
 
-        console.log("[VideoIntro] Lifecycle init");
+        // Check which element is actually visible via CSS
+        const isMobileVisible = mobileEl.offsetParent !== null
+            || getComputedStyle(mobileEl).display !== "none";
 
-        const handleCanPlay = () => {
-            console.log("[VideoIntro] Video can play");
+        const video = isMobileVisible ? mobileEl : desktopEl;
+        activeVideoRef.current = video;
+
+        // ── Event handlers ──────────────────────────────────
+        const onCanPlay = () => {
             setVideoReady(true);
             setPhase("playing");
         };
-
-        const handleEnded = () => {
-            console.log("[VideoIntro] Video ended");
-            triggerExit();
-        };
-
-        const handleError = (e: any) => {
-            console.error("[VideoIntro] Video error:", e);
-            // Don't immediately skip on single source error, but if everything fails, exit
-            if (desktopVideo.networkState === 3 && mobileVideo.networkState === 3) {
+        const onEnded = () => triggerExit();
+        const onError = () => {
+            if (video.networkState === 3) {
+                console.warn("[VideoIntro] No playable source — skipping");
                 triggerExit();
             }
         };
 
-        // Attach listeners to both
-        [desktopVideo, mobileVideo].forEach(v => {
-            v.addEventListener("canplay", handleCanPlay);
-            v.addEventListener("ended", handleEnded);
-            v.addEventListener("error", handleError);
-        });
+        video.addEventListener("canplay", onCanPlay);
+        video.addEventListener("ended", onEnded);
+        video.addEventListener("error", onError, true);
 
-        // Attempt autoplay on BOTH (muted autoplay is generally safe)
-        // Browser will decide which one is actually loading based on source availability/visibility
-        const playDesktop = desktopVideo.play();
-        const playMobile = mobileVideo.play();
+        // Load ONLY the active video
+        video.preload = "auto";
+        video.load();
 
-        const handlePlayPromise = (promise: Promise<void>, label: string) => {
-            if (promise !== undefined) {
-                promise.catch(error => {
-                    console.warn(`[VideoIntro] ${label} autoplay blocked:`, error);
-                });
-            }
-        };
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.catch(() => {
+                console.warn("[VideoIntro] Autoplay blocked — skipping");
+                setTimeout(triggerExit, 1500);
+            });
+        }
 
-        handlePlayPromise(playDesktop, "Desktop");
-        handlePlayPromise(playMobile, "Mobile");
-
-        // Safety timeout — never trap the user
+        // Safety timeout
         const safetyTimer = setTimeout(() => {
-            console.warn("[VideoIntro] Safety timeout reached");
+            console.warn("[VideoIntro] Safety timeout — skipping");
             triggerExit();
         }, VIDEO_INTRO_TIMINGS.SAFETY_TIMEOUT_MS);
 
         return () => {
-            [desktopVideo, mobileVideo].forEach(v => {
-                v.removeEventListener("canplay", handleCanPlay);
-                v.removeEventListener("ended", handleEnded);
-                v.removeEventListener("error", handleError);
-            });
+            video.removeEventListener("canplay", onCanPlay);
+            video.removeEventListener("ended", onEnded);
+            video.removeEventListener("error", onError, true);
             clearTimeout(safetyTimer);
         };
     }, [triggerExit]);
 
-    // ── Render ──────────────────────────────────────────────
+    // ── Shared video styles ─────────────────────────────────
+    const videoStyle = {
+        opacity: videoReady ? 1 : 0,
+        transition: "opacity 0.8s ease-in",
+        objectFit: "cover" as const,
+    };
+
     return (
         <div className={`video-intro-overlay ${phase === "exiting" ? "video-intro-exit" : ""}`}>
             {/* Static fallback shown instantly */}
@@ -99,48 +96,31 @@ export default function VideoIntro({
                 style={{ opacity: videoReady ? 0 : 1 }}
             />
 
-            {/* 
-                DUAL VIDEO APPROACH
-                Render both videos. Use Tailwind CSS to show/hide them.
-                This prevents hydration mismatches and ensures the correct video 
-                is ready to play as soon as the browser environment is established.
-            */}
-
-            {/* Desktop Video (md and up) */}
+            {/* Desktop Video (md and up) — preload="none" by default, JS sets to "auto" if visible */}
             <video
                 ref={desktopVideoRef}
                 className="video-intro-player hidden md:block"
                 muted
                 playsInline
-                autoPlay
-                preload="auto"
+                preload="none"
                 controls={false}
                 disablePictureInPicture
-                style={{
-                    opacity: videoReady ? 1 : 0,
-                    transition: "opacity 0.8s ease-in",
-                    objectFit: "cover",
-                }}
+                style={videoStyle}
             >
                 <source src="/bot-desktopm.mp4" type="video/mp4" />
                 <source src="/Bot-Desktopm.webm" type="video/webm" />
             </video>
 
-            {/* Mobile Video (below md) */}
+            {/* Mobile Video (below md) — preload="none" by default, JS sets to "auto" if visible */}
             <video
                 ref={mobileVideoRef}
                 className="video-intro-player block md:hidden"
                 muted
                 playsInline
-                autoPlay
-                preload="auto"
+                preload="none"
                 controls={false}
                 disablePictureInPicture
-                style={{
-                    opacity: videoReady ? 1 : 0,
-                    transition: "opacity 0.8s ease-in",
-                    objectFit: "cover",
-                }}
+                style={videoStyle}
             >
                 <source src="/bot-mobile.webm" type="video/webm" />
                 <source src="/bot-mobile.mp4" type="video/mp4" />
