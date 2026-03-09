@@ -24,10 +24,15 @@ function getCountdownText(dateStr: string): string {
 const MAX_LOOPS = 2;
 
 export default function EventCard({ event, index, onOpenModal }: EventCardProps) {
-    const countdown = useMemo(() => getCountdownText(event.date), [event.date]);
+    const [mounted, setMounted] = useState(false);
+    const countdown = useMemo(() => mounted ? getCountdownText(event.date) : "Coming Soon", [event.date, mounted]);
     const videoRef = useRef<HTMLVideoElement>(null);
     const loopCount = useRef(0);
     const [showPoster, setShowPoster] = useState(true);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const video = videoRef.current;
@@ -48,15 +53,21 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
         const observer = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
+                    const videoEl = videoRef.current;
+                    if (!videoEl) return;
+
                     if (entry.isIntersecting) {
                         // Reset and play only if loops haven't been exhausted
                         if (loopCount.current < MAX_LOOPS) {
                             setShowPoster(false);
-                            const p = video.play();
+                            const p = videoEl.play();
                             if (p) p.catch(() => { });
                         }
                     } else {
-                        video.pause();
+                        videoEl.pause();
+                        // Reset loop count when scrolled out so it can replay when scrolled back in
+                        // This makes the "only 1 video loads at a time" behavior more effective
+                        loopCount.current = 0;
                     }
                 });
             },
