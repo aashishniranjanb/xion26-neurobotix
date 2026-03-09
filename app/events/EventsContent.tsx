@@ -25,7 +25,7 @@ const technicalEvents: EventData[] = [
     {
         name: "Mind Forge",
         tagline: "Present your original research ideas on cutting-edge topics.",
-        videoSrc: "/events/Paper Presentation.webm",
+        videoSrc: "/events/Paper Presentation.mp4",
         poster: "/posters/Mind Forge.jpeg",
         category: "tech",
         registerLink: "https://forms.google.com/mindforge-xion2026",
@@ -41,7 +41,7 @@ const technicalEvents: EventData[] = [
     {
         name: "Robo War",
         tagline: "Full-contact robot combat in the neural arena.",
-        videoSrc: "/events/Robo War .webm",
+        videoSrc: "/events/Robo War.mp4",
         poster: "/posters/Robo War.jpeg",
         category: "tech",
         registerLink: "https://forms.google.com/robowar-xion2026",
@@ -75,7 +75,7 @@ const technicalEvents: EventData[] = [
     {
         name: "Line Follower",
         tagline: "Autonomous navigation through unknown terrain matrices.",
-        videoSrc: "/events/Line Follower .webm",
+        videoSrc: "/events/Line Follower.mp4",
         poster: "/posters/Line Follower.jpeg",
         category: "tech",
         registerLink: "https://forms.google.com/linefollower-xion2026",
@@ -90,7 +90,7 @@ const technicalEvents: EventData[] = [
     {
         name: "Brain Wave",
         tagline: "Argue, counter, and conquer with your words in this technical debate.",
-        videoSrc: "/events/Brain Wave.webm",
+        videoSrc: "/events/Brain Wave.mp4",
         poster: "/posters/Brain Wave.jpeg",
         category: "tech",
         registerLink: "https://forms.google.com/brainwave-xion2026",
@@ -128,7 +128,7 @@ const nonTechnicalEvents: EventData[] = [
     {
         name: "Free Fire Tournament",
         tagline: "Squad up and dominate the battlefield.",
-        videoSrc: "/events/Free Fire.webm",
+        videoSrc: "/events/Free Fire.mp4",
         poster: "/posters/Free Fire Tournament.jpeg",
         category: "nontech",
         registerLink: "https://forms.google.com/freefire-xion2026",
@@ -144,7 +144,7 @@ const nonTechnicalEvents: EventData[] = [
     {
         name: "Grandmaster Grid",
         tagline: "Outsmart your opponent on the 64-square battlefield.",
-        videoSrc: "/events/Grandmaster Grid.webm",
+        videoSrc: "/events/Grandmaster Grid.mp4",
         poster: "/posters/Grandmaster Grid.jpeg",
         category: "nontech",
         registerLink: "https://forms.google.com/chess-xion2026",

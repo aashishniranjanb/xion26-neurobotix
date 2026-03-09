@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useEffect, useRef } from "react";
 import Image from "next/image";
 import styles from "./events.module.css";
 import type { EventData } from "./EventsContent";
@@ -23,6 +23,36 @@ function getCountdownText(dateStr: string): string {
 
 export default function EventCard({ event, index, onOpenModal }: EventCardProps) {
     const countdown = useMemo(() => getCountdownText(event.date), [event.date]);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const playPromise = video.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(() => {
+                                // Ignore autoplay errors on some browsers
+                            });
+                        }
+                    } else {
+                        video.pause();
+                    }
+                });
+            },
+            { threshold: 0.5 } // Play when 50% of the video is in view
+        );
+
+        observer.observe(video);
+
+        return () => {
+            observer.disconnect();
+        };
+    }, []);
 
     const handleShare = async () => {
         const shareData = {
@@ -63,11 +93,13 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
             <div className={styles.videoWrap}>
                 {event.videoSrc ? (
                     <video
+                        ref={videoRef}
                         src={event.videoSrc}
-                        autoPlay
+                        poster={event.poster}
                         muted
                         loop
                         playsInline
+                        preload="none"
                     />
                 ) : (
                     <Image
