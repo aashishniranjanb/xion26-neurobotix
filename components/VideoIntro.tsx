@@ -10,7 +10,6 @@ export default function VideoIntro({
 }) {
     const desktopVideoRef = useRef<HTMLVideoElement>(null);
     const mobileVideoRef = useRef<HTMLVideoElement>(null);
-    const activeVideoRef = useRef<HTMLVideoElement | null>(null);
     const [phase, setPhase] = useState<"fallback" | "playing" | "exiting">("fallback");
     const [videoReady, setVideoReady] = useState(false);
     const hasCompleted = useRef(false);
@@ -25,58 +24,52 @@ export default function VideoIntro({
         }, VIDEO_INTRO_TIMINGS.FADE_OUT_DURATION_MS);
     }, [onComplete]);
 
-    // ── Detect which video is visible & load ONLY that one ──
+    // ── Detect visible video & manage it ────────────────────
     useEffect(() => {
         const desktopEl = desktopVideoRef.current;
         const mobileEl = mobileVideoRef.current;
         if (!desktopEl || !mobileEl) return;
 
-        // Check which element is actually visible via CSS
-        const isMobileVisible = mobileEl.offsetParent !== null
-            || getComputedStyle(mobileEl).display !== "none";
-
+        // Determine which video is CSS-visible
+        const mobileDisplay = getComputedStyle(mobileEl).display;
+        const isMobileVisible = mobileDisplay !== "none";
         const video = isMobileVisible ? mobileEl : desktopEl;
-        activeVideoRef.current = video;
 
         // ── Event handlers ──────────────────────────────────
         const onCanPlay = () => {
             setVideoReady(true);
             setPhase("playing");
         };
-        const onEnded = () => triggerExit();
-        const onError = () => {
-            if (video.networkState === 3) {
-                console.warn("[VideoIntro] No playable source — skipping");
-                triggerExit();
-            }
+
+        const onPlaying = () => {
+            // Confirms the video is actually rendering frames
+            setVideoReady(true);
+            setPhase("playing");
         };
 
-        video.addEventListener("canplay", onCanPlay);
-        video.addEventListener("ended", onEnded);
-        video.addEventListener("error", onError, true);
+        const onEnded = () => triggerExit();
 
-        // Load ONLY the active video
+        // ── Attach events ───────────────────────────────────
+        video.addEventListener("canplay", onCanPlay);
+        video.addEventListener("playing", onPlaying);
+        video.addEventListener("ended", onEnded);
+
+        // Enable loading for the visible video only.
+        // The autoPlay attribute on the <video> tag handles playback
+        // automatically once enough data is buffered — no manual
+        // play() call needed, which avoids iOS autoplay rejection.
         video.preload = "auto";
         video.load();
 
-        const playPromise = video.play();
-        if (playPromise !== undefined) {
-            playPromise.catch(() => {
-                console.warn("[VideoIntro] Autoplay blocked — skipping");
-                setTimeout(triggerExit, 1500);
-            });
-        }
-
-        // Safety timeout
+        // Safety timeout — never trap the user (12s)
         const safetyTimer = setTimeout(() => {
-            console.warn("[VideoIntro] Safety timeout — skipping");
             triggerExit();
         }, VIDEO_INTRO_TIMINGS.SAFETY_TIMEOUT_MS);
 
         return () => {
             video.removeEventListener("canplay", onCanPlay);
+            video.removeEventListener("playing", onPlaying);
             video.removeEventListener("ended", onEnded);
-            video.removeEventListener("error", onError, true);
             clearTimeout(safetyTimer);
         };
     }, [triggerExit]);
@@ -96,12 +89,19 @@ export default function VideoIntro({
                 style={{ opacity: videoReady ? 0 : 1 }}
             />
 
-            {/* Desktop Video (md and up) — preload="none" by default, JS sets to "auto" if visible */}
+            {/* ─────────────────────────────────────────────────
+                Desktop Video (md and up)
+                MP4 primary, WebM backup.
+                preload="none" prevents loading. The useEffect
+                sets preload="auto" on whichever video is visible.
+                autoPlay + muted + playsInline = iOS autoplay OK.
+            ───────────────────────────────────────────────── */}
             <video
                 ref={desktopVideoRef}
                 className="video-intro-player hidden md:block"
                 muted
                 playsInline
+                autoPlay
                 preload="none"
                 controls={false}
                 disablePictureInPicture
@@ -111,19 +111,26 @@ export default function VideoIntro({
                 <source src="/Bot-Desktopm.webm" type="video/webm" />
             </video>
 
-            {/* Mobile Video (below md) — preload="none" by default, JS sets to "auto" if visible */}
+            {/* ─────────────────────────────────────────────────
+                Mobile Video (below md)
+                MP4 FIRST — iOS Safari cannot play WebM at all.
+                Putting MP4 first avoids a failed WebM decode attempt
+                that wastes time and can trigger errors.
+                WebM is listed second for Android browsers that prefer it.
+            ───────────────────────────────────────────────── */}
             <video
                 ref={mobileVideoRef}
                 className="video-intro-player block md:hidden"
                 muted
                 playsInline
+                autoPlay
                 preload="none"
                 controls={false}
                 disablePictureInPicture
                 style={videoStyle}
             >
-                <source src="/bot-mobile.webm" type="video/webm" />
                 <source src="/bot-mobile.mp4" type="video/mp4" />
+                <source src="/bot-mobile.webm" type="video/webm" />
             </video>
 
             {/* Bottom vignette */}
