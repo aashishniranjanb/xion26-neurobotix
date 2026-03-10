@@ -14,10 +14,10 @@ export const technicalEvents: EventData[] = [
     {
         name: "Mind Forge",
         tagline: "Present your original research ideas on cutting-edge topics.",
-        videoSrc: "/events/Paper Presentation.mp4",
+        videoSrc: "/events/Paper Presentation.webm",
         poster: "/posters/Mind Forge.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/mindforge-xion2026",
+        registerLink: "https://forms.gle/QMkYGquRzghVNDu48",
         date: "2026-03-23",
         rules: [
             "Team size: 2 to 4 members per team.",
@@ -30,10 +30,10 @@ export const technicalEvents: EventData[] = [
     {
         name: "Robo War",
         tagline: "Full-contact robot combat in the neural arena.",
-        videoSrc: "/events/Robo War.mp4",
+        videoSrc: "/events/Robo War .webm",
         poster: "/posters/Robo War.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/robowar-xion2026",
+        registerLink: "https://forms.gle/PGA56Jy5bjJZ2j3b6",
         date: "2026-03-23",
         rules: [
             "Robots must fit within specified size limits before the match begins.",
@@ -48,10 +48,10 @@ export const technicalEvents: EventData[] = [
     {
         name: "Decode Reality",
         tagline: "Can you tell what's real and what's AI-generated?",
-        videoSrc: "/events/Decode Reality.mp4",
+        videoSrc: "/events/decode reality (2).webm",
         poster: "/posters/Decode Reality.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/decodereality-xion2026",
+        registerLink: "https://forms.gle/TsVHciZdGqm1qqu78",
         date: "2026-03-23",
         rules: [
             "Team size: 2 members per team.",
@@ -64,10 +64,10 @@ export const technicalEvents: EventData[] = [
     {
         name: "Line Follower",
         tagline: "Autonomous navigation through unknown terrain matrices.",
-        videoSrc: "/events/Line Follower.mp4",
+        videoSrc: "/events/Line Follower .webm",
         poster: "/posters/Line Follower.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/linefollower-xion2026",
+        registerLink: "https://forms.gle/sYhH8KN8AkTSRrzC9",
         date: "2026-03-23",
         rules: [
             "Robots must be fully autonomous — no remote control or human intervention once started.",
@@ -79,10 +79,10 @@ export const technicalEvents: EventData[] = [
     {
         name: "Brain Wave",
         tagline: "Argue, counter, and conquer with your words in this technical debate.",
-        videoSrc: "/events/Brain Wave.mp4",
+        videoSrc: "/events/Brain Wave.webm",
         poster: "/posters/Brain Wave.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/brainwave-xion2026",
+        registerLink: "https://forms.gle/xEYfCmdoV7trfNKU9",
         date: "2026-03-23",
         rules: [
             "Debaters will be given a specific technical topic and assigned a stance (for or against).",
@@ -102,7 +102,7 @@ export const nonTechnicalEvents: EventData[] = [
         videoSrc: "/events/Gold Rush.mp4",
         poster: "/posters/Gold Rush.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/goldrush-xion2026",
+        registerLink: "https://forms.gle/ruq97u4LRcmkVG476",
         date: "2026-03-23",
         rules: [
             "Team size: 2 members per team.",
@@ -116,10 +116,10 @@ export const nonTechnicalEvents: EventData[] = [
     {
         name: "Free Fire Tournament",
         tagline: "Squad up and dominate the battlefield.",
-        videoSrc: "/events/Free Fire.mp4",
+        videoSrc: "/events/Free Fire.webm",
         poster: "/posters/Free Fire Tournament.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/freefire-xion2026",
+        registerLink: "https://forms.gle/vTSui3gafAxTVg6L8",
         date: "2026-03-23",
         rules: [
             "Stage 1: All players compete in a Full Map Battle Royale match.",
@@ -132,10 +132,10 @@ export const nonTechnicalEvents: EventData[] = [
     {
         name: "Grandmaster Grid",
         tagline: "Outsmart your opponent on the 64-square battlefield.",
-        videoSrc: "/events/Grandmaster Grid.mp4",
+        videoSrc: "/events/Grandmaster Grid.webm",
         poster: "/posters/Grandmaster Grid.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/chess-xion2026",
+        registerLink: "https://forms.gle/uMq6wmpdDAXdP1Ve7",
         date: "2026-03-23",
         rules: [
             "The tournament will strictly follow standard FIDE and Chess.com rules.",
@@ -149,7 +149,7 @@ export const nonTechnicalEvents: EventData[] = [
         videoSrc: null,
         poster: "/posters/Beatverse.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/beatverse-xion2026",
+        registerLink: "https://forms.gle/pDV5Upx8dRadk2Ff7",
         date: "2026-03-23",
         rules: [
             "The event will feature music and audio clips in Tamil, English, and Hindi.",
@@ -164,7 +164,7 @@ export const nonTechnicalEvents: EventData[] = [
         videoSrc: null,
         poster: "/posters/IPL Auction.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/iplauction-xion2026",
+        registerLink: "https://forms.gle/DesbbLcxcS6ejEDh7",
         date: "2026-03-23",
         rules: [
             "Each team is given a fixed virtual purse to build their dream squad.",

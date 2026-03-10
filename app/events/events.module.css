@@ -1,4 +1,4 @@
-/* ===== Galaxy Canvas ===== */
+﻿/* ===== Galaxy Canvas ===== */
 .canvas {
   position: fixed;
   inset: 0;
@@ -26,17 +26,6 @@
   line-height: 1;
   margin: 0 0 12px;
   text-shadow: 0 0 30px rgba(212, 175, 55, 0.25);
-}
-
-.subtitle {
-  text-align: center;
-  color: #a1a1aa;
-  font-size: 1rem;
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  position: relative;
-  z-index: 2;
 }
 
 /* ===== Sticky Tab Bar ===== */
@@ -132,7 +121,7 @@
   margin: 0 auto;
 }
 
-/* ===== Premium Responsive Grid ===== */
+/* ===== Grid ===== */
 .grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -160,44 +149,15 @@
   border-color: rgba(212, 175, 55, 0.35);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4),
     0 0 30px rgba(212, 175, 55, 0.08);
-  will-change: transform;
-}
-
-/* ===== Countdown Badge ===== */
-.countdownBadge {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  background: rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(212, 175, 55, 0.2);
-  color: #d4af37;
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-}
-
-.countdownDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #d4af37;
-  animation: pulse 1.5s ease-in-out infinite;
-  box-shadow: 0 0 6px rgba(212, 175, 55, 0.6);
 }
 
 /* ===== Video / Poster Wrap ===== */
 .videoWrap {
   overflow: hidden;
-  height: 200px;
+  width: 100%;
+  aspect-ratio: 16 / 9;
   position: relative;
+  background: #000;
 }
 
 .videoWrap video,
@@ -243,18 +203,9 @@
   font-weight: 800;
   color: #d4af37;
   text-align: center;
-  margin: 0 0 6px;
+  margin: 0 0 12px;
   text-transform: uppercase;
   letter-spacing: 0.06em;
-}
-
-.cardTagline {
-  font-size: 0.78rem;
-  color: #a1a1aa;
-  text-align: center;
-  margin: 0 0 16px;
-  line-height: 1.5;
-  flex: 1;
 }
 
 /* ===== Card Actions ===== */
@@ -262,6 +213,7 @@
   display: flex;
   gap: 10px;
   width: 100%;
+  margin-top: auto;
 }
 
 .rulesBtn {
@@ -307,30 +259,6 @@
 .registerBtn:hover {
   background: #e6c84a;
   box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-}
-
-/* ===== Share Button ===== */
-.shareBtn {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1px solid rgba(212, 175, 55, 0.15);
-  background: rgba(0, 0, 0, 0.3);
-  color: #71717a;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.shareBtn:hover {
-  color: #d4af37;
-  border-color: rgba(212, 175, 55, 0.4);
-  background: rgba(212, 175, 55, 0.1);
 }
 
 /* ===== Modal ===== */
@@ -381,22 +309,14 @@
   font-size: 1.6rem;
   font-weight: 900;
   color: #d4af37;
-  margin: 0 0 4px;
+  margin: 0 0 16px;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-}
-
-.modalTagline {
-  font-size: 0.85rem;
-  color: #71717a;
-  margin: 0 0 20px;
-  font-weight: 500;
 }
 
 .modalBody {
   display: flex;
   gap: 40px;
-  margin-top: 16px;
   align-items: flex-start;
 }
 
@@ -502,157 +422,43 @@
 
 /* ===== Animations ===== */
 @keyframes cardFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-
-  0%,
-  100% {
-    opacity: 1;
-  }
-
-  50% {
-    opacity: 0.4;
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes modalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 /* ===== Responsive ===== */
-
-/* Tablet: 2 columns */
 @media (max-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-  }
-
-  .title {
-    font-size: 4rem;
-  }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .title { font-size: 4rem; }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
-  .heroSection {
-    padding: 40px 16px 12px;
-  }
-
-  .title {
-    font-size: 3rem;
-    letter-spacing: 0.12em;
-  }
-
-  .subtitle {
-    font-size: 0.8rem;
-    letter-spacing: 0.15em;
-  }
-
-  .tabBar {
-    top: 0;
-    padding: 8px 12px;
-  }
-
-  .tab {
-    padding: 8px 12px;
-    font-size: 0.7rem;
-  }
-
-  .section {
-    padding: 16px 12px 40px;
-  }
-
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-    justify-content: center;
-  }
-
-  /* Disable canvas rendering completely on mobile screens */
-  .canvas {
-    display: none !important;
-  }
-
-  .videoWrap {
-    height: 140px;
-  }
-
-  .cardBody {
-    padding: 12px 14px 16px;
-  }
-
-  .cardName {
-    font-size: 0.85rem;
-  }
-
-  .cardTagline {
-    font-size: 0.7rem;
-    margin-bottom: 12px;
-  }
-
-  .cardActions {
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .countdownBadge {
-    top: 8px;
-    left: 8px;
-    padding: 4px 8px;
-    font-size: 0.55rem;
-  }
-
-  .modalContent {
-    padding: 24px 16px;
-  }
-
-  .modalBody {
-    flex-direction: column-reverse;
-    gap: 24px;
-  }
-
-  .posterSection {
-    max-width: 100%;
-    position: static;
-  }
-
-  .modalTitle {
-    font-size: 1.2rem;
-  }
+  .heroSection { padding: 40px 16px 12px; }
+  .title { font-size: 3rem; letter-spacing: 0.12em; }
+  .tabBar { top: 0; padding: 8px 12px; }
+  .tab { padding: 8px 12px; font-size: 0.7rem; }
+  .section { padding: 16px 12px 40px; }
+  .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .cardBody { padding: 12px 14px 16px; }
+  .cardName { font-size: 0.85rem; }
+  .cardActions { flex-direction: column; gap: 6px; }
+  .modalContent { padding: 24px 16px; }
+  .modalBody { flex-direction: column-reverse; gap: 24px; }
+  .posterSection { max-width: 100%; position: static; }
+  .modalTitle { font-size: 1.2rem; }
 }
 
-/* Small mobile */
 @media (max-width: 480px) {
-  .title {
-    font-size: 2.2rem;
-  }
+  .title { font-size: 2.2rem; }
+  .grid { grid-template-columns: 1fr; gap: 16px; }
+}
 
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    justify-items: center;
-  }
-
-  .videoWrap {
-    height: 180px;
-  }
+/* Disable canvas on mobile for perf */
+@media (max-width: 768px) {
+  .canvas { display: none; }
 }

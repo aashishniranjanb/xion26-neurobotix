@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from "react";
 import styles from "./events.module.css";
+import GalaxyCanvas from "./GalaxyCanvas";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
 
@@ -210,12 +211,10 @@ export default function EventsContent() {
 
     return (
         <main className="min-h-screen relative pt-28 bg-[#020202]">
+            <GalaxyCanvas />
             {/* Hero Title */}
             <div className={styles.heroSection}>
                 <h1 className={styles.title}>XION 2026</h1>
-                <p className={styles.subtitle}>
-                    10 Events · 2 Days · Unlimited Innovation
-                </p>
             </div>
 
             {/* Sticky Tab Bar */}

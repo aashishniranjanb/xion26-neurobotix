@@ -100,36 +100,42 @@ function RobotModel() {
     });
   }, [scene]);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     const s = 0.06;
+    const t = clock.getElapsedTime();
+    // Idle sway — keeps robot animated even without touch/mouse
+    const idleX = Math.sin(t * 0.6) * 0.15;
+    const idleY = Math.sin(t * 0.4) * 0.12;
+    const mx = mouse.x + idleX;
+    const my = mouse.y + idleY;
     if (headBone.current) {
-      headBone.current.rotation.x = THREE.MathUtils.lerp(headBone.current.rotation.x, origHead.current.x - mouse.y * 0.35, s);
-      headBone.current.rotation.y = THREE.MathUtils.lerp(headBone.current.rotation.y, origHead.current.y + mouse.x * 0.45, s);
+      headBone.current.rotation.x = THREE.MathUtils.lerp(headBone.current.rotation.x, origHead.current.x - my * 0.35, s);
+      headBone.current.rotation.y = THREE.MathUtils.lerp(headBone.current.rotation.y, origHead.current.y + mx * 0.45, s);
     }
     if (neckBone.current) {
-      neckBone.current.rotation.x = THREE.MathUtils.lerp(neckBone.current.rotation.x, origNeck.current.x - mouse.y * 0.15, s);
-      neckBone.current.rotation.y = THREE.MathUtils.lerp(neckBone.current.rotation.y, origNeck.current.y + mouse.x * 0.2, s);
+      neckBone.current.rotation.x = THREE.MathUtils.lerp(neckBone.current.rotation.x, origNeck.current.x - my * 0.15, s);
+      neckBone.current.rotation.y = THREE.MathUtils.lerp(neckBone.current.rotation.y, origNeck.current.y + mx * 0.2, s);
     }
     if (spineBone.current) {
-      spineBone.current.rotation.y = THREE.MathUtils.lerp(spineBone.current.rotation.y, origSpine.current.y + mouse.x * 0.1, s * 0.5);
+      spineBone.current.rotation.y = THREE.MathUtils.lerp(spineBone.current.rotation.y, origSpine.current.y + mx * 0.1, s * 0.5);
     }
     if (armLBone.current) {
-      armLBone.current.rotation.z = THREE.MathUtils.lerp(armLBone.current.rotation.z, origArmL.current.z + mouse.y * 0.5, s);
-      armLBone.current.rotation.x = THREE.MathUtils.lerp(armLBone.current.rotation.x, origArmL.current.x + mouse.x * 0.3, s);
+      armLBone.current.rotation.z = THREE.MathUtils.lerp(armLBone.current.rotation.z, origArmL.current.z + my * 0.5, s);
+      armLBone.current.rotation.x = THREE.MathUtils.lerp(armLBone.current.rotation.x, origArmL.current.x + mx * 0.3, s);
     }
     if (armRBone.current) {
-      armRBone.current.rotation.z = THREE.MathUtils.lerp(armRBone.current.rotation.z, origArmR.current.z - mouse.y * 0.5, s);
-      armRBone.current.rotation.x = THREE.MathUtils.lerp(armRBone.current.rotation.x, origArmR.current.x + mouse.x * 0.3, s);
+      armRBone.current.rotation.z = THREE.MathUtils.lerp(armRBone.current.rotation.z, origArmR.current.z - my * 0.5, s);
+      armRBone.current.rotation.x = THREE.MathUtils.lerp(armRBone.current.rotation.x, origArmR.current.x + mx * 0.3, s);
     }
     if (armL2Bone.current) {
-      armL2Bone.current.rotation.y = THREE.MathUtils.lerp(armL2Bone.current.rotation.y, origArmL2.current.y - mouse.x * 0.25, s);
-      armL2Bone.current.rotation.x = THREE.MathUtils.lerp(armL2Bone.current.rotation.x, origArmL2.current.x + mouse.y * 0.2, s);
+      armL2Bone.current.rotation.y = THREE.MathUtils.lerp(armL2Bone.current.rotation.y, origArmL2.current.y - mx * 0.25, s);
+      armL2Bone.current.rotation.x = THREE.MathUtils.lerp(armL2Bone.current.rotation.x, origArmL2.current.x + my * 0.2, s);
     }
     if (armR2Bone.current) {
-      armR2Bone.current.rotation.y = THREE.MathUtils.lerp(armR2Bone.current.rotation.y, origArmR2.current.y + mouse.x * 0.25, s);
-      armR2Bone.current.rotation.x = THREE.MathUtils.lerp(armR2Bone.current.rotation.x, origArmR2.current.x + mouse.y * 0.2, s);
+      armR2Bone.current.rotation.y = THREE.MathUtils.lerp(armR2Bone.current.rotation.y, origArmR2.current.y + mx * 0.25, s);
+      armR2Bone.current.rotation.x = THREE.MathUtils.lerp(armR2Bone.current.rotation.x, origArmR2.current.x + my * 0.2, s);
     }
-    const curlAmount = -mouse.y * 0.3;
+    const curlAmount = -my * 0.3;
     leftFingers.current.forEach(({ bone, orig }) => {
       bone.rotation.z = THREE.MathUtils.lerp(bone.rotation.z, orig.z + curlAmount, s * 0.8);
     });
@@ -149,8 +155,17 @@ export default function RobotScene() {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -((e.clientY / window.innerHeight) * 2 - 1);
     };
+    const handleTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0];
+      mouse.x = (t.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -((t.clientY / window.innerHeight) * 2 - 1);
+    };
     window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+    };
   }, []);
 
   const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;

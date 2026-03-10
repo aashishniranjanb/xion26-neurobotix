@@ -41,7 +41,6 @@ export default function EventModal({ event, onClose }: EventModalProps) {
                     ✕
                 </button>
                 <h2 id="modal-title" className={styles.modalTitle}>{event.name}</h2>
-                <p className={styles.modalTagline}>{event.tagline}</p>
 
                 <div className={styles.modalBody}>
                     <div className={styles.rulesSection}>
