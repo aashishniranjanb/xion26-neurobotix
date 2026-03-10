@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import styles from "./events.module.css";
-import GalaxyCanvas from "./GalaxyCanvas";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
 
@@ -59,7 +58,7 @@ const technicalEvents: EventData[] = [
     {
         name: "Decode Reality",
         tagline: "Can you tell what's real and what's AI-generated?",
-        videoSrc: null,
+        videoSrc: "/events/Decode Reality.mp4",
         poster: "/posters/Decode Reality.jpeg",
         category: "tech",
         registerLink: "https://forms.gle/TsVHciZdGqm1qqu78",
@@ -111,7 +110,7 @@ const nonTechnicalEvents: EventData[] = [
     {
         name: "Gold Rush",
         tagline: "Hunt QR codes, collect gold coins, and race to victory.",
-        videoSrc: null,
+        videoSrc: "/events/Gold Rush.mp4",
         poster: "/posters/Gold Rush.jpeg",
         category: "nontech",
         registerLink: "https://forms.gle/ruq97u4LRcmkVG476",
@@ -211,7 +210,6 @@ export default function EventsContent() {
 
     return (
         <main className="min-h-screen relative pt-28 bg-[#020202]">
-            <GalaxyCanvas />
             {/* Hero Title */}
             <div className={styles.heroSection}>
                 <h1 className={styles.title}>XION 2026</h1>
