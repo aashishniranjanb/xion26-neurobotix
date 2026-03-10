@@ -101,7 +101,8 @@ function RobotModel() {
   }, [scene]);
 
   useFrame(({ clock }) => {
-    const s = 0.06;
+    const isMob = typeof window !== 'undefined' && window.innerWidth < 768;
+    const s = isMob ? 0.14 : 0.06;
     const t = clock.getElapsedTime();
     // Idle sway — keeps robot animated even without touch/mouse
     const idleX = Math.sin(t * 0.6) * 0.15;

@@ -38,7 +38,7 @@ export default function Hero() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.2, duration: 0.6 }}
-                className="text-white/60 text-[clamp(0.7rem,1.5vw,1.1rem)] max-w-[19rem] sm:max-w-lg leading-relaxed mb-4 md:mb-8 font-medium"
+                className="text-white/80 text-[clamp(0.75rem,1.5vw,1.1rem)] max-w-[19rem] sm:max-w-lg leading-relaxed mb-4 md:mb-8 font-medium"
             >
                 Where human neural complexity meets autonomous robotic precision.
                 <span className="text-gold-primary block mt-1">Inspired by brains. Built by engineers.</span>
