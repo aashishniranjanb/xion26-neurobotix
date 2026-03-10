@@ -5,8 +5,8 @@
  */
 
 export const BREAKPOINTS = {
-    xs: 360,
-    sm: 390,
+    xs: 390,
+    sm: 640,
     md: 768,
     lg: 1024,
     xl: 1280,

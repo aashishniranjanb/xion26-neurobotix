@@ -41,7 +41,7 @@ export default function NavbarDesktop() {
                 </Link>
 
                 {/* Nav Links — Center */}
-                <div className="flex gap-10 lg:gap-14 text-[15px] uppercase tracking-[0.2em] text-zinc-300 font-medium">
+                <div className="flex gap-5 lg:gap-10 xl:gap-14 text-[13px] lg:text-[15px] uppercase tracking-[0.15em] lg:tracking-[0.2em] text-zinc-300 font-medium">
                     {["Home", "Events", "Sponsors", "About", "Contact"].map((item) => (
                         <Link
                             key={item}
