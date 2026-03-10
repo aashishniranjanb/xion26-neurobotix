@@ -17,20 +17,6 @@ export default function GalaxyCanvas() {
 
         let animationId: number;
 
-        function resize() {
-            if (!canvas) return;
-            canvas.width = window.innerWidth;
-            canvas.height = document.documentElement.scrollHeight;
-
-            // Kickstart animation again if it was halted but is now visible
-            if (getComputedStyle(canvas).display !== "none" && !animationId) {
-                animate();
-            }
-        }
-
-        resize();
-        window.addEventListener("resize", resize);
-
         const stars: {
             x: number;
             y: number;
@@ -80,6 +66,20 @@ export default function GalaxyCanvas() {
             animationId = requestAnimationFrame(animate);
         }
 
+        function resize() {
+            if (!canvas) return;
+            canvas.width = window.innerWidth;
+            canvas.height = document.documentElement.scrollHeight;
+
+            // Kickstart animation again if it was halted but is now visible
+            if (getComputedStyle(canvas).display !== "none" && !animationId) {
+                animate();
+            }
+        }
+
+        // Now that `stars` and `animate` are fully initialized, it's safe to call `resize`.
+        resize();
+        window.addEventListener("resize", resize);
         animate();
 
         return () => {

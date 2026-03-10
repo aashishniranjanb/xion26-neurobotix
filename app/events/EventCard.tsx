@@ -3,7 +3,7 @@
 import { useMemo, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./events.module.css";
-import type { EventData } from "./EventsContent";
+import type { EventData } from "./data";
 
 interface EventCardProps {
     event: EventData;
