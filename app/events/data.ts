@@ -48,7 +48,7 @@ export const technicalEvents: EventData[] = [
     {
         name: "Decode Reality",
         tagline: "Can you tell what's real and what's AI-generated?",
-        videoSrc: null,
+        videoSrc: "/events/Decode Reality.mp4",
         poster: "/posters/Decode Reality.jpeg",
         category: "tech",
         registerLink: "https://forms.google.com/decodereality-xion2026",
@@ -99,7 +99,7 @@ export const nonTechnicalEvents: EventData[] = [
     {
         name: "Gold Rush",
         tagline: "Hunt QR codes, collect gold coins, and race to victory.",
-        videoSrc: null,
+        videoSrc: "/events/Gold Rush.mp4",
         poster: "/posters/Gold Rush.jpeg",
         category: "nontech",
         registerLink: "https://forms.google.com/goldrush-xion2026",
