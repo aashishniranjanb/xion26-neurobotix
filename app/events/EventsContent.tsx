@@ -172,7 +172,7 @@ const nonTechnicalEvents: EventData[] = [
     {
         name: "IPL Auction",
         tagline: "Bid smart, build your dream squad under budget.",
-        videoSrc: null,
+        videoSrc: "/events/Ipl Auction.mp4",
         poster: "/posters/IPL Auction.jpeg",
         category: "nontech",
         registerLink: "https://forms.gle/DesbbLcxcS6ejEDh7",
