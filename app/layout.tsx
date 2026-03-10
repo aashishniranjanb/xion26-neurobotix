@@ -1,7 +1,13 @@
 import "@/styles/globals.css";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import PageTransition from "@/components/PageTransition";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   title: { default: "XION 2026 — NeuroBotix", template: "%s | XION 2026" },

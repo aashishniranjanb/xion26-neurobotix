@@ -87,7 +87,7 @@ export const Engine = ({ children, className }: { children?: React.ReactNode, cl
         const canvas = canvasRef.current, ctx = canvas?.getContext("2d");
         if (canvas && ctx) {
             const isMobile = window.innerWidth < 768;
-            const count = isMobile ? 300 : 750;
+            const count = isMobile ? 150 : 500;
             pCountRef.current = count;
             pDataRef.current = new Float32Array(count * 9);
 

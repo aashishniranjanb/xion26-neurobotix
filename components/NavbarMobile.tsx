@@ -20,7 +20,7 @@ const navItems = [
 
 export default function NavbarMobile() {
     return (
-        <nav aria-label="Mobile Navigation" className="fixed top-3 left-2 right-2 z-50 backdrop-blur-xl bg-[#080808]/95 border border-yellow-500/15 rounded-2xl px-3 py-2.5 shadow-[0_4px_25px_rgba(0,0,0,0.7)]">
+        <nav aria-label="Mobile Navigation" className="fixed top-[max(0.75rem,env(safe-area-inset-top))] left-2 right-2 z-50 backdrop-blur-xl bg-[#080808]/95 border border-yellow-500/15 rounded-2xl px-3 py-2.5 shadow-[0_4px_25px_rgba(0,0,0,0.7)]">
             <div className="flex items-center justify-between gap-2">
                 {/* XION Logo — Left */}
                 <Link href="/home" className="flex-shrink-0">

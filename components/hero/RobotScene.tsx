@@ -138,7 +138,9 @@ function RobotModel() {
     });
   });
 
-  return <primitive object={scene} scale={4.2} position={[0, -7.2, 0]} rotation={[0, -0.4, 0]} />;
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+  return <primitive object={scene} scale={isMobile ? 3.8 : 4.2} position={isMobile ? [0, -5.5, 0] : [0, -7.2, 0]} rotation={[0, -0.4, 0]} />;
 }
 
 export default function RobotScene() {
@@ -151,15 +153,21 @@ export default function RobotScene() {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   return (
     <div className="w-full h-full">
-      <Canvas camera={{ position: [0, 1.6, 8], fov: 45 }}>
-        <ambientLight intensity={0.2} />
+      <Canvas
+        camera={{ position: isMobile ? [0, 2.5, 7] : [0, 1.6, 8], fov: isMobile ? 50 : 45 }}
+        dpr={isMobile ? 1 : [1, 1.5]}
+        performance={{ min: 0.5 }}
+      >
+        <ambientLight intensity={0.3} />
         <directionalLight position={[4, 10, 6]} intensity={3} color="#ffffff" />
         <directionalLight position={[-5, 3, -3]} intensity={1} color="#FFD700" />
-        <directionalLight position={[0, -2, -6]} intensity={1} color="#FFB800" />
+        {!isMobile && <directionalLight position={[0, -2, -6]} intensity={1} color="#FFB800" />}
         <pointLight position={[0, 3, 5]} intensity={2} color="#FFD700" distance={18} />
-        <pointLight position={[2, 8, 3]} intensity={1} color="#ffffff" distance={20} />
+        {!isMobile && <pointLight position={[2, 8, 3]} intensity={1} color="#ffffff" distance={20} />}
         <Suspense fallback={null}>
           <RobotModel />
           <Environment preset="city" />

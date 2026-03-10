@@ -37,9 +37,9 @@ export default function NavigationWrapper() {
                     initial={{ y: -100, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{
-                        duration: 1.2,
+                        duration: 0.6,
                         ease: [0.16, 1, 0.3, 1],
-                        delay: 0.2 // Slight delay after video fade for elegance
+                        delay: 0.1
                     }}
                     className="fixed top-0 left-0 right-0 z-100"
                 >
