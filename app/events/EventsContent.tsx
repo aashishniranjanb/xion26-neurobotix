@@ -28,7 +28,7 @@ const technicalEvents: EventData[] = [
         videoSrc: "/events/Paper Presentation.mp4",
         poster: "/posters/Mind Forge.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/mindforge-xion2026",
+        registerLink: "https://forms.gle/QMkYGquRzghVNDu48",
         date: "2026-03-23",
         rules: [
             "Team size: 2 to 4 members per team.",
@@ -44,7 +44,7 @@ const technicalEvents: EventData[] = [
         videoSrc: "/events/Robo War.mp4",
         poster: "/posters/Robo War.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/robowar-xion2026",
+        registerLink: "https://forms.gle/PGA56Jy5bjJZ2j3b6",
         date: "2026-03-23",
         rules: [
             "Robots must fit within specified size limits before the match begins.",
@@ -62,7 +62,7 @@ const technicalEvents: EventData[] = [
         videoSrc: null,
         poster: "/posters/Decode Reality.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/decodereality-xion2026",
+        registerLink: "https://forms.gle/TsVHciZdGqm1qqu78",
         date: "2026-03-23",
         rules: [
             "Team size: 2 members per team.",
@@ -78,7 +78,7 @@ const technicalEvents: EventData[] = [
         videoSrc: "/events/Line Follower.mp4",
         poster: "/posters/Line Follower.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/linefollower-xion2026",
+        registerLink: "https://forms.gle/sYhH8KN8AkTSRrzC9",
         date: "2026-03-23",
         rules: [
             "Robots must be fully autonomous — no remote control or human intervention once started.",
@@ -93,7 +93,7 @@ const technicalEvents: EventData[] = [
         videoSrc: "/events/Brain Wave.mp4",
         poster: "/posters/Brain Wave.jpeg",
         category: "tech",
-        registerLink: "https://forms.google.com/brainwave-xion2026",
+        registerLink: "https://forms.gle/xEYfCmdoV7trfNKU9",
         date: "2026-03-23",
         rules: [
             "Debaters will be given a specific technical topic and assigned a stance (for or against).",
@@ -114,7 +114,7 @@ const nonTechnicalEvents: EventData[] = [
         videoSrc: null,
         poster: "/posters/Gold Rush.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/goldrush-xion2026",
+        registerLink: "https://forms.gle/ruq97u4LRcmkVG476",
         date: "2026-03-23",
         rules: [
             "Team size: 2 members per team.",
@@ -131,7 +131,7 @@ const nonTechnicalEvents: EventData[] = [
         videoSrc: "/events/Free Fire.mp4",
         poster: "/posters/Free Fire Tournament.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/freefire-xion2026",
+        registerLink: "https://forms.gle/vTSui3gafAxTVg6L8",
         date: "2026-03-23",
         rules: [
             "Stage 1: All players compete in a Full Map Battle Royale match.",
@@ -147,7 +147,7 @@ const nonTechnicalEvents: EventData[] = [
         videoSrc: "/events/Grandmaster Grid.mp4",
         poster: "/posters/Grandmaster Grid.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/chess-xion2026",
+        registerLink: "https://forms.gle/uMq6wmpdDAXdP1Ve7",
         date: "2026-03-23",
         rules: [
             "The tournament will strictly follow standard FIDE and Chess.com rules.",
@@ -161,7 +161,7 @@ const nonTechnicalEvents: EventData[] = [
         videoSrc: null,
         poster: "/posters/Beatverse.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/beatverse-xion2026",
+        registerLink: "https://forms.gle/pDV5Upx8dRadk2Ff7",
         date: "2026-03-23",
         rules: [
             "The event will feature music and audio clips in Tamil, English, and Hindi.",
@@ -176,7 +176,7 @@ const nonTechnicalEvents: EventData[] = [
         videoSrc: null,
         poster: "/posters/IPL Auction.jpeg",
         category: "nontech",
-        registerLink: "https://forms.google.com/iplauction-xion2026",
+        registerLink: "https://forms.gle/DesbbLcxcS6ejEDh7",
         date: "2026-03-23",
         rules: [
             "Each team is given a fixed virtual purse to build their dream squad.",
