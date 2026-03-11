@@ -54,12 +54,10 @@ export default function VideoIntro({
         video.addEventListener("playing", onPlaying);
         video.addEventListener("ended", onEnded);
 
-        // Enable loading for the visible video only.
-        // The autoPlay attribute on the <video> tag handles playback
-        // automatically once enough data is buffered — no manual
-        // play() call needed, which avoids iOS autoplay rejection.
-        video.preload = "auto";
-        video.load();
+        // preload="auto" is set directly on both <video> tags so the
+        // browser starts buffering immediately on parse (before React mounts).
+        // display:none videos are skipped by browsers, so only the
+        // visible element is fetched — no wasted bandwidth.
 
         // Safety timeout — never trap the user (12s)
         const safetyTimer = setTimeout(() => {
@@ -102,7 +100,7 @@ export default function VideoIntro({
                 muted
                 playsInline
                 autoPlay
-                preload="none"
+                preload="auto"
                 controls={false}
                 disablePictureInPicture
                 style={videoStyle}
@@ -124,7 +122,7 @@ export default function VideoIntro({
                 muted
                 playsInline
                 autoPlay
-                preload="none"
+                preload="auto"
                 controls={false}
                 disablePictureInPicture
                 style={videoStyle}
