@@ -51,9 +51,11 @@ export default function Hero() {
                 transition={{ delay: 0.3, duration: 0.5 }}
                 className="flex items-center justify-center md:justify-start flex-wrap gap-3 sm:gap-4"
             >
-                <button className="bg-gold-primary text-black px-6 sm:px-8 py-3.5 text-xs font-black uppercase tracking-widest hover:bg-white transition-all duration-300">
+                <Link
+                    href="/events"
+                    className="bg-gold-primary text-black px-8 py-3.5 text-xs font-black uppercase tracking-widest hover:bg-white transition-all duration-300 inline-block">
                     Register Now
-                </button>
+                </Link>
                 <button className="border border-gold-primary/30 text-gold-primary px-6 sm:px-8 py-3.5 text-xs font-black uppercase tracking-widest hover:bg-gold-primary/5 transition-all duration-300">
                     Protocol 01
                 </button>
