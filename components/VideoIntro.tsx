@@ -54,10 +54,10 @@ export default function VideoIntro({
         video.addEventListener("playing", onPlaying);
         video.addEventListener("ended", onEnded);
 
-        // preload="auto" is set directly on both <video> tags so the
-        // browser starts buffering immediately on parse (before React mounts).
-        // display:none videos are skipped by browsers, so only the
-        // visible element is fetched — no wasted bandwidth.
+        // Only preload the video that is actually visible — saves downloading
+        // the other size variant entirely (saves 4–9 MB of wasted bandwidth).
+        video.preload = "auto";
+        video.load();
 
         // Safety timeout — never trap the user (12s)
         const safetyTimer = setTimeout(() => {
@@ -100,7 +100,7 @@ export default function VideoIntro({
                 muted
                 playsInline
                 autoPlay
-                preload="auto"
+                preload="none"
                 controls={false}
                 disablePictureInPicture
                 style={videoStyle}
@@ -122,7 +122,7 @@ export default function VideoIntro({
                 muted
                 playsInline
                 autoPlay
-                preload="auto"
+                preload="none"
                 controls={false}
                 disablePictureInPicture
                 style={videoStyle}

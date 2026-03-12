@@ -59,6 +59,12 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
 
                     if (entry.isIntersecting) {
                         if (loopCount.current < MAX_LOOPS) {
+                            // Lazy-inject src only on first entry — avoids browser
+                            // fetching metadata for off-screen videos on page load.
+                            if (!videoEl.src && event.videoSrc) {
+                                videoEl.src = event.videoSrc;
+                                videoEl.load();
+                            }
                             setShowPoster(false);
                             const p = videoEl.play();
                             if (p) p.catch(() => { });
@@ -101,7 +107,6 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                     <>
                         <video
                             ref={videoRef}
-                            src={event.videoSrc}
                             muted
                             playsInline
                             preload="none"
