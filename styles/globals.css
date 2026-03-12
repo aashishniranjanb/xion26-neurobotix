@@ -1,0 +1,670 @@
+@import "tailwindcss";
+
+:root {
+  --gold-primary: #FFD700;
+  --gold-secondary: #FFB800;
+  --gold-dark: #DAA520;
+  --black-core: #020202;
+  --black-charcoal: #0A0A0A;
+  --black-surface: #111111;
+}
+
+/* Tailwind v4 CSS Theme Variables */
+@theme {
+  --color-gold-primary: var(--gold-primary);
+  --color-gold-secondary: var(--gold-secondary);
+  --color-gold-dark: var(--gold-dark);
+  --color-black-core: var(--black-core);
+  --color-black-charcoal: var(--black-charcoal);
+  --color-black-surface: var(--black-surface);
+
+  --z-index-100: 100;
+
+  --breakpoint-xs: 390px;
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+}
+
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at 20% 30%, rgba(255, 217, 0, 0.05), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255, 184, 0, 0.04), transparent 50%),
+    linear-gradient(180deg, #020202 0%, #0A0A0A 40%, #111111 70%, #020202 100%);
+
+  color: white;
+  font-feature-settings: "ss01" on, "liga" off;
+  position: relative;
+  overflow-x: hidden;
+  padding-top: env(safe-area-inset-top);
+}
+
+/* Global Focus-Visible Styles for A11y */
+*:focus-visible {
+  outline: 2px solid var(--gold-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+  box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.2);
+}
+
+/* Hide default focus outline if mouse is used */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Subtle matte noise */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  z-index: 100;
+  mix-blend-mode: overlay;
+  background-image:
+    repeating-linear-gradient(0deg,
+      rgba(255, 255, 255, 0.02) 0px,
+      rgba(255, 255, 255, 0.02) 1px,
+      transparent 1px,
+      transparent 3px);
+}
+
+@keyframes subtleShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-viscosity {
+  background-size: 200% 200%;
+  animation: subtleShift 60s ease-in-out infinite;
+}
+
+/* Gold Sweep Underline Animation */
+.nav-link {
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: -100%;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, #FFD700, #FFB800);
+  transition: left 0.4s ease;
+}
+
+.nav-link:hover::after {
+  left: 0;
+}
+
+.gold-gradient-text {
+  @apply text-transparent bg-clip-text bg-gradient-to-r from-gold-primary via-gold-secondary to-gold-dark;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   VIDEO INTRO OVERLAY
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.video-intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #020202;
+  opacity: 1;
+  transition:
+    opacity 1s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 1s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, filter, transform;
+}
+
+/* Cinematic exit */
+.video-intro-exit {
+  opacity: 0;
+  filter: blur(10px) brightness(0.2);
+  transform: scale(1.04);
+  pointer-events: none;
+}
+
+/* ── Static fallback (shown instantly while video loads) ── */
+.video-intro-fallback-img {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse at 50% 35%, rgba(212, 175, 55, 0.06) 0%, transparent 55%),
+    radial-gradient(ellipse at 80% 70%, rgba(255, 184, 0, 0.03) 0%, transparent 45%),
+    linear-gradient(180deg, #020202 0%, #0a0a0a 40%, #050505 100%);
+  transition: opacity 0.8s ease-out;
+}
+
+/* ── Video element ── */
+.video-intro-player {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* ── Bottom vignette ── */
+.video-intro-vignette {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 35%;
+  z-index: 2;
+  pointer-events: none;
+  opacity: 0.7;
+  background: linear-gradient(to top,
+      rgba(2, 2, 2, 0.9) 0%,
+      rgba(2, 2, 2, 0.4) 40%,
+      transparent 100%);
+}
+
+/* ── Skip Intro Button — Matte Black + Gold Premium ── */
+.video-intro-skip {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  /* Matte black body */
+  background: linear-gradient(145deg, #0a0a0a 0%, #111111 50%, #0a0a0a 100%);
+  /* Gold gradient border */
+  border: 1.5px solid transparent;
+  border-image: linear-gradient(135deg, #d4af37, #b8860b 40%, #d4af37 60%, #f5d060) 1;
+  border-radius: 0;
+  /* Sharp, modern, premium */
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: skipSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both;
+}
+
+/* Gold text */
+.video-intro-skip-text {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #f5d060 0%, #d4af37 40%, #b8860b 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Gold icon */
+.video-intro-skip-icon {
+  display: flex;
+  align-items: center;
+  color: #d4af37;
+  opacity: 0.8;
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+/* Sweeping shine effect */
+.video-intro-skip-shine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(212, 175, 55, 0.08),
+      rgba(245, 208, 96, 0.15),
+      rgba(212, 175, 55, 0.08),
+      transparent);
+  animation: shineSlide 4s ease-in-out 2s infinite;
+  pointer-events: none;
+}
+
+/* ── Hover ── */
+.video-intro-skip:hover {
+  background: linear-gradient(145deg, #0d0d0d 0%, #151515 50%, #0d0d0d 100%);
+  box-shadow:
+    0 0 24px rgba(212, 175, 55, 0.12),
+    0 1px 3px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(212, 175, 55, 0.08);
+  transform: translateY(-1px);
+}
+
+.video-intro-skip:hover .video-intro-skip-icon {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* ── Active press ── */
+.video-intro-skip:active {
+  transform: scale(0.97) translateY(0);
+  box-shadow:
+    0 0 12px rgba(212, 175, 55, 0.08),
+    inset 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+@keyframes skipSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shineSlide {
+
+  0%,
+  100% {
+    left: -100%;
+  }
+
+  50% {
+    left: 150%;
+  }
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: 768px) {
+  .video-intro-skip {
+    bottom: 28px;
+    right: 28px;
+    padding: 12px 22px;
+    gap: 8px;
+  }
+
+  .video-intro-skip-text {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+  }
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   HERO CONTENT REVEAL (after video)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero-content-reveal {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(-20px) scale(0.98);
+  transition:
+    opacity 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+    filter 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s,
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+  will-change: opacity, filter, transform;
+}
+
+.hero-content-visible {
+  opacity: 1;
+  filter: blur(0px);
+  transform: translateY(0) scale(1);
+}
+
+/* Intro page animations */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.glitch-text {
+  animation: goldFlicker 2s infinite alternate;
+}
+
+/* DIGITAL GLITCH */
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  color: #ffb800;
+  overflow: hidden;
+}
+
+.glitch-text::before {
+  animation: glitchTop 2s infinite linear alternate-reverse;
+  clip-path: inset(0 0 50% 0);
+}
+
+.glitch-text::after {
+  animation: glitchBottom 2s infinite linear alternate-reverse;
+  clip-path: inset(50% 0 0 0);
+}
+
+@keyframes glitchTop {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(-2px, -2px);
+  }
+
+  40% {
+    transform: translate(2px, 2px);
+  }
+
+  60% {
+    transform: translate(-1px, 1px);
+  }
+
+  80% {
+    transform: translate(1px, -1px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitchBottom {
+  0% {
+    transform: translate(0);
+  }
+
+  20% {
+    transform: translate(2px, 1px);
+  }
+
+  40% {
+    transform: translate(-2px, -1px);
+  }
+
+  60% {
+    transform: translate(1px, -2px);
+  }
+
+  80% {
+    transform: translate(-1px, 2px);
+  }
+
+  100% {
+    transform: translate(0);
+  }
+}
+
+.scan-lines {
+  background: repeating-linear-gradient(to bottom,
+      rgba(255, 215, 0, 0.03) 0px,
+      rgba(255, 215, 0, 0.03) 1px,
+      transparent 1px,
+      transparent 4px);
+  mix-blend-mode: overlay;
+  animation: scanMove 8s linear infinite;
+}
+
+@keyframes scanMove {
+  0% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 0 100px;
+  }
+}
+
+/* GOLD 3D EXTRUDED XION */
+
+.xion-3d {
+  font-family: 'Arial Black', sans-serif;
+  font-size: clamp(4rem, 8vw, 10rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  line-height: 0.85;
+
+  background: linear-gradient(180deg,
+      #fff4b0 0%,
+      #ffd700 30%,
+      #ffb800 60%,
+      #b8860b 100%);
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow:
+    1px 1px 0 #c99a00,
+    2px 2px 0 #b8860b,
+    3px 3px 0 #a87400,
+    4px 4px 0 #8b6508,
+    5px 5px 0 #6e4f00,
+    7px 7px 0 #5c4300,
+    8px 8px 0 #4a3500,
+    1px 1px 0 #c99a00,
+    2px 2px 0 #b8860b,
+    3px 3px 0 #a87400,
+    4px 4px 0 #8b6508,
+    0 0 20px rgba(103, 88, 3, 0.8);
+
+
+
+  transform: perspective(800px) rotateX(6deg);
+}
+
+
+/* GOLD BUTTON BASE */
+
+.gold-glitch-btn {
+  position: relative;
+  padding: 1rem 2.5rem;
+  background: linear-gradient(180deg, #ffd700, #ffb800);
+  color: black;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+  transition: transform 0.2s ease;
+}
+
+.gold-glitch-btn:hover {
+  transform: translateY(-3px);
+}
+
+/* MULTI GLITCH OVERLAY */
+
+.gold-glitch-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(to bottom,
+      rgba(0, 0, 0, 0.9) 0px,
+      rgba(0, 0, 0, 0.9) 2px,
+      transparent 2px,
+      transparent 6px);
+  opacity: 0;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.gold-glitch-btn::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(75deg,
+      /* angled right */
+      rgba(0, 0, 0, 0.9) 0px,
+      rgba(0, 0, 0, 0.9) 3px,
+      transparent 3px,
+      transparent 9px);
+  opacity: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+}
+
+.gold-glitch-btn:hover::after {
+  opacity: 1;
+  animation: slantGlitch 0.4s steps(6) infinite;
+}
+
+@keyframes premiumGlitch {
+  0% {
+    background-position: 0 0;
+    transform: skewX(0deg);
+  }
+
+  20% {
+    background-position: 0 -10px;
+    transform: skewX(-3deg);
+  }
+
+  40% {
+    background-position: 0 15px;
+    transform: skewX(2deg);
+  }
+
+  60% {
+    background-position: 0 -20px;
+    transform: skewX(-4deg);
+  }
+
+  80% {
+    background-position: 0 10px;
+    transform: skewX(3deg);
+  }
+
+  100% {
+    background-position: 0 0;
+    transform: skewX(0deg);
+  }
+}
+
+@keyframes slantGlitch {
+  0% {
+    background-position: 0 0;
+    transform: translateX(0);
+  }
+
+  25% {
+    background-position: -20px 0;
+    transform: translateX(-4px);
+  }
+
+  50% {
+    background-position: 15px 0;
+    transform: translateX(3px);
+  }
+
+  75% {
+    background-position: -10px 0;
+    transform: translateX(-2px);
+  }
+
+  100% {
+    background-position: 0 0;
+    transform: translateX(0);
+  }
+}
+
+/* Gold Edge Sweep */
+.gold-sweep {
+  position: relative;
+  overflow: hidden;
+}
+
+.gold-sweep::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg,
+      transparent,
+      rgba(255, 215, 0, 0.15),
+      rgba(255, 200, 0, 0.25),
+      transparent);
+  transform: skewX(-25deg);
+  transition: all 0.8s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.gold-sweep:hover::before {
+  left: 150%;
+}
+
+/* AI Neural Background */
+@keyframes neuralPulse {
+
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0.08;
+  }
+
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+    opacity: 0.14;
+  }
+}
+
+@keyframes nodeFlicker {
+
+  0%,
+  100% {
+    opacity: 0.04;
+  }
+
+  50% {
+    opacity: 0.1;
+  }
+}
+
+@keyframes neuralLineFlow {
+
+  0%,
+  100% {
+    stroke-opacity: 0.05;
+  }
+
+  50% {
+    stroke-opacity: 0.18;
+  }
+}
+
+.neural-layer {
+  transition: transform 0.25s ease-out;
+  will-change: transform;
+}
