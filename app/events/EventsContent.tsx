@@ -2,7 +2,6 @@
 
 import { useState, useMemo } from "react";
 import styles from "./events.module.css";
-import GalaxyCanvas from "./GalaxyCanvas";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
 
@@ -25,7 +24,7 @@ const technicalEvents: EventData[] = [
     {
         name: "Mind Forge",
         tagline: "Present your original research ideas on cutting-edge topics.",
-        videoSrc: "/events/Paper Presentation.mp4",
+        videoSrc: "/events/Paper Presentation mind forge.mp4",
         poster: "/posters/Mind Forge.jpeg",
         category: "tech",
         registerLink: "https://forms.gle/QMkYGquRzghVNDu48",
@@ -59,7 +58,7 @@ const technicalEvents: EventData[] = [
     {
         name: "Decode Reality",
         tagline: "Can you tell what's real and what's AI-generated?",
-        videoSrc: null,
+        videoSrc: "/events/decode reality (2).mp4",
         poster: "/posters/Decode Reality.jpeg",
         category: "tech",
         registerLink: "https://forms.gle/TsVHciZdGqm1qqu78",
@@ -90,8 +89,8 @@ const technicalEvents: EventData[] = [
     {
         name: "Brain Wave",
         tagline: "Argue, counter, and conquer with your words in this technical debate.",
-        videoSrc: "/events/Brain Wave.mp4",
-        poster: "/posters/Brain Wave.jpeg",
+        videoSrc: "/events/brain wave debate.mp4",
+        poster: "/posters/Brain-wave-debate.jpeg",
         category: "tech",
         registerLink: "https://forms.gle/xEYfCmdoV7trfNKU9",
         date: "2026-03-23",
@@ -111,7 +110,7 @@ const nonTechnicalEvents: EventData[] = [
     {
         name: "Gold Rush",
         tagline: "Hunt QR codes, collect gold coins, and race to victory.",
-        videoSrc: null,
+        videoSrc: "/events/gold rush event (2).mp4",
         poster: "/posters/Gold Rush.jpeg",
         category: "nontech",
         registerLink: "https://forms.gle/ruq97u4LRcmkVG476",
@@ -158,7 +157,7 @@ const nonTechnicalEvents: EventData[] = [
     {
         name: "Beatverse",
         tagline: "Decode the beats and guess the track before anyone else.",
-        videoSrc: null,
+        videoSrc: "/events/beatverse (2).mp4",
         poster: "/posters/Beatverse.jpeg",
         category: "nontech",
         registerLink: "https://forms.gle/pDV5Upx8dRadk2Ff7",
@@ -173,7 +172,7 @@ const nonTechnicalEvents: EventData[] = [
     {
         name: "IPL Auction",
         tagline: "Bid smart, build your dream squad under budget.",
-        videoSrc: null,
+        videoSrc: "/events/ipl auction (2).mp4",
         poster: "/posters/IPL Auction.jpeg",
         category: "nontech",
         registerLink: "https://forms.gle/DesbbLcxcS6ejEDh7",
@@ -211,7 +210,6 @@ export default function EventsContent() {
 
     return (
         <main className="min-h-screen relative pt-28 bg-[#020202]">
-            <GalaxyCanvas />
             {/* Hero Title */}
             <div className={styles.heroSection}>
                 <h1 className={styles.title}>XION 2026</h1>
