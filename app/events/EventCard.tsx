@@ -112,7 +112,7 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                             preload="none"
                         />
                         <Image
-                            src={event.poster}
+                            src={event.videoCover || event.poster}
                             alt={event.name}
                             fill
                             className="object-cover"
@@ -129,7 +129,7 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                     </>
                 ) : (
                     <Image
-                        src={event.poster}
+                        src={event.videoCover || event.poster}
                         alt={event.name}
                         fill
                         className="object-cover"
