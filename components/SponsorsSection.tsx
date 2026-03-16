@@ -2,34 +2,21 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import Image from "next/image";
 
-const sponsorTiers = [
-  {
-    tier: "Title Sponsor",
-    label: "Powering the Future",
-    sponsors: ["SPONSOR NAME", "SPONSOR NAME"],
-    size: "text-2xl",
-    opacity: "opacity-60 hover:opacity-100",
-  },
-  {
-    tier: "Gold Sponsors",
-    label: "Champions of Innovation",
-    sponsors: ["SPONSOR", "SPONSOR", "SPONSOR"],
-    size: "text-lg",
-    opacity: "opacity-45 hover:opacity-90",
-  },
-  {
-    tier: "Associate Sponsors",
-    label: "Partners in Excellence",
-    sponsors: ["PARTNER", "PARTNER", "PARTNER", "PARTNER"],
-    size: "text-base",
-    opacity: "opacity-35 hover:opacity-75",
-  },
+// Combine the logos into a repeating array for the infinite effect.
+const partners = [
+  { name: "XION Robotics Club", type: "image", src: "/xion_logo main.png" },
+  { name: "Vasan Eye Care", type: "text", text: "VASAN EYE CARE" },
+  { name: "SRM Institute of Science and Technology", type: "image", src: "/srm-logo.png" },
 ];
 
 export default function SponsorsSection() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  // Triple the array to ensure the screen is filled and the loop is completely seamless.
+  const carouselItems = [...partners, ...partners, ...partners, ...partners];
 
   return (
     <section ref={ref} className="w-full py-28 relative overflow-hidden">
@@ -39,13 +26,13 @@ export default function SponsorsSection() {
         <div className="absolute left-0 top-1/2 -translate-y-1/2 w-[400px] h-[400px] rounded-full bg-gold-primary/[0.03] blur-3xl" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 mb-16">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          className="text-center"
         >
           <p className="text-gold-primary tracking-[0.4em] text-xs uppercase mb-4">
             // Our Sponsors
@@ -57,58 +44,79 @@ export default function SponsorsSection() {
             Industry leaders powering NeuroBotix 2026
           </p>
         </motion.div>
+      </div>
 
-        {/* Sponsor tiers */}
-        <div className="space-y-14">
-          {sponsorTiers.map((tier, ti) => (
-            <motion.div
-              key={ti}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: ti * 0.15 }}
+      {/* Infinite Carousel */}
+      <div className="relative w-full max-w-[100vw] overflow-hidden flex mask-gradient">
+        <motion.div
+          className="flex items-center gap-16 md:gap-32 w-max px-8"
+          animate={{ x: ["0%", "-50%"] }}
+          transition={{
+            duration: 30, // Adjust speed here
+            repeat: Infinity,
+            ease: "linear",
+          }}
+        >
+          {carouselItems.map((item, idx) => (
+            <div
+              key={idx}
+              className="flex items-center justify-center grayscale hover:grayscale-0 opacity-60 hover:opacity-100 transition-all duration-500 cursor-pointer min-w-[200px]"
             >
-              {/* Tier label */}
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-px flex-1 bg-gold-primary/10" />
-                <span className="text-gold-primary/50 text-[10px] tracking-[0.4em] uppercase font-bold">
-                  {tier.tier}
-                </span>
-                <div className="h-px flex-1 bg-gold-primary/10" />
-              </div>
-
-              {/* Logos row */}
-              <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12">
-                {tier.sponsors.map((name, si) => (
-                  <motion.div
-                    key={si}
-                    initial={{ opacity: 0 }}
-                    animate={inView ? { opacity: 1 } : {}}
-                    transition={{ delay: ti * 0.15 + si * 0.08 }}
-                    className={`${tier.size} ${tier.opacity} font-black uppercase tracking-[0.2em] text-white transition-all duration-300 cursor-pointer border border-white/5 hover:border-gold-primary/20 px-6 py-4`}
-                  >
-                    {name}
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+              {item.type === "image" ? (
+                <div className="relative w-[180px] lg:w-[240px] h-[80px] lg:h-[100px]">
+                  <Image
+                    src={item.src as string}
+                    alt={item.name}
+                    fill
+                    sizes="(max-width: 768px) 180px, 240px"
+                    className="object-contain"
+                  />
+                </div>
+              ) : (
+                <div className="text-2xl lg:text-4xl font-black tracking-[0.2em] text-white uppercase text-center whitespace-nowrap px-4 py-8 border border-white/5 bg-white/[0.02]">
+                  {item.text}
+                </div>
+              )}
+            </div>
           ))}
-        </div>
+        </motion.div>
+      </div>
 
+      <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16 mt-16">
         {/* Become a sponsor CTA */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
-          className="mt-20 text-center"
+           initial={{ opacity: 0, y: 20 }}
+           animate={inView ? { opacity: 1, y: 0 } : {}}
+           transition={{ duration: 0.6, delay: 0.3 }}
+           className="text-center"
         >
-          <p className="text-white/30 text-sm mb-6 tracking-widest uppercase">
+          <p className="text-white/30 text-xs tracking-widest uppercase mb-6">
             Want your brand at the forefront of robotics innovation?
           </p>
-          <button className="px-8 py-4 border border-gold-primary/40 text-gold-primary text-sm font-bold uppercase tracking-[0.2em] hover:bg-gold-primary/5 hover:border-gold-primary transition-all duration-300">
-            Partner With Us →
+          <button className="px-8 py-3 border border-gold-primary/30 text-gold-primary text-xs font-bold uppercase tracking-[0.2em] hover:bg-gold-primary/5 hover:border-gold-primary/60 transition-all duration-300">
+            Partner With Us
           </button>
         </motion.div>
       </div>
+
+      <style jsx global>{`
+        .mask-gradient {
+          mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10%,
+            black 90%,
+            transparent
+          );
+          -webkit-mask-image: linear-gradient(
+            to right,
+            transparent,
+            black 10%,
+            black 90%,
+            transparent
+          );
+        }
+      `}</style>
     </section>
   );
 }

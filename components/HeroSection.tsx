@@ -43,14 +43,14 @@ export default function HeroSection() {
         </div>
 
         {/* Mobile Layout */}
-        <div className="flex md:hidden flex-col items-center justify-center h-full px-6 relative z-10 text-center">
-          {/* Robot — fills from near nav down, overlaps slightly into text */}
-          <div className="relative w-[300px] h-[360px] flex-shrink-0 pointer-events-none -mb-10 -mt-10">
+        <div className="flex md:hidden flex-col items-center justify-end h-[100svh] px-4 pt-24 pb-12 relative z-10 text-center gap-2">
+          {/* Robot — fits gracefully within the available space above the text */}
+          <div className="relative w-full max-w-[280px] aspect-square flex-shrink-1 pointer-events-none">
             <RobotScene />
           </div>
 
           {/* Text content */}
-          <div className="relative z-20 w-full max-w-sm">
+          <div className="relative z-20 w-full max-w-sm flex-shrink-0">
             <Hero />
           </div>
         </div>

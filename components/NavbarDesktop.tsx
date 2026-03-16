@@ -60,7 +60,7 @@ export default function NavbarDesktop() {
                 <div className="flex items-center gap-4 lg:gap-8 flex-shrink-0 group">
                     <Link
                         href="/events"
-                        className="hidden sm:block px-6 py-2.5 bg-gold-primary text-black text-[11px] lg:text-[13px] font-black uppercase tracking-widest hover:bg-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(255,191,0,0.2)]"
+                        className="hidden md:flex items-center justify-center px-4 xl:px-6 py-2 xl:py-2.5 bg-gold-primary text-black text-[10px] xl:text-[12px] font-black uppercase tracking-widest hover:bg-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_15px_rgba(255,191,0,0.15)] whitespace-nowrap"
                     >
                         Register Now
                     </Link>
