@@ -24,10 +24,10 @@ function useCountUp(target: number, inView: boolean, duration = 2000) {
 }
 
 const stats = [
-  { value: 2000, suffix: "+", label: "Participants", sub: "engineers & innovators" },
-  { value: 100,  suffix: "+", label: "Colleges",     sub: "across india" },
-  { value: 15,   suffix: "+", label: "Years Legacy",  sub: "of technical excellence" },
-  { value: 25,   suffix: "",  label: "States Reach",  sub: "national scale" },
+  { value: 2000, suffix: "+", label: "Innovators", sub: "builders & creators" },
+  { value: 100,  suffix: "+", label: "Institutions", sub: "pan-india network" },
+  { value: 15,   suffix: "+", label: "Years Legacy",  sub: "of technical mastery" },
+  { value: 25,   suffix: "",  label: "States",        sub: "national scale" },
 ];
 
 function StatCard({ stat, inView, index }: {

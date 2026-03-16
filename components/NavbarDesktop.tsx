@@ -56,8 +56,14 @@ export default function NavbarDesktop() {
                     ))}
                 </div>
 
-                {/* SRM Logo — Right */}
-                <div className="flex-shrink-0 group">
+                {/* SRM Logo & CTA — Right */}
+                <div className="flex items-center gap-4 lg:gap-8 flex-shrink-0 group">
+                    <Link
+                        href="/events"
+                        className="hidden sm:block px-6 py-2.5 bg-gold-primary text-black text-[11px] lg:text-[13px] font-black uppercase tracking-widest hover:bg-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_0_20px_rgba(255,191,0,0.2)]"
+                    >
+                        Register Now
+                    </Link>
                     <div
                         className={`relative transition-all duration-500 ${scrolled ? "w-[46px] h-[46px]" : "w-[56px] h-[56px]"
                             }`}

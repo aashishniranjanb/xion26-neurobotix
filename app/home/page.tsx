@@ -8,9 +8,7 @@ export const metadata: Metadata = {
 import CountDown from "@/components/CountDown";
 import AboutSection from "@/components/AboutSection";
 import StatsGrid from "@/components/StatsGrid";
-import EventMatrix from "@/components/EventMatrix";
 import SponsorsSection from "@/components/SponsorsSection";
-import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 
 export default function HomePage() {
@@ -20,9 +18,7 @@ export default function HomePage() {
             <CountDown />
             <AboutSection />
             <StatsGrid />
-            <EventMatrix />
             <SponsorsSection />
-            <CTASection />
             <Footer />
         </main>
     );
