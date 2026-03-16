@@ -1,28 +1,60 @@
 "use client";
 
 import Hero from "@/components/Hero";
-import { Engine } from "@/components/Vortex/Engine";
+import dynamic from "next/dynamic";
+
+// ── Lazy-load heavy 3D/canvas components ────────────────────
+// These are the biggest performance killers: Three.js + .glb model + particle engine.
+// By lazy-loading them, the page renders instantly with the hero text,
+// and the heavy stuff loads in the background after the critical content is visible.
+
+const RobotScene = dynamic(() => import("@/components/hero/RobotScene"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center">
+      <div className="w-[200px] h-[200px] rounded-full bg-gold-primary/10 blur-3xl animate-pulse" />
+    </div>
+  ),
+});
+
+const Engine = dynamic(
+  () => import("@/components/Vortex/Engine").then((mod) => mod.Engine),
+  {
+    ssr: false,
+    loading: () => <div className="h-full w-full" />,
+  }
+);
 
 export default function HeroSection() {
-    return (
-        <div className="h-screen w-full relative">
-            {/* Desktop: Full canvas vortex with Hero overlaid */}
-            <div className="hidden md:block h-full w-full">
-                <Engine className="flex items-center flex-col justify-center px-6 md:px-10 py-4 w-full h-full">
-                    <Hero />
-                </Engine>
-            </div>
+  return (
+    <section aria-label="Welcome Hero" className="h-screen w-full relative overflow-hidden bg-[#030303]">
+      <Engine className="h-full w-full" aria-hidden="true">
+        {/* Desktop Layout */}
+        <div className="hidden md:flex items-center h-full max-w-7xl mx-auto px-6 lg:px-12">
+          {/* Left Content */}
+          <div className="w-1/2 relative z-20">
+            <Hero />
+          </div>
 
-            {/* Mobile: CSS glow effect + Hero centered */}
-            <div className="flex md:hidden h-full w-full flex-col items-center justify-center relative overflow-hidden">
-                {/* Animated golden glow orb — CSS only, zero GPU cost */}
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div className="w-[280px] h-[280px] xs:w-[320px] xs:h-[320px] sm:w-[360px] sm:h-[360px] rounded-full bg-gradient-to-br from-yellow-500/8 via-yellow-600/5 to-transparent blur-3xl animate-pulse" />
-                </div>
-                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150px] h-[150px] rounded-full bg-gold-primary/6 blur-2xl animate-ping opacity-30" />
-
-                <Hero />
-            </div>
+          {/* Right Robot */}
+          <div className="absolute right-0 top-0 h-full w-[55%] pointer-events-auto z-10 overflow-visible">
+            <RobotScene />
+          </div>
         </div>
-    );
+
+        {/* Mobile Layout */}
+        <div className="flex md:hidden flex-col items-center justify-center h-full px-6 relative z-10 text-center">
+          {/* Robot — fills from near nav down, overlaps slightly into text */}
+          <div className="relative w-[300px] h-[360px] flex-shrink-0 pointer-events-none -mb-10 -mt-10">
+            <RobotScene />
+          </div>
+
+          {/* Text content */}
+          <div className="relative z-20 w-full max-w-sm">
+            <Hero />
+          </div>
+        </div>
+      </Engine>
+    </section>
+  );
 }

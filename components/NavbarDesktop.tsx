@@ -23,7 +23,7 @@ export default function NavbarDesktop() {
         >
             <div className="flex items-center justify-between">
                 {/* XION Logo — Left */}
-                <Link href="/" className="flex-shrink-0 group">
+                <Link href="/home" className="flex-shrink-0 group">
                     <div
                         className={`relative transition-all duration-500 ${scrolled ? "w-[50px] h-[50px]" : "w-[62px] h-[62px]"
                             }`}
@@ -33,18 +33,19 @@ export default function NavbarDesktop() {
                             src="/xion-logo.png"
                             alt="XION Robotics Club"
                             fill
-                            className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)] relative z-10"
+                            sizes="(max-width: 768px) 50px, 62px"
+                            className="object-contain drop-shadow-[0_0_6px_rgba(255,215,0,0.4)] active:drop-shadow-[0_0_15px_rgba(255,215,0,0.7)] group-hover:scale-105 active:scale-95 transition-all duration-300 relative z-10"
                             priority
                         />
                     </div>
                 </Link>
 
                 {/* Nav Links — Center */}
-                <div className="flex gap-10 lg:gap-14 text-[15px] uppercase tracking-[0.2em] text-zinc-300 font-medium">
+                <div className="flex gap-5 lg:gap-10 xl:gap-14 text-[13px] lg:text-[15px] uppercase tracking-[0.15em] lg:tracking-[0.2em] text-zinc-300 font-medium">
                     {["Home", "Events", "Sponsors", "About", "Contact"].map((item) => (
                         <Link
                             key={item}
-                            href={item === "Home" ? "/" : `/${item.toLowerCase()}`}
+                            href={item === "Home" ? "/home" : `/${item.toLowerCase()}`}
                             className="relative group transition-colors py-2"
                         >
                             <span className="group-hover:text-yellow-400 transition-colors duration-200">
@@ -67,6 +68,7 @@ export default function NavbarDesktop() {
                                 src="/srm-logo.png"
                                 alt="SRM Institute of Science and Technology"
                                 fill
+                                sizes="(max-width: 768px) 46px, 56px"
                                 className="object-cover drop-shadow-[0_0_4px_rgba(255,215,0,0.3)]"
                                 priority
                             />
