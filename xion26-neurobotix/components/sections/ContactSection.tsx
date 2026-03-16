@@ -92,16 +92,16 @@ export default function ContactSection() {
                                     </p>
                                 </div>
 
-                                <p className="mt-3 xs:mt-4 text-zinc-200/80 text-[11px] xs:text-xs leading-relaxed font-semibold">
+                                <p className="mt-1 xs:mt-1.5 text-zinc-200/80 text-[11px] xs:text-xs leading-relaxed font-semibold">
                                     For all event, sponsorship, and participation inquiries.
                                 </p>
 
-                                <div className="flex gap-2 xs:gap-3 mt-4 xs:mt-6 flex-wrap">
+                                <div className="flex gap-2 xs:gap-3 mt-2 xs:mt-3 flex-wrap">
 
                                     <MagneticButton
                                         as="a"
                                         href="tel:+918148263558"
-                                        className="min-h-[46px] flex-1 flex items-center justify-center px-4 py-2.5 text-[12px] xs:text-sm border border-yellow-500/30 rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500 font-bold"
+                                        className="min-h-[46px] flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-[12px] xs:text-sm border border-yellow-500/30 rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500 font-bold"
                                     >
                                         📞 Call
                                     </MagneticButton>
@@ -110,7 +110,7 @@ export default function ContactSection() {
                                         as="a"
                                         href="https://wa.me/918148263558"
                                         target="_blank"
-                                        className="min-h-[46px] flex-1 flex items-center justify-center px-4 py-2.5 text-[12px] xs:text-sm border border-yellow-500/30 rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500 font-bold"
+                                        className="min-h-[46px] flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 text-[12px] xs:text-sm border border-yellow-500/30 rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition text-yellow-500 font-bold"
                                     >
                                         💬 WA
                                     </MagneticButton>
