@@ -37,16 +37,12 @@ export default function VideoIntro({
 
         // ── Event handlers ──────────────────────────────────
         const onCanPlay = () => {
-            // Explicitly call play() — calling load() programmatically
-            // cancels the browser's internal autoplay trigger on some browsers.
-            video.play().catch(() => {
-                // Autoplay blocked (e.g. strict mobile policy) — skip intro
-                setTimeout(triggerExit, VIDEO_INTRO_TIMINGS.AUTOPLAY_ERROR_SKIP_MS);
-            });
+            setVideoReady(true);
+            setPhase("playing");
         };
 
         const onPlaying = () => {
-            // Video is actually rendering frames — reveal it
+            // Confirms the video is actually rendering frames
             setVideoReady(true);
             setPhase("playing");
         };
@@ -58,8 +54,10 @@ export default function VideoIntro({
         video.addEventListener("playing", onPlaying);
         video.addEventListener("ended", onEnded);
 
-        // Only preload the video that is actually visible — saves downloading
-        // the other size variant entirely (saves 4–9 MB of wasted bandwidth).
+        // Enable loading for the visible video only.
+        // The autoPlay attribute on the <video> tag handles playback
+        // automatically once enough data is buffered — no manual
+        // play() call needed, which avoids iOS autoplay rejection.
         video.preload = "auto";
         video.load();
 
@@ -85,18 +83,11 @@ export default function VideoIntro({
 
     return (
         <div className={`video-intro-overlay ${phase === "exiting" ? "video-intro-exit" : ""}`}>
-            {/* Static fallback + loader shown while video buffers */}
+            {/* Static fallback shown instantly */}
             <div
                 className="video-intro-fallback-img"
                 style={{ opacity: videoReady ? 0 : 1 }}
-            >
-                {!videoReady && (
-                    <div className="video-intro-loader">
-                        <div className="video-intro-loader-ring" />
-                        <span className="video-intro-loader-text">LOADING</span>
-                    </div>
-                )}
-            </div>
+            />
 
             {/* ─────────────────────────────────────────────────
                 Desktop Video (md and up)
@@ -110,6 +101,7 @@ export default function VideoIntro({
                 className="video-intro-player hidden md:block"
                 muted
                 playsInline
+                autoPlay
                 preload="none"
                 controls={false}
                 disablePictureInPicture
@@ -131,6 +123,7 @@ export default function VideoIntro({
                 className="video-intro-player block md:hidden"
                 muted
                 playsInline
+                autoPlay
                 preload="none"
                 controls={false}
                 disablePictureInPicture

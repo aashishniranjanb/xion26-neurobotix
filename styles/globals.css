@@ -157,44 +157,6 @@ body::before {
   transition: opacity 0.8s ease-out;
 }
 
-/* ── Centered loading indicator ── */
-.video-intro-loader {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 18px;
-}
-
-.video-intro-loader-ring {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: 2px solid rgba(212, 175, 55, 0.12);
-  border-top-color: #d4af37;
-  animation: introSpin 0.9s linear infinite;
-}
-
-.video-intro-loader-text {
-  font-size: 0.6rem;
-  font-weight: 800;
-  letter-spacing: 0.3em;
-  color: rgba(212, 175, 55, 0.5);
-  text-transform: uppercase;
-  animation: introPulse 1.4s ease-in-out infinite;
-}
-
-@keyframes introSpin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes introPulse {
-  0%, 100% { opacity: 0.4; }
-  50%       { opacity: 1; }
-}
-
 /* ── Video element ── */
 .video-intro-player {
   position: absolute;

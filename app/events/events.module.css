@@ -420,46 +420,6 @@
   color: #d4af37;
 }
 
-/* ===== Countdown Badge ===== */
-.countdownBadge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  z-index: 10;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 11px 5px 8px;
-  border-radius: 999px;
-  background: rgba(5, 5, 8, 0.72);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(212, 175, 55, 0.35);
-  font-size: 0.68rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: #d4af37;
-  box-shadow: 0 0 12px rgba(212, 175, 55, 0.18), inset 0 0 8px rgba(212, 175, 55, 0.05);
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-.countdownDot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #d4af37;
-  flex-shrink: 0;
-  box-shadow: 0 0 6px #d4af37;
-  animation: badgePulse 1.6s ease-in-out infinite;
-}
-
-@keyframes badgePulse {
-  0%, 100% { opacity: 1; box-shadow: 0 0 6px #d4af37; }
-  50%       { opacity: 0.4; box-shadow: 0 0 2px #d4af37; }
-}
-
 /* ===== Animations ===== */
 @keyframes cardFadeIn {
   from { opacity: 0; transform: translateY(30px); }

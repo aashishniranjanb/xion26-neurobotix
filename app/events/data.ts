@@ -3,7 +3,6 @@ export interface EventData {
     tagline: string;
     videoSrc: string | null;
     poster: string;
-    videoCover?: string;
     rules: string[];
     category: "tech" | "nontech";
     registerLink: string;
