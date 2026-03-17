@@ -4,7 +4,7 @@ import { useMemo, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./events.module.css";
 // EventData is defined and exported from EventsContent.tsx (since we pulled main)
-import type { EventData } from "./EventsContent";
+import type { EventData } from "./data";
 
 interface EventCardProps {
     event: EventData;
@@ -107,7 +107,7 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                             preload="none"
                         />
                         <Image
-                            src={event.poster}
+                            src={event.videoCover || event.poster}
                             alt={event.name}
                             fill
                             className="object-cover"
@@ -124,7 +124,7 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                     </>
                 ) : (
                     <Image
-                        src={event.poster}
+                        src={event.videoCover || event.poster}
                         alt={event.name}
                         fill
                         className="object-cover"
