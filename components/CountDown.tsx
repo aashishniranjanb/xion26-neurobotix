@@ -56,9 +56,12 @@ export default function Countdown() {
             Summit Begins <span className="gold-gradient-text">In</span>
           </h2>
           <div className="flex items-center justify-center gap-3 mt-6">
-            <div className="h-px w-16 bg-gradient-to-r from-transparent to-gold-primary/60" />
-            <div className="w-1.5 h-1.5 rounded-full bg-gold-primary" />
-            <div className="h-px w-16 bg-gradient-to-l from-transparent to-gold-primary/60" />
+            <div className="h-px w-24 bg-gradient-to-r from-transparent via-gold-primary/60 to-gold-primary/20" />
+            <div className="flex gap-1">
+                <div className="w-1.5 h-1.5 rounded-sm bg-gold-primary animate-pulse" />
+                <div className="w-1.5 h-1.5 rounded-sm bg-gold-primary/50" />
+            </div>
+            <div className="h-px w-24 bg-gradient-to-l from-transparent via-gold-primary/60 to-gold-primary/20" />
           </div>
         </motion.div>
 
@@ -85,7 +88,7 @@ export default function Countdown() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.4 }}
-          className="text-center text-white/20 text-xs tracking-[0.4em] uppercase mt-12 font-mono"
+          className="text-center text-gold-primary/50 text-[10px] xs:text-xs tracking-[0.4em] uppercase mt-12 font-mono font-bold"
         >
           24 · 03 · 2026 &nbsp;·&nbsp; SRM Institute of Science & Technology
         </motion.p>
@@ -99,15 +102,18 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
 
   return (
     <div className="group flex flex-col items-center">
-      <div className="relative px-8 py-6 md:px-12 md:py-8 border border-gold-primary/20 bg-white/[0.02] group-hover:border-gold-primary/40 group-hover:bg-white/[0.04] transition-all duration-500">
-        {/* Corner brackets */}
-        <span className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-gold-primary/60" />
-        <span className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-gold-primary/60" />
-        <span className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-gold-primary/60" />
-        <span className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-gold-primary/60" />
+      <div className="relative px-6 py-5 xs:px-8 xs:py-6 md:px-12 md:py-8 border border-gold-primary/10 bg-[#050505] shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] group-hover:border-gold-primary/30 group-hover:bg-[#0A0A0A] transition-all duration-500 overflow-hidden">
+        {/* Robotic HUD Corner Brackets */}
+        <span className="absolute top-0 left-0 w-3 h-3 md:w-5 md:h-5 border-t-[3px] border-l-[3px] border-gold-primary/80 transition-all group-hover:w-4 group-hover:h-4 md:group-hover:w-6 md:group-hover:h-6" />
+        <span className="absolute top-0 right-0 w-3 h-3 md:w-5 md:h-5 border-t-[3px] border-r-[3px] border-gold-primary/80 transition-all group-hover:w-4 group-hover:h-4 md:group-hover:w-6 md:group-hover:h-6" />
+        <span className="absolute bottom-0 left-0 w-3 h-3 md:w-5 md:h-5 border-b-[3px] border-l-[3px] border-gold-primary/80 transition-all group-hover:w-4 group-hover:h-4 md:group-hover:w-6 md:group-hover:h-6" />
+        <span className="absolute bottom-0 right-0 w-3 h-3 md:w-5 md:h-5 border-b-[3px] border-r-[3px] border-gold-primary/80 transition-all group-hover:w-4 group-hover:h-4 md:group-hover:w-6 md:group-hover:h-6" />
+        
+        {/* Subtle grid lines */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(212,175,55,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(212,175,55,0.03)_1px,transparent_1px)] bg-[size:10px_10px] pointer-events-none opacity-50" />
 
-        {/* Number */}
-        <div className="text-6xl md:text-7xl lg:text-8xl font-black tabular-nums leading-none gold-gradient-text drop-shadow-[0_0_30px_rgba(255,215,0,0.3)]">
+        {/* Number - Robotic Monospace */}
+        <div className="relative z-10 text-5xl xs:text-6xl md:text-7xl lg:text-8xl font-black font-mono tabular-nums leading-none bg-gradient-to-b from-yellow-300 via-gold-primary to-yellow-700 bg-clip-text text-transparent drop-shadow-[0_0_15px_rgba(212,175,55,0.4)]">
           {display}
         </div>
       </div>
@@ -117,11 +123,11 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
         {label}
       </div>
 
-      {/* Pulse dot */}
+      {/* Robotic Pulse Indicator */}
       <motion.div
-        className="mt-2 w-1 h-1 rounded-full bg-gold-primary/50"
-        animate={{ opacity: [0.3, 1, 0.3], scale: [0.8, 1.2, 0.8] }}
-        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+        className="mt-3 w-12 h-[2px] bg-gradient-to-r from-transparent via-gold-primary/80 to-transparent"
+        animate={{ opacity: [0.2, 1, 0.2], width: ["20px", "48px", "20px"] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
       />
     </div>
   );
@@ -129,16 +135,16 @@ function TimeBlock({ value, label }: { value: number; label: string }) {
 
 function Separator() {
   return (
-    <div className="flex flex-col items-center justify-center gap-2 mb-10 px-1">
+    <div className="flex flex-col items-center justify-center gap-3 mb-12 px-1 xs:px-2 md:mb-16">
       <motion.div
-        className="w-1.5 h-1.5 rounded-full bg-gold-primary/50"
-        animate={{ opacity: [1, 0.2, 1] }}
+        className="w-2 h-2 rounded-sm bg-gold-primary shadow-[0_0_8px_rgba(212,175,55,0.8)]"
+        animate={{ opacity: [1, 0.3, 1] }}
         transition={{ duration: 1, repeat: Infinity }}
       />
       <motion.div
-        className="w-1.5 h-1.5 rounded-full bg-gold-primary/50"
-        animate={{ opacity: [1, 0.2, 1] }}
-        transition={{ duration: 1, repeat: Infinity, delay: 0.3 }}
+        className="w-2 h-2 rounded-sm bg-gold-primary shadow-[0_0_8px_rgba(212,175,55,0.8)]"
+        animate={{ opacity: [1, 0.3, 1] }}
+        transition={{ duration: 1, repeat: Infinity, delay: 0.5 }}
       />
     </div>
   );

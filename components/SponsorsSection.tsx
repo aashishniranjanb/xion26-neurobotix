@@ -3,6 +3,7 @@
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 // Combine the logos into a repeating array for the infinite effect.
 const partners = [
@@ -93,9 +94,11 @@ export default function SponsorsSection() {
           <p className="text-white/30 text-xs tracking-widest uppercase mb-6">
             Want your brand at the forefront of robotics innovation?
           </p>
-          <button className="px-8 py-3 border border-gold-primary/30 text-gold-primary text-xs font-bold uppercase tracking-[0.2em] hover:bg-gold-primary/5 hover:border-gold-primary/60 transition-all duration-300">
-            Partner With Us
-          </button>
+            <Link href="/sponsors" className="w-full sm:w-auto">
+              <button className="w-full sm:w-auto px-8 py-4 border border-gold-primary/30 text-gold-primary text-sm font-bold uppercase tracking-[0.2em] hover:bg-gold-primary/5 hover:border-gold-primary/60 transition-all duration-300">
+                Partner With Us
+              </button>
+            </Link>
         </motion.div>
       </div>
 

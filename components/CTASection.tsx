@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef } from "react";
+import Link from "next/link";
 
 export default function CTASection() {
   const ref = useRef(null);
@@ -68,14 +69,18 @@ export default function CTASection() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             {/* Primary CTA */}
-            <button className="gold-glitch-btn w-full sm:w-auto">
-              Explore Events
-            </button>
+            <Link href="/events" className="w-full sm:w-auto">
+              <button className="gold-glitch-btn w-full sm:w-auto">
+                Explore Events
+              </button>
+            </Link>
 
             {/* Secondary CTA */}
-            <button className="w-full sm:w-auto px-8 py-4 border border-gold-primary/30 text-gold-primary text-sm font-bold uppercase tracking-[0.2em] hover:bg-gold-primary/5 hover:border-gold-primary/60 transition-all duration-300">
-              Partner With Us
-            </button>
+            <Link href="/sponsors" className="w-full sm:w-auto">
+              <button className="w-full sm:w-auto px-8 py-4 border border-gold-primary/30 text-gold-primary text-sm font-bold uppercase tracking-[0.2em] hover:bg-gold-primary/5 hover:border-gold-primary/60 transition-all duration-300">
+                Partner With Us
+              </button>
+            </Link>
           </motion.div>
 
           {/* Subtle scan line overlay */}
