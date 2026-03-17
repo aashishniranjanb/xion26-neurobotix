@@ -3,7 +3,7 @@
 import { Canvas, useFrame } from "@react-three/fiber";
 import { useGLTF, Environment } from "@react-three/drei";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
-import { Suspense, useRef, useEffect } from "react";
+import { Suspense, useRef, useEffect, useState } from "react";
 import * as THREE from "three";
 
 // Configure Draco decoder for compressed .glb
@@ -11,7 +11,25 @@ const dracoLoader = new DRACOLoader();
 dracoLoader.setDecoderPath("https://www.gstatic.com/draco/versioned/decoders/1.5.7/");
 dracoLoader.preload();
 
+
+
 const mouse = { x: 0, y: 0 };
+
+function getRobotLayout(width: number, height: number) {
+  if (width < 380 || height < 650) {
+    // Small phones
+    return { scale: 2.8, position: [0, -3.8, 0], fov: 55, camPos: [0, 2.5, 8] };
+  } else if (width < 768) {
+    // Standard phones
+    return { scale: 3.2, position: [0, -4.5, 0], fov: 50, camPos: [0, 2.5, 8] };
+  } else if (width < 1024) {
+    // Tablets
+    return { scale: 3.8, position: [0, -6.0, 0], fov: 48, camPos: [0, 2.0, 8] };
+  } else {
+    // Desktop
+    return { scale: 4.2, position: [0, -7.2, 0], fov: 45, camPos: [0, 1.6, 8] };
+  }
+}
 
 const LEFT_FINGER_BONES = [
   "HandL001_060", "HandL002_061", "HandL003_062", "HandL004_063",
@@ -29,9 +47,10 @@ const RIGHT_FINGER_BONES = [
   "HandR014_0105", "HandR015_0106", "HandR016_0107", "HandR017_0108",
   "HandR018_0109", "HandR019_0110", "HandR020_0111", "HandR021_0112",
   "HandR022_0113",
+  "HandR022_0113",
 ];
 
-function RobotModel() {
+function RobotModel({ layout }: { layout: { scale: number; position: number[] } }) {
   const { scene } = useGLTF("/robot.glb", true);
 
   const headBone = useRef<THREE.Bone | null>(null);
@@ -145,13 +164,21 @@ function RobotModel() {
     });
   });
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
-  return <primitive object={scene} scale={isMobile ? 3.8 : 4.2} position={isMobile ? [0, -5.5, 0] : [0, -7.2, 0]} rotation={[0, -0.4, 0]} />;
+  return <primitive object={scene} scale={layout.scale} position={layout.position} rotation={[0, -0.4, 0]} />;
 }
 
 export default function RobotScene() {
+  const [layout, setLayout] = useState(getRobotLayout(1200, 800));
+
   useEffect(() => {
+    const handleResize = () => {
+      setLayout(getRobotLayout(window.innerWidth, window.innerHeight));
+    };
+    
+    // Initial call
+    handleResize();
+
+    window.addEventListener("resize", handleResize);
     const handleMouseMove = (e: MouseEvent) => {
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -((e.clientY / window.innerHeight) * 2 - 1);
@@ -169,12 +196,12 @@ export default function RobotScene() {
     };
   }, []);
 
-  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const isMobile = layout.scale < 3.8;
 
   return (
     <div className="w-full h-full">
       <Canvas
-        camera={{ position: isMobile ? [0, 2.5, 7] : [0, 1.6, 8], fov: isMobile ? 50 : 45 }}
+        camera={{ position: layout.camPos as any, fov: layout.fov }}
         dpr={isMobile ? 1 : [1, 1.5]}
         performance={{ min: 0.5 }}
       >
@@ -185,7 +212,7 @@ export default function RobotScene() {
         <pointLight position={[0, 3, 5]} intensity={2} color="#FFD700" distance={18} />
         {!isMobile && <pointLight position={[2, 8, 3]} intensity={1} color="#ffffff" distance={20} />}
         <Suspense fallback={null}>
-          <RobotModel />
+          <RobotModel layout={layout} />
           <Environment preset="city" />
         </Suspense>
       </Canvas>

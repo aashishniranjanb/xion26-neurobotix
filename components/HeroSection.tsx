@@ -43,14 +43,14 @@ export default function HeroSection() {
         </div>
 
         {/* Mobile Layout */}
-        <div className="flex md:hidden flex-col items-center justify-end h-[100svh] px-4 pt-24 pb-12 relative z-10 text-center gap-2">
-          {/* Robot — fits gracefully within the available space above the text */}
-          <div className="absolute top-[8%] left-0 right-0 h-[55%] flex items-center justify-center pointer-events-none z-10">
+        <div className="flex md:hidden flex-col items-center h-[100svh] px-4 pt-24 pb-6 relative z-10 text-center">
+          {/* Robot — occupies the space between navbar and text */}
+          <div className="flex-1 w-full relative flex items-center justify-center pointer-events-none z-10 min-h-[40vh]">
             <RobotScene />
           </div>
 
           {/* Text content */}
-          <div className="relative z-20 w-full max-w-sm flex-shrink-0 mt-auto">
+          <div className="relative z-20 w-full max-w-sm flex-shrink-0 mt-4">
             <Hero />
           </div>
         </div>
