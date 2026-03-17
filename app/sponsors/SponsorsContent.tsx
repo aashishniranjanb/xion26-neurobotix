@@ -80,7 +80,7 @@ export default function SponsorsContent() {
     }, [isMobile, handleMove]);
 
     return (
-        <section className="relative min-h-screen bg-[#020202] text-yellow-500 overflow-hidden">
+        <section className="relative min-h-screen bg-[#020202] overflow-hidden">
             {/* ═══════ Neural Background (hidden on mobile for perf) ═══════ */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#020202] to-black opacity-90" />
@@ -145,16 +145,16 @@ export default function SponsorsContent() {
                     transition={{ duration: 0.6 }}
                     className="mb-12 xs:mb-16 sm:mb-20 md:mb-24"
                 >
-                    <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-wider sm:tracking-wide uppercase leading-tight">
+                    <h1 className="text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black tracking-wider sm:tracking-wide uppercase leading-tight text-white">
                         Strategic <span className="gold-gradient-text">Alliance</span>
                     </h1>
 
-                    <p className="mt-3 xs:mt-4 sm:mt-5 md:mt-6 text-yellow-500/80 max-w-xs xs:max-w-sm sm:max-w-lg md:max-w-2xl text-xs xs:text-sm md:text-lg leading-relaxed font-medium">
+                    <p className="mt-3 xs:mt-4 sm:mt-5 md:mt-6 text-white/60 max-w-xs xs:max-w-sm sm:max-w-lg md:max-w-2xl text-xs xs:text-sm md:text-lg leading-relaxed font-medium">
                         Partner with NeuroBotix 2026 — a national-level robotics and intelligent
                         systems platform hosted at SRMIST Vadapalani Campus, Chennai.
                     </p>
 
-                    <div className="mt-2 xs:mt-3 text-yellow-500/80 text-[10px] xs:text-xs space-y-1 uppercase font-bold tracking-widest">
+                    <div className="mt-2 xs:mt-3 text-gold-primary/80 text-[10px] xs:text-xs space-y-1 uppercase font-bold tracking-widest">
                         <p>📅 24th March 2026</p>
                         <p>📍 SRMIST Vadapalani Campus, Chennai</p>
                         <p>🏆 National-Level Engineering Techfest</p>
@@ -173,7 +173,7 @@ export default function SponsorsContent() {
                         <MagneticButton
                             as="a"
                             href="/contact"
-                            className="min-h-[46px] flex-1 xs:flex-none flex items-center justify-center px-5 py-3 border border-yellow-500/40 text-yellow-500 font-bold text-xs xs:text-sm uppercase tracking-wider rounded-lg hover:bg-yellow-500/10 active:bg-yellow-500/15 transition-all"
+                            className="min-h-[46px] flex-1 xs:flex-none flex items-center justify-center px-5 py-3 border border-gold-primary/40 text-gold-primary font-bold text-xs xs:text-sm uppercase tracking-wider rounded-lg hover:bg-gold-primary/10 active:bg-gold-primary/15 transition-all"
                         >
                             Contact
                         </MagneticButton>
@@ -195,9 +195,9 @@ export default function SponsorsContent() {
                             viewport={{ once: true }}
                             transition={{ delay: i * 0.08, duration: 0.4 }}
                         >
-                            <div className="border border-yellow-500/20 p-4 xs:p-6 sm:p-5 md:p-8 rounded-xl bg-[#0A0A0A]/60 sm:backdrop-blur-md text-center h-full flex flex-col justify-center">
+                            <div className="border border-gold-primary/20 hover:border-gold-primary/40 p-4 xs:p-6 sm:p-5 md:p-8 rounded-xl bg-white/[0.02] sm:backdrop-blur-md text-center h-full flex flex-col justify-center transition-all duration-300">
                                 <Counter value={m.value} />
-                                <p className="text-yellow-500/90 mt-1.5 text-[10px] xs:text-xs md:text-sm uppercase tracking-widest font-bold">
+                                <p className="text-white/60 mt-1.5 text-[10px] xs:text-xs md:text-sm uppercase tracking-widest font-bold">
                                     {m.label}
                                 </p>
                             </div>
@@ -225,7 +225,7 @@ export default function SponsorsContent() {
 
                 {/* ═══════ ACT 4: WHY PARTNER ═══════ */}
                 <div className="mb-12 xs:mb-16 sm:mb-24 md:mb-32">
-                    <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black text-center mb-6 xs:mb-8 sm:mb-12 md:mb-16 uppercase tracking-wider">
+                    <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black text-center mb-6 xs:mb-8 sm:mb-12 md:mb-16 uppercase tracking-wider text-white">
                         Why Partner With XION 26
                     </h2>
 
@@ -244,10 +244,10 @@ export default function SponsorsContent() {
                                 transition={{ delay: i * 0.08, duration: 0.4 }}
                             >
                                 <HoverTiltCard>
-                                    <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-6 sm:p-5 md:p-8 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300 h-full">
-                                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
-                                        <h3 className="text-base xs:text-lg md:text-xl font-bold mb-2 xs:mb-3 md:mb-4 text-yellow-400">{item.title}</h3>
-                                        <p className="text-yellow-200/80 text-xs xs:text-sm md:text-base leading-relaxed font-medium">{item.desc}</p>
+                                    <div className="relative border border-gold-primary/10 hover:border-gold-primary/30 rounded-xl p-4 xs:p-6 sm:p-5 md:p-8 bg-white/[0.02] sm:backdrop-blur-md transition-all duration-300 h-full group">
+                                        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
+                                        <h3 className="text-base xs:text-lg md:text-xl font-bold mb-2 xs:mb-3 md:mb-4 text-white">{item.title}</h3>
+                                        <p className="text-white/60 text-xs xs:text-sm md:text-base leading-relaxed font-medium">{item.desc}</p>
                                     </div>
                                 </HoverTiltCard>
                             </motion.div>
@@ -257,7 +257,7 @@ export default function SponsorsContent() {
 
                 {/* ═══════ ACT 5: SPONSORSHIP TIERS ═══════ */}
                 <div className="mb-12 xs:mb-16 sm:mb-24 md:mb-32">
-                    <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black text-center mb-6 xs:mb-8 sm:mb-12 md:mb-16 uppercase tracking-wider">
+                    <h2 className="text-lg xs:text-xl sm:text-2xl md:text-3xl font-black text-center mb-6 xs:mb-8 sm:mb-12 md:mb-16 uppercase tracking-wider text-white">
                         Sponsorship Tiers
                     </h2>
 
@@ -271,13 +271,14 @@ export default function SponsorsContent() {
                             className="sm:col-span-2 md:col-span-1"
                         >
                             <HoverTiltCard>
-                                <div className="gold-sweep relative border border-yellow-500 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-[#0A0A0A]/80 sm:backdrop-blur-md shadow-[0_0_30px_rgba(255,215,0,0.06)] transition-all duration-300">
-                                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-700 rounded-t-xl" />
-                                    <span className="inline-block px-2 py-0.5 text-[9px] xs:text-[10px] bg-yellow-500/15 border border-yellow-500/25 rounded-full text-yellow-400 tracking-widest uppercase mb-2 xs:mb-3 sm:mb-4">
+                                <div className="relative border border-gold-primary/40 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-white/[0.04] sm:backdrop-blur-md shadow-[0_0_30px_rgba(212,175,55,0.06)] transition-all duration-300 overflow-hidden">
+                                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-gold-primary/10 to-transparent pointer-events-none" />
+                                    <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-transparent via-gold-primary to-transparent rounded-t-xl" />
+                                    <span className="relative z-10 inline-block px-2 py-0.5 text-[9px] xs:text-[10px] bg-gold-primary/15 border border-gold-primary/25 rounded-full text-gold-primary tracking-widest uppercase mb-2 xs:mb-3 sm:mb-4">
                                         1 Exclusive Slot
                                     </span>
-                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6">Title Partner</h3>
-                                    <ul className="space-y-2 xs:space-y-3 text-yellow-200/90 text-xs xs:text-sm md:text-base font-semibold">
+                                    <h3 className="relative z-10 text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6 text-white">Title Partner</h3>
+                                    <ul className="relative z-10 space-y-2 xs:space-y-3 text-white/80 text-xs xs:text-sm md:text-base font-semibold">
                                         <li>• Logo on main event backdrop</li>
                                         <li>• On-stage acknowledgment</li>
                                         <li>• Social media feature series</li>
@@ -296,10 +297,10 @@ export default function SponsorsContent() {
                             transition={{ delay: 0.1 }}
                         >
                             <HoverTiltCard>
-                                <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300 h-full">
-                                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
-                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6">Event Partner</h3>
-                                    <ul className="space-y-2 xs:space-y-3 text-yellow-200/90 text-xs xs:text-sm md:text-base font-semibold">
+                                <div className="relative border border-gold-primary/10 hover:border-gold-primary/30 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-white/[0.02] sm:backdrop-blur-md transition-all duration-300 h-full group">
+                                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
+                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6 text-white">Event Partner</h3>
+                                    <ul className="space-y-2 xs:space-y-3 text-white/60 text-xs xs:text-sm md:text-base font-semibold">
                                         <li>• Branding for specific competition</li>
                                         <li>• Logo on certificates</li>
                                         <li>• Booth space access</li>
@@ -317,10 +318,10 @@ export default function SponsorsContent() {
                             transition={{ delay: 0.2 }}
                         >
                             <HoverTiltCard>
-                                <div className="gold-sweep relative border border-yellow-500/20 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-[#0A0A0A]/60 sm:backdrop-blur-md hover:border-yellow-400/40 transition-colors duration-300 h-full">
-                                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-500 to-yellow-700 rounded-t-xl" />
-                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6">Support Partner</h3>
-                                    <ul className="space-y-2 xs:space-y-3 text-yellow-200/90 text-xs xs:text-sm md:text-base font-semibold">
+                                <div className="relative border border-gold-primary/10 hover:border-gold-primary/30 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-white/[0.02] sm:backdrop-blur-md transition-all duration-300 h-full group">
+                                    <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-gold-primary/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-t-xl" />
+                                    <h3 className="text-lg xs:text-xl sm:text-2xl font-bold mb-3 xs:mb-4 sm:mb-6 text-white">Support Partner</h3>
+                                    <ul className="space-y-2 xs:space-y-3 text-white/60 text-xs xs:text-sm md:text-base font-semibold">
                                         <li>• Website logo placement</li>
                                         <li>• Digital channel mentions</li>
                                         <li>• Sponsor reel inclusion</li>
@@ -337,20 +338,20 @@ export default function SponsorsContent() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center mb-12 xs:mb-16 sm:mb-24 md:mb-32 border border-yellow-500/10 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-[#0A0A0A]/40"
+                    className="text-center mb-12 xs:mb-16 sm:mb-24 md:mb-32 border border-gold-primary/10 rounded-xl p-4 xs:p-5 sm:p-6 md:p-10 bg-white/[0.02]"
                 >
-                    <p className="text-yellow-500/80 text-[9px] xs:text-[10px] uppercase tracking-[0.4em] mb-2 xs:mb-3 sm:mb-4 font-black">
+                    <p className="text-gold-primary/80 text-[9px] xs:text-[10px] uppercase tracking-[0.4em] mb-2 xs:mb-3 sm:mb-4 font-black">
                         Hosted By
                     </p>
-                    <h2 className="text-sm xs:text-base sm:text-lg md:text-2xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-snug">
+                    <h2 className="text-sm xs:text-base sm:text-lg md:text-2xl font-bold mb-2 xs:mb-3 sm:mb-4 leading-snug text-white">
                         SRM Institute of Science and Technology
                     </h2>
-                    <p className="text-yellow-200/80 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl mx-auto text-xs xs:text-sm leading-relaxed font-semibold">
+                    <p className="text-white/60 max-w-xs xs:max-w-sm sm:max-w-2xl md:max-w-3xl mx-auto text-xs xs:text-sm leading-relaxed font-semibold">
                         NAAC A++ Accredited · Established 2011 · Vadapalani Campus, Chennai.
                         A premier engineering institution fostering innovation in robotics, AI,
                         and emerging technologies.
                     </p>
-                    <p className="mt-2 xs:mt-3 sm:mt-4 text-yellow-700 text-[9px] xs:text-[10px] tracking-wider">
+                    <p className="mt-2 xs:mt-3 sm:mt-4 text-white/30 text-[9px] xs:text-[10px] tracking-wider">
                         Collaborated with research labs and emerging tech startups.
                     </p>
                 </motion.div>
@@ -361,16 +362,16 @@ export default function SponsorsContent() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
-                    className="text-center border border-yellow-500/30 rounded-xl p-5 xs:p-6 sm:p-8 md:p-14 bg-[#0A0A0A]/70 sm:backdrop-blur-md"
+                    className="text-center border border-gold-primary/20 rounded-xl p-5 xs:p-6 sm:p-8 md:p-14 bg-white/[0.04] sm:backdrop-blur-md"
                 >
-                    <h2 className="text-lg xs:text-xl sm:text-2xl md:text-4xl font-black mb-3 xs:mb-4 sm:mb-6 uppercase tracking-wider leading-snug">
+                    <h2 className="text-lg xs:text-xl sm:text-2xl md:text-4xl font-black mb-3 xs:mb-4 sm:mb-6 uppercase tracking-wider leading-snug text-white">
                         Become a Strategic Partner
                     </h2>
 
-                    <p className="text-yellow-200/90 mb-1.5 xs:mb-2 sm:mb-3 text-[11px] xs:text-xs sm:text-sm md:text-base max-w-xs sm:max-w-none mx-auto font-medium">
+                    <p className="text-white/80 mb-1.5 xs:mb-2 sm:mb-3 text-[11px] xs:text-xs sm:text-sm md:text-base max-w-xs sm:max-w-none mx-auto font-medium">
                         Join us in shaping the next generation of intelligent systems.
                     </p>
-                    <p className="text-yellow-500 mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs max-w-sm sm:max-w-none mx-auto uppercase tracking-widest font-black">
+                    <p className="text-gold-primary mb-5 xs:mb-6 sm:mb-8 text-[11px] xs:text-xs max-w-sm sm:max-w-none mx-auto uppercase tracking-widest font-black">
                         Limited strategic slots available.
                     </p>
 
@@ -387,7 +388,7 @@ export default function SponsorsContent() {
                         <MagneticButton
                             as="a"
                             href="/contact"
-                            className="min-h-[48px] flex items-center justify-center px-4 xs:px-5 sm:px-6 md:px-10 py-2.5 xs:py-3 sm:py-4 border border-yellow-500/40 text-yellow-500 font-medium uppercase tracking-wider text-[11px] xs:text-xs sm:text-sm rounded-md hover:bg-yellow-500/10 active:bg-yellow-500/15 transition-all"
+                            className="min-h-[48px] flex items-center justify-center px-4 xs:px-5 sm:px-6 md:px-10 py-2.5 xs:py-3 sm:py-4 border border-gold-primary/40 text-gold-primary font-medium uppercase tracking-wider text-[11px] xs:text-xs sm:text-sm rounded-md hover:bg-gold-primary/10 active:opacity-80 transition-all"
                         >
                             Schedule Discussion
                         </MagneticButton>
