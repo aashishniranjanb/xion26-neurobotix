@@ -8,7 +8,7 @@ import Image from "next/image";
 const partners = [
   { name: "XION Robotics Club", type: "image", src: "/xion_logo main.png" },
   { name: "Vasan Eye Care", type: "text", text: "VASAN EYE CARE" },
-  { name: "SRM Institute of Science and Technology", type: "image", src: "/srm-logo.png" },
+  { name: "SRM Institute of Science and Technology", type: "image", src: "/srm-logo-big.png" },
 ];
 
 export default function SponsorsSection() {
