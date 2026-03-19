@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import PageTransition from "@/components/PageTransition";
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 
 export const viewport: Viewport = {
@@ -42,6 +43,7 @@ export default function RootLayout({
       <body className="bg-[#030303] text-white antialiased overflow-x-hidden">
         <NavigationWrapper />
         <PageTransition>{children}</PageTransition>
+        <Analytics />
       </body>
     </html>
   );
