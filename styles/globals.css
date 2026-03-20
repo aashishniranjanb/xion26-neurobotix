@@ -25,6 +25,9 @@
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
   --breakpoint-xl: 1280px;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-outfit), var(--font-inter), system-ui, sans-serif;
 }
 
 html,
@@ -40,6 +43,7 @@ body {
     linear-gradient(180deg, #020202 0%, #0A0A0A 40%, #111111 70%, #020202 100%);
 
   color: white;
+  font-family: var(--font-sans);
   font-feature-settings: "ss01" on, "liga" off;
   position: relative;
   overflow-x: hidden;

@@ -10,6 +10,8 @@ import {
     IconMail,
 } from "@tabler/icons-react";
 
+import { usePathname } from "next/navigation";
+
 const navItems = [
     { name: "Home", link: "/home", icon: IconHome },
     { name: "Events", link: "/events", icon: IconCalendarEvent },
@@ -19,6 +21,7 @@ const navItems = [
 ];
 
 export default function NavbarMobile() {
+    const pathname = usePathname();
     return (
         <nav aria-label="Mobile Navigation" className="fixed top-[max(0.75rem,env(safe-area-inset-top))] left-2 right-2 z-50 backdrop-blur-xl bg-[#080808]/95 border border-yellow-500/15 rounded-2xl px-3 py-2.5 shadow-[0_4px_25px_rgba(0,0,0,0.7)]">
             <div className="flex items-center justify-between gap-2">
@@ -38,18 +41,26 @@ export default function NavbarMobile() {
 
                 {/* Nav Icons — Center spread */}
                 <div className="flex items-center justify-evenly flex-1 px-1 xs:px-2">
-                    {navItems.map(({ name, link, icon: Icon }) => (
-                        <Link
-                            key={name}
-                            href={link}
-                            className="flex flex-col items-center justify-center text-zinc-300 hover:text-yellow-400 active:text-yellow-300 active:scale-110 transition-all duration-150 py-1.5 min-w-[40px]"
-                        >
-                            <Icon size={18} className="xs:size-[20px] sm:size-[22px]" stroke={1.8} />
-                            <span className="hidden xs:block text-[8px] sm:text-[9px] uppercase tracking-wider mt-0.5 font-medium opacity-70">
-                                {name}
-                            </span>
-                        </Link>
-                    ))}
+                    {navItems.map(({ name, link, icon: Icon }) => {
+                        const isActive = pathname === link;
+                        return (
+                            <Link
+                                key={name}
+                                href={link}
+                                className={`flex flex-col items-center justify-center transition-all duration-300 py-1.5 min-w-[40px] relative ${isActive ? "text-yellow-400 scale-110" : "text-zinc-400 hover:text-yellow-400 opacity-70 hover:opacity-100"
+                                    }`}
+                            >
+                                <Icon size={18} className="xs:size-[20px] sm:size-[22px]" stroke={isActive ? 2.2 : 1.8} />
+                                <span className={`hidden xs:block text-[8px] sm:text-[9px] uppercase tracking-wider mt-0.5 font-bold transition-all duration-300 ${isActive ? "opacity-100 translate-y-0" : "opacity-60 translate-y-0"
+                                    }`}>
+                                    {name}
+                                </span>
+                                {isActive && (
+                                    <div className="absolute -bottom-1 w-1 h-1 rounded-full bg-yellow-400 shadow-[0_0_8px_rgba(255,215,0,0.8)]" />
+                                )}
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* SRM Logo — Right */}

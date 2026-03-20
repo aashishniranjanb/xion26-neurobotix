@@ -1,8 +1,22 @@
 import "@/styles/globals.css";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import PageTransition from "@/components/PageTransition";
+import ScrollToTop from "@/components/ui/ScrollToTop";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
+import { Inter, Outfit } from "next/font/google";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+  display: "swap",
+});
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -40,9 +54,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="bg-[#030303] text-white antialiased overflow-x-hidden">
+      <body className={`${inter.variable} ${outfit.variable} bg-[#030303] text-white antialiased overflow-x-hidden font-sans`}>
         <NavigationWrapper />
         <PageTransition>{children}</PageTransition>
+        <ScrollToTop />
         <Analytics />
       </body>
     </html>

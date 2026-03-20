@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function NavbarDesktop() {
     const [scrolled, setScrolled] = useState(false);
+    const pathname = usePathname();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -42,18 +44,22 @@ export default function NavbarDesktop() {
 
                 {/* Nav Links — Center */}
                 <div className="flex gap-4 lg:gap-10 xl:gap-14 text-[13px] lg:text-[15px] uppercase tracking-[0.1em] lg:tracking-[0.2em] text-zinc-300 font-medium">
-                    {["Home", "Events", "Sponsors", "About", "Contact"].map((item) => (
-                        <Link
-                            key={item}
-                            href={item === "Home" ? "/home" : `/${item.toLowerCase()}`}
-                            className="relative group transition-colors py-2"
-                        >
-                            <span className="group-hover:text-yellow-400 transition-colors duration-200">
-                                {item}
-                            </span>
-                            <span className="absolute left-0 -bottom-0 w-0 h-[2px] bg-gradient-to-r from-yellow-400 to-yellow-600 group-hover:w-full transition-all duration-300" />
-                        </Link>
-                    ))}
+                    {["Home", "Events", "Sponsors", "About", "Contact"].map((item) => {
+                        const href = item === "Home" ? "/home" : `/${item.toLowerCase()}`;
+                        const isActive = pathname === href;
+                        return (
+                            <Link
+                                key={item}
+                                href={href}
+                                className={`relative group transition-colors py-2 ${isActive ? "text-yellow-400 font-bold" : "text-zinc-300"}`}
+                            >
+                                <span className="group-hover:text-yellow-400 transition-colors duration-200">
+                                    {item}
+                                </span>
+                                <span className={`absolute left-0 -bottom-0 h-[2px] bg-gradient-to-r from-yellow-400 to-yellow-600 transition-all duration-300 ${isActive ? "w-full" : "w-0 group-hover:w-full"}`} />
+                            </Link>
+                        );
+                    })}
                 </div>
 
                 {/* SRM Logo — Right */}
