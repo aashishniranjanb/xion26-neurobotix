@@ -23,7 +23,6 @@ const navLinks = [
 const socials = [
   { icon: IconBrandInstagram, href: "https://www.instagram.com/roboticsclub.srmvdp/", label: "Instagram" },
   { icon: IconBrandLinkedin, href: "https://in.linkedin.com/in/ece-srmist-vadapalani-4a782a26a", label: "LinkedIn" },
-  { icon: IconBrandTwitter, href: "#", label: "Twitter" },
 ];
 
 export default function Footer() {
@@ -137,10 +136,10 @@ export default function Footer() {
             <div className="relative group cursor-default">
               <div className="relative w-full aspect-[4/1.5] mb-4">
                 <Image
-                  src="/srm-logo.png"
+                  src="/srm-logo-big.png"
                   alt="SRM logo"
                   fill
-                  className="object-contain brightness-90 grayscale opacity-40 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 transition-all duration-700"
+                  className="object-contain brightness-95 grayscale opacity-60 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100 transition-all duration-700"
                 />
               </div>
               <p className="text-zinc-500 text-[10px] leading-relaxed uppercase tracking-widest font-bold">
@@ -165,12 +164,9 @@ export default function Footer() {
           </div>
 
           <div className="flex gap-8">
-            <Link href="/privacy" className="text-zinc-600 hover:text-zinc-400 text-[10px] uppercase tracking-widest font-bold transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="text-zinc-600 hover:text-zinc-400 text-[10px] uppercase tracking-widest font-bold transition-colors">
-              Terms of Service
-            </Link>
+            <span className="text-zinc-600 text-[10px] uppercase tracking-widest font-bold">
+              SRMIST Vadapalani Campus
+            </span>
           </div>
         </div>
       </div>

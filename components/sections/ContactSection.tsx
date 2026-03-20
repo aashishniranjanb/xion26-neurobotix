@@ -250,11 +250,11 @@ export default function ContactSection() {
 
                     <MagneticButton
                         as="a"
-                        href="/404"
+                        href="mailto:roboticsclub.vdp@srmist.edu.in"
                         target="_blank"
                         className="inline-flex items-center justify-center min-h-[50px] sm:min-h-[56px] px-8 xs:px-10 sm:px-12 py-3 xs:py-3.5 sm:py-4 text-[13px] xs:text-sm sm:text-base border border-gold-primary/30 text-gold-primary font-black uppercase tracking-widest rounded-md hover:bg-gold-primary/10 active:opacity-80 transition-all"
                     >
-                        OPEN CONTACT FORM →
+                        OPEN EMAIL INQUIRY →
                     </MagneticButton>
                 </motion.div>
 
