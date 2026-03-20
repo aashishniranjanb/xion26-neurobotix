@@ -6,9 +6,16 @@ import Image from "next/image";
 import Link from "next/link";
 
 // Combine the logos into a repeating array for the infinite effect.
-const partners = [
+interface Partner {
+  name: string;
+  type: "image" | "text";
+  src?: string;
+  text?: string;
+}
+
+const partners: Partner[] = [
   { name: "XION Robotics Club", type: "image", src: "/xion_logo main.png" },
-  { name: "Vasan Eye Care", type: "text", text: "VASAN EYE CARE" },
+  { name: "Vasan Eye Care", type: "image", src: "/vasan eye care.png" },
   { name: "SRM Institute of Science and Technology", type: "image", src: "/srm-logo-big.png" },
 ];
 

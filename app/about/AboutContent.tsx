@@ -650,7 +650,7 @@ export default function AboutContent() {
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.9, opacity: 0, y: 20 }}
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                            className="relative w-full max-w-5xl h-full flex items-center justify-center"
+                            className="relative w-full max-w-[1131px] flex items-center justify-center"
                             onClick={(e) => e.stopPropagation()}
                             role="dialog"
                             aria-modal="true"
@@ -668,12 +668,13 @@ export default function AboutContent() {
                             </button>
 
                             {/* Poster Image Container */}
-                            <div className="relative w-full h-full rounded-2xl overflow-hidden border border-yellow-500/20 shadow-[0_0_80px_rgba(255,215,0,0.15)] bg-black/40">
+                            <div className="relative w-full overflow-hidden aspect-[1131/1600] max-h-[90vh]">
                                 <Image
-                                    src="/posters/MAIN POSTER XION 2026.jpeg"
+                                    src="/posters/main poster.jpeg"
                                     alt="XION 2026 Official Poster"
-                                    fill
-                                    className="object-contain"
+                                    width={1131}
+                                    height={1600}
+                                    className="w-full h-full object-contain"
                                     priority
                                 />
                             </div>
