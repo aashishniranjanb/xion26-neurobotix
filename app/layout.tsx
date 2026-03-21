@@ -27,24 +27,59 @@ export const viewport: Viewport = {
   themeColor: "#020202",
 };
 
+const seoKeywords = [
+  "xion",
+  "xion 26",
+  "xion 2026",
+  "xion ece",
+  "xion robotic",
+  "xion neurobotix",
+  "xion srm",
+  "xion srm ece",
+  "srm vadapalani ece",
+  "srmist vadapalani techfest",
+  "national level robotics symposium",
+  "chennai technical fest",
+  "ece department symposium SRM"
+];
+
+const seoDescription = "XION 2026: NeuroBotix is the premier national-level robotics and technical symposium hosted by the ECE Department of SRM IST, Vadapalani campus. Join us for cutting-edge events like Robowar, Line Follower, and Mind Forge.";
+
 export const metadata: Metadata = {
   title: {
-    default: "XION 2026 — NeuroBotix",
+    default: "XION 2026 | NeuroBotix - SRM Vadapalani ECE",
     template: "%s | XION 2026",
   },
-  description: "XION 2026 - Inspired by brains. Built by engineers. National-level robotics techfest by SRM Vadapalani.",
+  description: seoDescription,
+  keywords: seoKeywords,
+  authors: [{ name: "SRM Vadapalani ECE Department" }],
+  creator: "XION Web Team",
+  publisher: "SRM Institute of Science and Technology, Vadapalani",
   metadataBase: new URL("https://xion.srmecevdp.com"),
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "XION 2026 — NeuroBotix",
-    description: "National-level robotics techfest by SRM Vadapalani.",
+    title: "XION 2026 — NeuroBotix | SRM Vadapalani ECE",
+    description: seoDescription,
     siteName: "XION 2026 NeuroBotix",
+    url: "https://xion.srmecevdp.com",
     images: [{ url: "/posters/MAIN POSTER XION 2026.jpeg", width: 1200, height: 630 }],
     type: "website",
+    locale: "en_IN",
   },
   twitter: {
     card: "summary_large_image",
-    title: "XION 2026 — NeuroBotix",
-    description: "National-level robotics techfest by SRM Vadapalani.",
+    title: "XION 2026 — NeuroBotix | SRM Vadapalani",
+    description: seoDescription,
     images: ["/posters/MAIN POSTER XION 2026.jpeg"],
   },
 };
