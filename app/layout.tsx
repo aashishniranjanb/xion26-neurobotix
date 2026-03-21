@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import PageTransition from "@/components/PageTransition";
 import ScrollToTop from "@/components/ui/ScrollToTop";
+import CustomCursor from "@/components/ui/CustomCursor";
+import Toasts from "@/components/ui/Toasts";
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata, Viewport } from "next";
 import { Inter, Outfit } from "next/font/google";
@@ -55,9 +57,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${outfit.variable} bg-[#030303] text-white antialiased overflow-x-hidden font-sans`}>
+        <CustomCursor />
         <NavigationWrapper />
         <PageTransition>{children}</PageTransition>
         <ScrollToTop />
+        <Toasts />
         <Analytics />
       </body>
     </html>

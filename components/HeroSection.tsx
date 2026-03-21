@@ -2,12 +2,10 @@
 
 import Hero from "@/components/Hero";
 import dynamic from "next/dynamic";
+import { useState, useEffect, useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 
 // ── Lazy-load heavy 3D/canvas components ────────────────────
-// These are the biggest performance killers: Three.js + .glb model + particle engine.
-// By lazy-loading them, the page renders instantly with the hero text,
-// and the heavy stuff loads in the background after the critical content is visible.
-
 const RobotScene = dynamic(() => import("@/components/hero/RobotScene"), {
   ssr: false,
   loading: () => (
@@ -26,9 +24,44 @@ const Engine = dynamic(
 );
 
 export default function HeroSection() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <section aria-label="Welcome Hero" className="h-[100svh] w-full relative overflow-hidden bg-[#030303]" />
+    );
+  }
+
+  return <HeroSectionContent />;
+}
+
+function HeroSectionContent() {
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"],
+  });
+
+  const y1 = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+
   return (
-    <section aria-label="Welcome Hero" className="h-screen w-full relative overflow-hidden bg-[#030303]">
+    <section 
+      ref={containerRef}
+      aria-label="Welcome Hero" 
+      className="h-[100svh] w-full relative overflow-hidden bg-[#030303]"
+    >
       <Engine className="h-full w-full" aria-hidden="true">
+        {/* Background depth detail */}
+        <div className="absolute inset-0 pointer-events-none">
+          <motion.div 
+            style={{ y: y1 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold-primary/[0.03] blur-3xl" 
+          />
+        </div>
+
         {/* Desktop Layout */}
         <div className="hidden md:flex items-center h-full max-w-7xl mx-auto px-6 lg:px-12">
           {/* Left Content */}

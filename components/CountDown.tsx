@@ -1,16 +1,39 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion } from "motion/react";
+import { useEffect, useState, useRef } from "react";
+import { motion, useScroll, useTransform } from "motion/react";
 
 const targetDate = new Date("2026-03-24T00:00:00").getTime();
 
 export default function Countdown() {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
   const [mounted, setMounted] = useState(false);
-
   useEffect(() => {
     setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+        <section className="w-full py-28 bg-[#030303] relative overflow-hidden min-h-[600px]">
+            <div className="absolute inset-0 bg-black/50" />
+        </section>
+    );
+  }
+
+  return <CountdownContent />;
+}
+
+function CountdownContent() {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const blobY1 = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
+  const blobY2 = useTransform(scrollYProgress, [0, 1], ["10%", "-10%"]);
+
+  useEffect(() => {
     const calc = () => {
       const diff = targetDate - Date.now();
       if (diff <= 0) {
@@ -29,10 +52,20 @@ export default function Countdown() {
     return () => clearInterval(id);
   }, []);
 
-  if (!mounted) return null;
-
   return (
-    <section className="w-full py-28 bg-black-core relative overflow-hidden">
+    <section ref={containerRef} className="w-full py-28 bg-black-core relative overflow-hidden">
+      {/* Parallax Background Decorations */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          style={{ y: blobY1 }}
+          className="absolute top-1/4 -left-10 w-96 h-96 bg-gold-primary/[0.02] rounded-full blur-[100px]" 
+        />
+        <motion.div 
+          style={{ y: blobY2 }}
+          className="absolute bottom-1/4 -right-10 w-96 h-96 bg-gold-primary/[0.02] rounded-full blur-[100px]" 
+        />
+      </div>
+
       {/* Background glow */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-primary/20 to-transparent" />

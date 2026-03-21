@@ -26,7 +26,9 @@
     "react-window": "^2.2.7",
     "simplex-noise": "^4.0.3",
     "tailwind-merge": "^3.5.0",
-    "three": "^0.183.1"
+    "three": "^0.183.1",
+    "use-sync-external-store": "^1.6.0",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

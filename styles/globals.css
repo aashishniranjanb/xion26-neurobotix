@@ -50,6 +50,16 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
+/* Hide default cursor on desktop for Custom Cursor */
+@media (min-width: 768px) {
+  html, body {
+    cursor: none;
+  }
+  a, button, input, textarea, [role="button"] {
+    cursor: none;
+  }
+}
+
 /* Global Focus-Visible Styles for A11y */
 *:focus-visible {
   outline: 2px solid var(--gold-primary);
@@ -498,12 +508,21 @@ body::before {
   text-transform: uppercase;
   letter-spacing: 0.15em;
   overflow: hidden;
-  box-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
-  transition: transform 0.2s ease;
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
 }
 
 .gold-glitch-btn:hover {
-  transform: translateY(-3px);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+  filter: brightness(1.1);
+}
+
+.gold-glitch-btn:active {
+  transform: translateY(-1px) scale(0.98);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+  transition: all 0.1s ease;
 }
 
 /* MULTI GLITCH OVERLAY */

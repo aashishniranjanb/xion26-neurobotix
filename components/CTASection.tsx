@@ -1,12 +1,36 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
-import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 export default function CTASection() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <section className="w-full py-28 relative overflow-hidden min-h-[500px]">
+        <div className="absolute inset-0 bg-black/40" />
+      </section>
+    );
+  }
+
+  return <CTASectionContent />;
+}
+
+function CTASectionContent() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-80px" });
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const glowY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
     <section ref={ref} className="w-full py-28 relative overflow-hidden">
@@ -14,7 +38,10 @@ export default function CTASection() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-primary/20 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gold-primary/[0.03] to-transparent" />
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-gold-primary/[0.05] blur-3xl" />
+        <motion.div 
+          style={{ y: glowY }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] rounded-full bg-gold-primary/[0.05] blur-3xl" 
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">

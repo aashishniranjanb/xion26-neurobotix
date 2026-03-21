@@ -3,6 +3,8 @@
 import { useMemo, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./events.module.css";
+import { useToast } from "@/hooks/useToast";
+import { IconShare } from "@tabler/icons-react";
 // EventData is defined and exported from EventsContent.tsx (since we pulled main)
 import type { EventData } from "./data";
 
@@ -34,6 +36,16 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    const { success } = useToast();
+
+    const handleShare = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        const url = `${window.location.origin}/events?id=${event.id}`;
+        navigator.clipboard.writeText(url).then(() => {
+            success("Event link copied to clipboard!");
+        });
+    };
 
     useEffect(() => {
         const video = videoRef.current;
@@ -141,6 +153,13 @@ export default function EventCard({ event, index, onOpenModal }: EventCardProps)
                 </span>
 
                 <p className={styles.cardName}>{event.name}</p>
+                <button 
+                    onClick={handleShare}
+                    className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/40 border border-white/10 text-white/60 hover:text-yellow-500 hover:border-yellow-500/50 hover:bg-black/60 transition-all duration-300 backdrop-blur-sm"
+                    aria-label="Share Event"
+                >
+                    <IconShare size={18} />
+                </button>
 
                 {/* Actions */}
                 <div className={styles.cardActions}>

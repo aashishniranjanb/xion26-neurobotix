@@ -1,11 +1,35 @@
 "use client";
 
-import { motion, useInView } from "motion/react";
-import { useRef } from "react";
+import { motion, useInView, useScroll, useTransform } from "motion/react";
+import { useState, useEffect, useRef } from "react";
 
 export default function AboutSection() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <section className="w-full py-28 relative overflow-hidden min-h-[600px]">
+        <div className="absolute inset-0 bg-black/40" />
+      </section>
+    );
+  }
+
+  return <AboutSectionContent />;
+}
+
+function AboutSectionContent() {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
+  
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const circleY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
 
   return (
     <section ref={ref} className="w-full py-28 relative overflow-hidden">
@@ -13,7 +37,10 @@ export default function AboutSection() {
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-primary/20 to-transparent" />
         <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gold-primary/20 to-transparent" />
-        <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold-primary/[0.03] blur-3xl" />
+        <motion.div 
+          style={{ y: circleY }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-gold-primary/[0.03] blur-3xl" 
+        />
       </div>
 
       <div className="max-w-7xl mx-auto px-6 md:px-12 lg:px-16">

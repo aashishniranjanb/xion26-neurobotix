@@ -1,6 +1,7 @@
 "use client";
 
-import { useRef } from "react";
+import React, { useRef } from "react";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 
 export default function MagneticButton({
     children,
@@ -16,39 +17,54 @@ export default function MagneticButton({
     as?: "button" | "a";
 }) {
     const ref = useRef<HTMLElement>(null);
+    
+    // Motion values for tracking cursor offset
+    const x = useMotionValue(0);
+    const y = useMotionValue(0);
+
+    // Spring configuration for buttery smooth physics
+    const springConfig = { damping: 15, stiffness: 150 };
+    const springX = useSpring(x, springConfig);
+    const springY = useSpring(y, springConfig);
 
     const handleMouseMove = (e: React.MouseEvent) => {
-        if (window.innerWidth < 768) return;
-
         const el = ref.current;
-        if (!el) return;
+        if (!el || window.innerWidth < 768) return;
 
         const rect = el.getBoundingClientRect();
-        const x = e.clientX - rect.left - rect.width / 2;
-        const y = e.clientY - rect.top - rect.height / 2;
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        // Calculate distance from center
+        const distanceX = e.clientX - centerX;
+        const distanceY = e.clientY - centerY;
 
-        el.style.transform = `translate(${x * 0.15}px, ${y * 0.15}px)`;
+        // Apply magnetic pull (capped at 30% of button size)
+        x.set(distanceX * 0.3);
+        y.set(distanceY * 0.3);
     };
 
     const handleMouseLeave = () => {
-        if (!ref.current) return;
-        ref.current.style.transform = "translate(0px, 0px)";
+        x.set(0);
+        y.set(0);
     };
 
-    const props = {
-        ref: ref as React.RefObject<never>,
-        onMouseMove: handleMouseMove,
-        onMouseLeave: handleMouseLeave,
-        className: `transition-transform duration-200 ease-out ${className}`,
-    };
-
-    if (as === "a" && href) {
-        return (
-            <a {...props} href={href} target={target} rel={target === "_blank" ? "noopener noreferrer" : undefined}>
-                {children}
-            </a>
-        );
-    }
-
-    return <button {...props}>{children}</button>;
+    const MotionComponent = as === "a" ? motion.a : motion.button;
+    
+    return (
+        <MotionComponent
+            ref={ref as any}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            href={as === "a" ? href : undefined}
+            target={as === "a" ? target : undefined}
+            rel={as === "a" && target === "_blank" ? "noopener noreferrer" : undefined}
+            style={{ x: springX, y: springY }}
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            className={`inline-block transition-shadow duration-300 ${className}`}
+        >
+            {children}
+        </MotionComponent>
+    );
 }
