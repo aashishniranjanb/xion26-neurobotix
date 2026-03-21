@@ -37,21 +37,27 @@ export const Engine = ({ children, className }: { children?: React.ReactNode, cl
         // --- DRAW MESH LINES ---
         ctx.save();
         ctx.lineWidth = 0.5;
-        const step = isMobile ? 72 : 36;
+        // Optimization: Increase step significantly to reduce O(N^2) checks
+        const step = isMobile ? 80 : 64; 
 
         for (let i = 0; i < pData.length; i += 9) {
             const x1 = pData[i], y1 = pData[i + 1], life1 = pData[i + 4], ttl1 = pData[i + 5];
             const opacity1 = fade(life1, ttl1);
             if (opacity1 < 0.1) continue;
 
+            // Spatial optimization: only check every Nth particle for connections
             for (let j = i + step; j < pData.length; j += step) {
                 const x2 = pData[j], y2 = pData[j + 1], life2 = pData[j + 4], ttl2 = pData[j + 5];
-                const dx = x1 - x2, dy = y1 - y2;
+                
+                // Fast distance check before expensive sqrt
+                const dx = x1 - x2;
+                const dy = y1 - y2;
+                if (Math.abs(dx) > 100 || Math.abs(dy) > 100) continue;
+                
                 const distSq = dx * dx + dy * dy;
-
                 if (distSq < 10000) {
                     const opacity2 = fade(life2, ttl2);
-                    const meshOpacity = (1 - Math.sqrt(distSq) / 100) * Math.min(opacity1, opacity2) * (isMobile ? 0.1 : 0.15);
+                    const meshOpacity = (1 - Math.sqrt(distSq) / 100) * Math.min(opacity1, opacity2) * (isMobile ? 0.08 : 0.12);
                     ctx.strokeStyle = `rgba(212, 175, 55, ${meshOpacity})`;
                     ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
                 }

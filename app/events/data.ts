@@ -1,4 +1,5 @@
 export interface EventData {
+    id: string; // Unique slug identifier
     name: string;
     tagline: string;
     videoSrc: string | null;
@@ -13,6 +14,7 @@ export interface EventData {
 /* ── Technical Events ──────────────────────────────────── */
 export const technicalEvents: EventData[] = [
     {
+        id: "mind-forge",
         name: "Mind Forge",
         tagline: "Present your original research ideas on cutting-edge topics.",
         videoSrc: "/events/Paper Presentation mind forge.mp4",
@@ -30,6 +32,7 @@ export const technicalEvents: EventData[] = [
         ],
     },
     {
+        id: "robo-war",
         name: "Robo War",
         tagline: "Full-contact robot combat in the neural arena.",
         videoSrc: "/events/Robot war.mp4",
@@ -49,6 +52,7 @@ export const technicalEvents: EventData[] = [
         ],
     },
     {
+        id: "brain-wave",
         name: "Brain Wave",
         tagline: "Argue, counter, and conquer with your words in this technical debate.",
         videoSrc: "/events/brain wave debate.mp4",
@@ -66,6 +70,7 @@ export const technicalEvents: EventData[] = [
         ],
     },
     {
+        id: "line-follower",
         name: "Line Follower",
         tagline: "Autonomous navigation through unknown terrain matrices.",
         videoSrc: "/events/Line Follower.mp4",
@@ -82,6 +87,7 @@ export const technicalEvents: EventData[] = [
         ],
     },
     {
+        id: "decode-reality",
         name: "Decode Reality",
         tagline: "Can you tell what's real and what's AI-generated?",
         videoSrc: "/events/decode reality (2).mp4",
@@ -103,6 +109,7 @@ export const technicalEvents: EventData[] = [
 /* ── Non-Technical Events ──────────────────────────────── */
 export const nonTechnicalEvents: EventData[] = [
     {
+        id: "ipl-auction",
         name: "IPL Auction",
         tagline: "Bid smart, build your dream squad under budget.",
         videoSrc: "/events/ipl auction (2).mp4",
@@ -120,6 +127,7 @@ export const nonTechnicalEvents: EventData[] = [
         ],
     },
     {
+        id: "free-fire",
         name: "Free Fire Tournament",
         tagline: "Squad up and dominate the battlefield.",
         videoSrc: "/events/Free Fire.mp4",
@@ -137,6 +145,7 @@ export const nonTechnicalEvents: EventData[] = [
         ],
     },
     {
+        id: "grandmaster-grid",
         name: "Grandmaster Grid",
         tagline: "Outsmart your opponent on the 64-square battlefield.",
         videoSrc: "/events/Grandmaster Grid.mp4",
@@ -152,6 +161,7 @@ export const nonTechnicalEvents: EventData[] = [
         ],
     },
     {
+        id: "beatverse",
         name: "Beatverse",
         tagline: "Decode the beats and guess the track before anyone else.",
         videoSrc: "/events/beatverse (2).mp4",
@@ -168,6 +178,7 @@ export const nonTechnicalEvents: EventData[] = [
         ],
     },
     {
+        id: "gold-rush",
         name: "Gold Rush",
         tagline: "Hunt QR codes, collect gold coins, and race to victory.",
         videoSrc: "/events/gold rush event (2).mp4",

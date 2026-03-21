@@ -1,90 +1,75 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 export default function NotFound() {
   return (
-    <main className="h-screen w-full flex flex-col items-center justify-center bg-[#030303] relative overflow-hidden">
-      {/* Background Neural Detail */}
-      <div className="absolute inset-0 pointer-events-none opacity-20">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold-primary/[0.05] blur-[120px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030303_70%)]" />
+    <div className="min-h-screen w-full bg-[#030303] flex flex-col items-center justify-center relative overflow-hidden px-6">
+      {/* Background depth - same as home for continuity */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full bg-gold-primary/[0.03] blur-3xl" />
+        <div className="absolute inset-0 scan-lines opacity-20" />
       </div>
 
-      {/* Glitched 404 Text */}
-      <div className="relative z-10 text-center px-6">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="relative inline-block"
-        >
-          <h1 className="text-[120px] md:text-[200px] font-black uppercase leading-none tracking-tighter text-white/5 relative">
-            404
-          </h1>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <h2 className="text-6xl md:text-8xl font-black uppercase gold-gradient-text animate-pulse">
-              Lost
-            </h2>
-          </div>
-          
-          {/* Glitch overlays */}
-          <motion.div 
-            animate={{ x: [-2, 2, -1], opacity: [0, 0.3, 0] }}
-            transition={{ duration: 0.2, repeat: Infinity, repeatType: "mirror" }}
-            className="absolute inset-0 text-[#FFD700] mix-blend-screen pointer-events-none blur-[2px] translate-x-1"
-          >
-             <h1 className="text-[120px] md:text-[200px] font-black tracking-tighter opacity-20">404</h1>
-          </motion.div>
-        </motion.div>
-
+      <div className="relative z-10 text-center max-w-2xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="mt-8"
+          transition={{ duration: 0.8 }}
         >
-          <p className="text-gold-primary/60 tracking-[0.5em] text-xs uppercase mb-8">
-            // SIGNAL LOST: Neural Pathway Not Found
-          </p>
-          <p className="text-white/40 text-sm md:text-base max-w-md mx-auto mb-12 leading-relaxed italic">
-            "The data stream has been interrupted. Your current coordinates do not exist in the XION architecture."
+          <span className="text-gold-primary tracking-[0.6em] text-xs uppercase mb-8 block">
+            // Error Code: 404
+          </span>
+          
+          <h1 className="text-8xl md:text-9xl font-black text-white mb-6 tracking-tighter relative inline-block">
+            LOST
+            <motion.span 
+              animate={{ 
+                opacity: [0, 1, 0, 1, 0.5, 1],
+                x: [0, -2, 2, -1, 0]
+              }}
+              transition={{ 
+                duration: 0.2, 
+                repeat: Infinity, 
+                repeatDelay: 3 
+              }}
+              className="absolute inset-0 text-gold-primary/30 blur-sm -z-10"
+            >
+              LOST
+            </motion.span>
+          </h1>
+
+          <p className="text-white/40 text-lg md:text-xl mb-12 leading-relaxed font-light tracking-wide">
+            Signal lost. Neural pathway not found.<br />
+            You've ventured beyond the calibrated arena.
           </p>
 
-          <Link href="/home">
-            <button className="gold-glitch-btn px-10 py-4 group">
-              <span className="flex items-center gap-3">
+          <Link href="/">
+            <button className="group relative px-10 py-4 bg-transparent transition-all duration-300 overflow-hidden">
+              {/* Golden Gradient Background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#B8860B] via-[#FFD700] to-[#B8860B] opacity-90 group-hover:opacity-100 transition-opacity" />
+              
+              {/* Shine effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+              
+              <span className="relative z-10 text-black font-black uppercase tracking-[0.3em] text-sm">
                 Return to Base
-                <motion.span
-                  animate={{ x: [0, 5, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
               </span>
+              
+              {/* Glitch sub-elements */}
+              <div className="absolute top-0 left-0 w-2 h-full bg-white/20 -translate-x-full group-hover:translate-x-0 transition-transform" />
+              <div className="absolute top-0 right-0 w-2 h-full bg-white/20 translate-x-full group-hover:translate-x-0 transition-transform" />
             </button>
           </Link>
         </motion.div>
       </div>
 
-      {/* Technical HUD Overlays */}
-      <div className="absolute top-10 left-10 pointer-events-none opacity-20 hidden md:block">
-        <div className="text-[10px] font-mono text-gold-primary space-y-1">
-          <p>ERROR_CODE: 0x00404</p>
-          <p>STATUS: UNREACHABLE</p>
-          <p>PROTOCOL: NEURO_LINK_FAIL</p>
-        </div>
-      </div>
-
-      <div className="absolute bottom-10 right-10 pointer-events-none opacity-20 hidden md:block">
-         <div className="w-32 h-32 border border-gold-primary/20 rounded-full flex items-center justify-center animate-spin-slow">
-            <div className="w-1 h-20 bg-gold-primary/40 rounded-full" />
-         </div>
-      </div>
-
-      {/* Global Scanlines */}
-      <div className="absolute inset-0 pointer-events-none scan-lines opacity-20" />
-    </main>
+      {/* Decorative HUD corners */}
+      <div className="absolute top-12 left-12 w-12 h-12 border-t-2 border-l-2 border-gold-primary/20" />
+      <div className="absolute top-12 right-12 w-12 h-12 border-t-2 border-r-2 border-gold-primary/20" />
+      <div className="absolute bottom-12 left-12 w-12 h-12 border-b-2 border-l-2 border-gold-primary/20" />
+      <div className="absolute bottom-12 right-12 w-12 h-12 border-b-2 border-r-2 border-gold-primary/20" />
+    </div>
   );
 }
