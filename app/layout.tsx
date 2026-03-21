@@ -89,8 +89,43 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "XION 2026 - NeuroBotix",
+    "url": "https://xion.srmecevdp.com",
+    "logo": "https://xion.srmecevdp.com/xion-logo.png",
+    "sameAs": [
+      "https://www.instagram.com/xion_2026",
+      "https://github.com/aashishniranjanb/xion26-neurobotix"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+91-9876543210",
+      "contactType": "technical support",
+      "areaServed": "IN",
+      "availableLanguage": "en"
+    }
+  };
+
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="XION 2026" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="msapplication-config" content="/browserconfig.xml" />
+        <meta name="msapplication-TileColor" content="#020202" />
+        <meta name="msapplication-tap-highlight" content="no" />
+        
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className={`${inter.variable} ${outfit.variable} bg-[#030303] text-white antialiased overflow-x-hidden font-sans`}>
         <CustomCursor />
         <NavigationWrapper />
